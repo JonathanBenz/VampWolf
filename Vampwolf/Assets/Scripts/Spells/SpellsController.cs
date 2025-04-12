@@ -56,12 +56,12 @@ namespace Vampwolf.Spells
         /// </summary>
         private void ConnectModel()
         {
-            model.VampireSpells.AnyValueChanged += UpdateVampireButtonSprites;
-            model.WerewolfSpells.AnyValueChanged += UpdateWerewolfButtonSprites;
+            model.VampireSpells.AnyValueChanged += view.UpdateVampireButtonsSprites;
+            model.WerewolfSpells.AnyValueChanged += view.UpdateWerewolfButtonsSprites;
             model.BloodAmountChanged += UpdateVampireCastStatus;
             model.RageAmountChanged += UpdateWerewolfCastStatus;
-            model.BloodAmountChanged += UpdateVampireResource;
-            model.RageAmountChanged += UpdateWerewolfResource;
+            model.BloodAmountChanged += view.UpdateBlood;
+            model.RageAmountChanged += view.UpdateRage;
 
             // Set default values for the Vampire and Werewolf spells
             model.Blood = 100f;
@@ -73,34 +73,14 @@ namespace Vampwolf.Spells
         /// </summary>
         private void ConnectView()
         {
-            // Iterate through each Vampire Spell button in the view
-            for (int i = 0; i < view.VampireButtons.Length; i++)
-            {
-                // Register the button press event
-                view.VampireButtons[i].RegisterListener(OnVampireSpellButtonPressed);
-            }
-
-            // Iterate through each Werewolf Spell button in the view
-            for (int i = 0; i < view.VampireButtons.Length; i++)
-            {
-                // Register the button press event
-                view.WerewolfButtons[i].RegisterListener(OnWerewolfSpellButtonPressed);
-            }
+            // Register button listeners
+            view.RegisterVampireListeners(OnVampireSpellButtonPressed);
+            view.RegisterWerewolfListeners(OnWerewolfSpellButtonPressed);
 
             // Update the view icons
             view.UpdateVampireButtonsSprites(model.VampireSpells);
             view.UpdateWerewolfButtonsSprites(model.WerewolfSpells);
         }
-
-        /// <summary>
-        /// Update the Vampire buttons sprites within the view
-        /// </summary>
-        private void UpdateVampireButtonSprites(IList<Spell> spells) => view.UpdateVampireButtonsSprites(spells);
-
-        /// <summary>
-        /// Update the Werewolf buttons sprites within the view
-        /// </summary>
-        private void UpdateWerewolfButtonSprites(IList<Spell> spells) => view.UpdateWerewolfButtonsSprites(spells);
 
         /// <summary>
         /// Cast the Vampire spell at the given button index
@@ -121,16 +101,6 @@ namespace Vampwolf.Spells
         /// Update the cast status of the Werewolf Spell buttons
         /// </summary>
         private void UpdateWerewolfCastStatus(float rage) => view.UpdateWerewolfCastStatus(model.WerewolfSpells, rage);
-
-        /// <summary>
-        /// Update the Vampire resource
-        /// </summary>
-        private void UpdateVampireResource(float blood) => view.UpdateBlood(blood);
-
-        /// <summary>
-        /// Update the Werewolf resource
-        /// </summary>
-        private void UpdateWerewolfResource(float rage) => view.UpdateRage(rage);
 
         /// <summary>
         /// Show the spells and resource of the given character type

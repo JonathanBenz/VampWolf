@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,16 @@ namespace Vampwolf.Spells
         /// Change the icon of the button
         /// </summary>
         public void UpdateButtonSprite(Sprite newIcon) => spellIcon.sprite = newIcon;
+
+        /// <summary>
+        /// Show the Spell Icon
+        /// </summary>
+        public void Show() => spellIcon.DOFade(1f, 0f);
+
+        /// <summary>
+        /// Hide the Spell Icon
+        /// </summary>
+        public void Hide() => spellIcon.DOFade(0f, 0f);
 
         /// <summary>
         /// Check if the Spell can be cast
