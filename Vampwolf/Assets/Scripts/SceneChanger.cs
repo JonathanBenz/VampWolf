@@ -3,26 +3,48 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    /// <summary>
-    /// Load the next scene. If the current scene is the last scene, loop to the first scene. 
-    /// </summary>
-    public void GoToNextScene()
+    //Loads the main hub/overworld/shop game scene
+    public void LoadHub()
     {
-        int totalSceneCount = SceneManager.sceneCountInBuildSettings;
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-        if (currentSceneIndex >= totalSceneCount - 1) currentSceneIndex = -1;
-
-        SceneManager.LoadScene(++currentSceneIndex);
-    }
-    public void GoToPreviousScene()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(--currentSceneIndex);
+        SceneManager.LoadScene("Game Scene");
     }
 
+    // //Loads the Forest/Thicket game scene
+    // public void LoadForest()
+    // {
+    //     SceneManager.LoadScene(); //Add the scene name when scene is created
+    // }
+
+    // //Loads the Mansion/Castle game scene
+    // public void LoadCastle()
+    // {
+    //     SceneManager.LoadScene(); //Add the scene name when scene is created
+    // }
+
+    // //Loads the Village game scene
+    // public void LoadVillage()
+    // {
+    //     SceneManager.LoadScene(); //Add the scene name when scene is created
+    // }
+
+    // //Loads the Win Game scene
+    // public void LoadWinScreen()
+    // {
+    //     SceneManager.LoadScene(); //Add the scene name when scene is created
+    // }
+
+    // //Loads the Lose Game scene
+    // public void LoadLoseScreen()
+    // {
+    //     SceneManager.LoadScene(); //Add the scene name when scene is created
+    // }
+
+    //Quit the application
     public void QuitGame()
     {
         Application.Quit();
     }
+
+
+
 }
