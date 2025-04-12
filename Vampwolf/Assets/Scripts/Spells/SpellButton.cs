@@ -1,11 +1,12 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Vampwolf.Spells
 {
-    public class SpellButton : MonoBehaviour
+    public class SpellButton : MonoBehaviour, IPointerEnterHandler
     {
         private int index;
         [SerializeField] private Image disabledOverlay;
@@ -13,6 +14,7 @@ namespace Vampwolf.Spells
         private bool canCast;
 
         public event Action<int> OnButtonPressed = delegate { };
+        public event Action OnCursorEntered = delegate { };
 
         private void Start()
         {
@@ -30,7 +32,12 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Register a listener to the button pressed event
         /// </summary>
-        public void RegisterListener(Action<int> listener) => OnButtonPressed += listener;
+        public void RegisterClickListener(Action<int> listener) => OnButtonPressed += listener;
+
+        /// <summary>
+        /// Register a listener to the cursor entered event
+        /// </summary>
+        public void RegisterHoverListener(Action listener) => OnCursorEntered += listener;
 
         /// <summary>
         /// Initialize the Spell Button
@@ -63,5 +70,10 @@ namespace Vampwolf.Spells
             disabledOverlay.gameObject.SetActive(!canCast);
             this.canCast = canCast;
         }
+
+        /// <summary>
+        /// Handle the pointer enter event
+        /// </summary>
+        public void OnPointerEnter(PointerEventData eventData) => OnCursorEntered.Invoke();
     }
 }

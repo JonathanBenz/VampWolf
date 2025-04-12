@@ -721,7 +721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbded70838b74254281f37256fc11c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellBarGroup: {fileID: 0}
   spellButtons:
   - {fileID: 280120887}
   - {fileID: 805170884}
@@ -1634,6 +1633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1194292810}
   - component: {fileID: 1194292811}
+  - component: {fileID: 1194292812}
   m_Layer: 5
   m_Name: Vampire Spell Bar
   m_TagString: Untagged
@@ -1674,7 +1674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbded70838b74254281f37256fc11c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellBarGroup: {fileID: 0}
   spellButtons:
   - {fileID: 1917855711}
   - {fileID: 1090021527}
@@ -1683,6 +1682,18 @@ MonoBehaviour:
   resourceFill: {fileID: 1310310105}
   resourceText: {fileID: 536942404}
   resourceTweenDuration: 0.5
+--- !u!225 &1194292812
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194292809}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1289548685
 GameObject:
   m_ObjectHideFlags: 0

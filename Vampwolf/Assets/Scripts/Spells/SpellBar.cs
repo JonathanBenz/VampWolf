@@ -42,7 +42,7 @@ namespace Vampwolf.Spells
             for (int i = 0; i < spellButtons.Length; i++)
             {
                 // Register the listener to the button pressed event
-                spellButtons[i].RegisterListener(listener);
+                spellButtons[i].RegisterClickListener(listener);
             }
         }
 
