@@ -18,7 +18,6 @@ namespace Vampwolf.Pathfinding
             HashSet<Node> closedList = new HashSet<Node>();
 
             Node startNode = GetNode(start, allNodes);
-            Node targetNode = GetNode(target, allNodes);
 
             openList.Add(startNode);
 
@@ -97,12 +96,13 @@ namespace Vampwolf.Pathfinding
 
         List<Vector3Int> GetNeighbors()
         {
-            return new List<Vector3Int> {
-            new Vector3Int(1, 0, 0),
-            new Vector3Int(-1, 0, 0),
-            new Vector3Int(0, 1, 0),
-            new Vector3Int(0, -1, 0)
-        };
+            return new List<Vector3Int> 
+            {
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(-1, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(0, -1, 0)
+            };
         }
     }
 }

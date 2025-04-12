@@ -2,20 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Vampwolf
+namespace Vampwolf.Interfaces
 {
-    public class ISelectable : MonoBehaviour
+    public interface ISelectable 
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        void Select();
     }
 }

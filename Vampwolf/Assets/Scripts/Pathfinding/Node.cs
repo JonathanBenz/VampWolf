@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Vampwolf.Pathfinding
 {
+    /// <summary>
+    /// Node used for A* pathfinding
+    /// </summary>
     public class Node
     {
         public Vector3Int position;

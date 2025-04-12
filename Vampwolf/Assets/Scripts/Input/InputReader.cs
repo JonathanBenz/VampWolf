@@ -1,11 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using static PlayerInput;
 
 namespace Vampwolf.Input
 {
-    public class InputReader : ScriptableObject
+    public interface IInputReader
     {
-        
+        void EnablePlayerActions();
+    }
+
+    [CreateAssetMenu(fileName = "New Input Reader", menuName = "Player Input")]
+    public class InputReader : ScriptableObject, IPlayerActions, IInputReader
+    {
+        public event UnityAction<bool> Select = delegate { };
+        public event UnityAction<Vector2> Look = delegate { };
+
+        public PlayerInput inputActions;
+
+        public Vector2 MousePos => inputActions.Player.Look.ReadValue<Vector2>();
+        public bool IsSelectKeyPressed => inputActions.Player.Select.IsPressed();
+
+        public void EnablePlayerActions()
+        {
+            if (inputActions == null)
+            {
+                inputActions = new PlayerInput();
+                inputActions.Player.SetCallbacks(this);
+            }
+
+            inputActions.Enable();
+        }
+
+        public void OnSelect(InputAction.CallbackContext context)
+        {
+            switch(context.phase)
+            {
+                case InputActionPhase.Started:
+                    Select.Invoke(true);
+                    break;
+                case InputActionPhase.Canceled:
+                    Select.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            Look.Invoke(context.ReadValue<Vector2>());
+        }
+
+
+        public void OnUseAbility1(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnUseAbility2(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnUseAbility3(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

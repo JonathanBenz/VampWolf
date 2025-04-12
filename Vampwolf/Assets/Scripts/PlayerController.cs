@@ -3,20 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Vampwolf.Pathfinding;
+using Vampwolf.Input;
+using Vampwolf.Interfaces;
+using Vampwolf.EventBus;
+using Vampwolf.Events;
 
 namespace Vampwolf
 {
-    public class PlayerController : MonoBehaviour
+    public enum PlayerState
     {
+        MoveState, AttackState, WaitingForTurn
+    }
+    public class PlayerController : MonoBehaviour, IActor, ITrackable, ISelectable, ITargetable
+    {
+        [SerializeField] InputReader input;
+        PlayerState currentState;
 
-        public Tilemap tilemap;
+        public PlayerState CurrentState { get { return currentState; } set { currentState = value; } }
+
+        public Tilemap groundMap;
         public float moveSpeed = 3f;
 
-        public TileHighlighter tileHighlighter;
-        public int moveRange = 5;
+        //public TileHighlighter tileHighlighter;
+        public int moveRange = 3;
 
         Pathfinder pathfinding;
-        private bool isMoving = false;
+        bool hasMoved;
+        bool hasAttacked;
+        //private bool isMoving = false;
 
         private void Awake()
         {
@@ -24,35 +38,51 @@ namespace Vampwolf
         }
         private void Start()
         {
-            Vector3Int playerCell = tilemap.WorldToCell(transform.position);
-            tileHighlighter.HighlightMoveableTiles(playerCell, moveRange);
+            input.Select += isMousePressed => { if (isMousePressed) Select(); };
+
+            input.EnablePlayerActions();
+
+            //Vector3Int playerCell = tilemap.WorldToCell(transform.position);
+            //tileHighlighter.HighlightMoveableTiles(playerCell, moveRange);
         }
-        void Update()
-        {
-            if (UnityEngine.Input.GetMouseButtonDown(0) && !isMoving)
+        public void Select() 
+        { 
+            switch(currentState)
             {
-                Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-                Vector3Int targetCell = tilemap.WorldToCell(mouseWorld);
-                Vector3Int startCell = tilemap.WorldToCell(transform.position);
-
-                if (!tileHighlighter.HighlightedTiles.Contains(targetCell))
-                {
-                    Debug.Log("Tile not reachable!");
+                case PlayerState.WaitingForTurn:
                     return;
-                }
-                List<Vector3Int> path = pathfinding.FindPath(startCell, targetCell);
-                if (path != null && path.Count > 0)
-                    StartCoroutine(MoveAlongPath(path));
-            }
+                case PlayerState.MoveState:
+                    if (hasMoved) return;
+                    Move(input.MousePos);
+                    break;
+                case PlayerState.AttackState:
+                    if (hasAttacked) return;
+                    Cast();
+                    break;
+            } 
         }
+        public void Move(Vector2 targetPos) 
+        {
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(targetPos);
+            Vector3Int targetCell = groundMap.WorldToCell(mouseWorld);
+            Vector3Int startCell = groundMap.WorldToCell(transform.position);
 
+            /*if (!tileHighlighter.HighlightedTiles.Contains(targetCell)) // Prevent selecting outside of the move range
+            {
+                Debug.Log("Tile not reachable!"); return;
+            }*/
+
+            List<Vector3Int> path = pathfinding.FindPath(startCell, targetCell);
+            if (path != null && path.Count > 0)
+                StartCoroutine(MoveAlongPath(path));
+
+            hasMoved = true;
+        }
         IEnumerator MoveAlongPath(List<Vector3Int> path)
         {
-            isMoving = true;
-
             foreach (Vector3Int cell in path)
             {
-                Vector3 targetPos = tilemap.GetCellCenterWorld(cell);
+                Vector3 targetPos = groundMap.GetCellCenterWorld(cell);
                 while (Vector3.Distance(transform.position, targetPos) > 0.01f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
@@ -60,11 +90,19 @@ namespace Vampwolf
                 }
 
                 transform.position = targetPos;
-                yield return new WaitForSeconds(0.05f); // Add delay to feel more turn-based
+                yield return new WaitForSeconds(0.05f);
             }
 
-            isMoving = false;
-            tileHighlighter.ClearHighlights();
+            currentState = PlayerState.WaitingForTurn;
+            //EventBus<TurnEndedEvent>.Raise(new TurnEndedEvent());
+            //tileHighlighter.ClearHighlights();
         }
+
+        public void Cast() { }
+        public void Die() { }
+
+        public void Initiative() { }
+        public void Target() { }
+
     }
 }
