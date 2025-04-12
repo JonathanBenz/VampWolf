@@ -7,6 +7,6 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the spell
         /// </summary>
-        public abstract void Cast(Spell spell);
+        public abstract void Cast(Spell spell, SpellsModel model);
     }
 }

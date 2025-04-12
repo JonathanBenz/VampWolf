@@ -23,7 +23,7 @@ namespace Vampwolf.Spells
             set
             {
                 // Clamp the Blood within the range
-                blood = Mathf.Clamp(blood, 0f, 100f);
+                blood = Mathf.Clamp(value, 0f, 100f);
 
                 // Notify the change in Blood
                 BloodAmountChanged.Invoke(blood);
@@ -36,7 +36,7 @@ namespace Vampwolf.Spells
             set
             {
                 // Clamp the Rage within the range
-                rage = Mathf.Clamp(rage, 0f, 100f);
+                rage = Mathf.Clamp(value, 0f, 100f);
 
                 // Notify the change in rage
                 RageAmountChanged.Invoke(rage);

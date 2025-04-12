@@ -8,7 +8,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Damage all enemies within range
         /// </summary>
-        public override void Cast(Spell spell)
+        public override void Cast(Spell spell, SpellsModel model)
         {
             // Implement the logic for casting the Maelstrom spell
             Debug.Log("Casting Maelstrom spell!");

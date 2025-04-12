@@ -8,7 +8,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Stun an enemy for 1 turn
         /// </summary>
-        public override void Cast(Spell spell)
+        public override void Cast(Spell spell, SpellsModel model)
         {
             // Implement the logic for casting the Nightbind spell
             Debug.Log("Casting Nightbind spell!");

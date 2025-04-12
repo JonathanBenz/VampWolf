@@ -8,7 +8,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Leap to an enemy and damage them
         /// </summary>
-        public override void Cast(Spell spell)
+        public override void Cast(Spell spell, SpellsModel model)
         {
             // Implement the logic for casting the Eclipse spell
             Debug.Log("Casting Eclipse spell!");
