@@ -8,7 +8,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Hurl a spear of blood to damage a single enemy
         /// </summary>
-        public override void Cast(Spell spell)
+        public override void Cast(Spell spell, SpellsModel model)
         {
             // Implement the logic for casting the Blood Lance spell
             Debug.Log("Casting Blood Lance spell!");

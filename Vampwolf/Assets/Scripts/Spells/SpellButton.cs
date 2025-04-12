@@ -49,7 +49,7 @@ namespace Vampwolf.Spells
         /// </summary>
         public void CheckCanCast(bool canCast)
         {
-            disabledOverlay.gameObject.SetActive(canCast);
+            disabledOverlay.gameObject.SetActive(!canCast);
             this.canCast = canCast;
         }
     }

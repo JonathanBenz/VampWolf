@@ -8,10 +8,12 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Deal damage to a single target enemy
         /// </summary>
-        public override void Cast(Spell spell)
+        public override void Cast(Spell spell, SpellsModel model)
         {
             // Implement the logic for casting the Maul spell
             Debug.Log("Casting Maul spell!");
+
+            model.Rage += 15f;
         }
     }
 }

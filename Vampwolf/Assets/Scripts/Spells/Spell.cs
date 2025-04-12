@@ -21,6 +21,21 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the spell
         /// </summary>
-        public void Cast() => data.Strategy.Cast(this);
+        public void Cast(SpellsModel model)
+        {
+            // Cast the spell
+            data.Strategy.Cast(this, model);
+
+            // Remove the cost from the model depending on the character type
+            switch (CharacterType)
+            {
+                case CharacterType.Vampire:
+                    model.Blood -= Cost;
+                    break;
+                case CharacterType.Werewolf:
+                    model.Rage -= Cost;
+                    break;
+            }
+        }
     }
 }

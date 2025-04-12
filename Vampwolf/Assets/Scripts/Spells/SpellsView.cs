@@ -1,24 +1,34 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
-using Vampwolf.EventBus;
-using Vampwolf.Events;
+using UnityEngine.UI;
 
 namespace Vampwolf.Spells
 {
     public class SpellsView : MonoBehaviour
     {
         [Header("Canvas Groups")]
-        [SerializeField] private CanvasGroup vampireCanvasGroup;
-        [SerializeField] private CanvasGroup werewolfCanvasGroup;
+        [SerializeField] private CanvasGroup vampireSpellButtons;
+        [SerializeField] private CanvasGroup werewolfSpellButtons;
+        [SerializeField] private CanvasGroup vampireResource;
+        [SerializeField] private CanvasGroup werewolfResource;
+
+        [Header("Resources")]
+        [SerializeField] private Image bloodFill;
+        private Text bloodText;
+        [SerializeField] private Image rageFill;
+        private Text rageText;
 
         [Header("Buttons")]
         [SerializeField] private SpellButton[] vampireButtons;
         [SerializeField] private SpellButton[] werewolfButtons;
 
+        [Header("Tweening Variables")]
+        [SerializeField] private float resourceDuration;
+        private Sequence resourceChangeSequence;
+
         public SpellButton[] VampireButtons => vampireButtons;
         public SpellButton[] WerewolfButtons => werewolfButtons;
-
-        private EventBinding<ShowSpells> onShowSpells;
 
         private void Awake()
         {
@@ -35,17 +45,16 @@ namespace Vampwolf.Spells
                 // Initialize the buttons with their index
                 werewolfButtons[i].Initialize(i);
             }
+
+            // Get the fills
+            bloodText = vampireResource.GetComponentInChildren<Text>();
+            rageText = werewolfResource.GetComponentInChildren<Text>();
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            onShowSpells = new EventBinding<ShowSpells>(ShowSpells);
-            EventBus<ShowSpells>.Register(onShowSpells);
-        }
-
-        private void OnDisable()
-        {
-            EventBus<ShowSpells>.Deregister(onShowSpells);
+            // Kill any sequences if they exist
+            resourceChangeSequence?.Kill();
         }
 
         /// <summary>
@@ -60,7 +69,7 @@ namespace Vampwolf.Spells
                 if (i >= vampireSpells.Count) continue;
 
                 // Check if the button can be cast based on the current blood and spell cost
-                vampireButtons[i].CheckCanCast(blood <= vampireSpells[i].Cost);
+                vampireButtons[i].CheckCanCast(vampireSpells[i].Cost <= blood);
             }
         }
 
@@ -76,7 +85,7 @@ namespace Vampwolf.Spells
                 if (i >= werewolfSpells.Count) continue;
 
                 // Check if the button can be cast based on the current rage and spell cost
-                werewolfButtons[i].CheckCanCast(rage <= werewolfSpells[i].Cost);
+                werewolfButtons[i].CheckCanCast(werewolfSpells[i].Cost <= rage);
             }
         }
 
@@ -124,30 +133,80 @@ namespace Vampwolf.Spells
         }
 
         /// <summary>
+        /// Update the Vampire resource
+        /// </summary>
+        public void UpdateBlood(float currentBlood) => UpdateResource(bloodFill, bloodText, currentBlood, resourceDuration);
+
+        /// <summary>
+        /// Update the Werewolf resource
+        /// </summary>
+        public void UpdateRage(float currentRage) => UpdateResource(rageFill, rageText, currentRage, resourceDuration);
+
+        /// <summary>
+        /// Update the resource fill and text
+        /// </summary>
+        private void UpdateResource(Image fill, Text text, float currentValue, float duration)
+        {
+            // Kill any existing sequence
+            resourceChangeSequence?.Kill();
+
+            // Create a new sequence
+            resourceChangeSequence = DOTween.Sequence();
+
+            // Get the previous value of the fill
+            float previousValue = fill.fillAmount * 100f;
+
+            // Calculate the fill
+            float fillAmount = currentValue / 100f;
+            
+            // Create the fill tween
+            Tween fillTween = fill.DOFillAmount(fillAmount, duration);
+
+            // Create the number change tween
+            Tween numberTween = DOVirtual.Float(previousValue, currentValue, duration, value =>
+            {
+                text.text = $"{Mathf.Round(value).ToString()} / 100";
+            });
+
+            // Add and join the tweens to the sequence
+            resourceChangeSequence.Append(fillTween);
+            resourceChangeSequence.Join(numberTween);
+
+            // Play the sequence
+            resourceChangeSequence.Play();
+        }
+
+        /// <summary>
         /// Show the spells of the currently selected character
         /// </summary
-        private void ShowSpells(ShowSpells eventData)
+        public void ShowSpells(CharacterType characterType)
         {
-            switch (eventData.CharacterType)
+            switch (characterType)
             {
                 case CharacterType.Vampire:
-                    werewolfCanvasGroup.alpha = 0;
-                    werewolfCanvasGroup.interactable = false;
-                    werewolfCanvasGroup.blocksRaycasts = false;
+                    werewolfSpellButtons.alpha = 0;
+                    werewolfSpellButtons.interactable = false;
+                    werewolfSpellButtons.blocksRaycasts = false;
 
-                    vampireCanvasGroup.alpha = 1;
-                    vampireCanvasGroup.interactable = true;
-                    vampireCanvasGroup.blocksRaycasts = true;
+                    werewolfResource.alpha = 0;
+                    vampireResource.alpha = 1;
+
+                    vampireSpellButtons.alpha = 1;
+                    vampireSpellButtons.interactable = true;
+                    vampireSpellButtons.blocksRaycasts = true;
                     break;
 
                 case CharacterType.Werewolf:
-                    vampireCanvasGroup.alpha = 0;
-                    vampireCanvasGroup.interactable = false;
-                    vampireCanvasGroup.blocksRaycasts = false;
+                    vampireSpellButtons.alpha = 0;
+                    vampireSpellButtons.interactable = false;
+                    vampireSpellButtons.blocksRaycasts = false;
 
-                    werewolfCanvasGroup.alpha = 1;
-                    werewolfCanvasGroup.interactable = true;
-                    werewolfCanvasGroup.blocksRaycasts = true;
+                    vampireResource.alpha = 0;
+                    werewolfResource.alpha = 1;
+
+                    werewolfSpellButtons.alpha = 1;
+                    werewolfSpellButtons.interactable = true;
+                    werewolfSpellButtons.blocksRaycasts = true;
                     break;
             }
         }
