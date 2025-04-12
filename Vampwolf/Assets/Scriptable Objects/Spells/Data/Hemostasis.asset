@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
+  m_Name: Hemostasis
+  m_EditorClassIdentifier: 
+  characterType: 0
+  Name: Hemostasis
+  Description: Heal a small amount to yourself or an ally
+  Cost: 0
+  Range: 5
+  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Strategy: {fileID: 11400000, guid: d82fc04353ee3824fa25ea9dbe4e415f, type: 2}

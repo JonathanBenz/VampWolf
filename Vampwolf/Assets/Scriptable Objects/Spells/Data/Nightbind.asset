@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
+  m_Name: Nightbind
+  m_EditorClassIdentifier: 
+  characterType: 0
+  Name: 
+  Description: Stun an enemy for 1 turn
+  Cost: 50
+  Range: 0
+  Icon: {fileID: 2747690628134850419, guid: 16037dbd798344f57a526d53d48f5ead, type: 3}
+  Strategy: {fileID: 11400000, guid: 56a80c34f9482b04696f3f75803f9cea, type: 2}
