@@ -17,7 +17,7 @@ namespace Vampwolf
         [SerializeField] [Range(1, 5)] float moveSpeed = 3f;
         [SerializeField] int startingHealth;
         [SerializeField] int moveRange = 3;
-        [SerializeField] int attackRange = 3; //TODO: Get the attack range from the currently selected spell instead of assigning it here
+        [SerializeField] int attackRange = 3; //TODO: Get the attack range dynamically from the currently selected spell instead of assigning it here
         [SerializeField] Sprite[] characterSprites;
 
         int currentHealth;
@@ -61,7 +61,7 @@ namespace Vampwolf
 
         private void Update()
         {
-            if (!hasCurrentTurn) return;
+            if (!hasCurrentTurn) return; // Don't run the Update loop if its not the player's turn
             UpdateCharacterSprite();
             tileHighlighter.HandleHoverIndicator(input.MousePos);
         }
@@ -96,6 +96,7 @@ namespace Vampwolf
         {
             isAttacking = bValue;
             currentSelectedAttack = selectedAttack;
+            Debug.Log("Current Selected Attack: Attack " + currentSelectedAttack);
             EventBus<PlayerStateChangedEvent>.Raise(new PlayerStateChangedEvent() 
             { 
                 AttackState = isAttacking

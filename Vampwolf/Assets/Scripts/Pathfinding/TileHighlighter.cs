@@ -29,7 +29,8 @@ namespace Vampwolf.Pathfinding
         Vector3Int lastHoveredTile = Vector3Int.zero;
 
         // Track when player switches between Move and Attack
-        EventBinding<PlayerStateChangedEvent> onPlayerSwitchedState; 
+        EventBinding<PlayerStateChangedEvent> onPlayerSwitchedState;
+        bool stateHasSwitched;
 
         public HashSet<Vector3Int> HighlightedTiles { get; private set; } = new HashSet<Vector3Int>();
 
@@ -66,6 +67,7 @@ namespace Vampwolf.Pathfinding
                 currentHighlightTile = highlightMovementTile;
                 currentHoverTile = hoverMovementTile;
             }
+            stateHasSwitched = true;
         }
 
         /// <summary>
@@ -93,11 +95,12 @@ namespace Vampwolf.Pathfinding
             }
 
             // Only update the hover tile if the hovered tile is different from the last one
-            if (hoveredCell != lastHoveredTile)
+            if (hoveredCell != lastHoveredTile || stateHasSwitched)
             {
                 hoverTilemap.ClearAllTiles();
                 lastHoveredTile = hoveredCell;
                 hoverTilemap.SetTile(hoveredCell, currentHoverTile);
+                stateHasSwitched = false;
             }
         }
 
