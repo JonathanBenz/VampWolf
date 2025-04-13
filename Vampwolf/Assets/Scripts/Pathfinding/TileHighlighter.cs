@@ -2,33 +2,93 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Vampwolf.Events;
+using Vampwolf.EventBus;
 
 namespace Vampwolf.Pathfinding
 {
+    /// <summary>
+    /// This component is used to highlight the player's Movement range and Attack ranges.
+    /// </summary>
     public class TileHighlighter : MonoBehaviour
     {
-        public Tilemap groundTilemap;
-        public Tilemap obstacleTilemap;
-        public Tilemap highlightTilemap;
-        public Tilemap hoverTilemap;
-        public Tile highlightTile;
-        public Tile hoverTile;
+        [Header("Tile Maps")]
+        [SerializeField] Tilemap groundTilemap;
+        [SerializeField] Tilemap obstacleTilemap;
+        [SerializeField] Tilemap highlightTilemap;
+        [SerializeField] Tilemap hoverTilemap;
 
-        private Vector3Int lastHoveredTile = Vector3Int.zero;
+        [Header("Specific Tiles")]
+        [SerializeField] Tile highlightMovementTile;
+        [SerializeField] Tile hoverMovementTile;
+        [SerializeField] Tile highlightAttackTile;
+        [SerializeField] Tile hoverAttackTile;
+
+        Tile currentHighlightTile;
+        Tile currentHoverTile;
+        Vector3Int lastHoveredTile = Vector3Int.zero;
+
+        // Track when player switches between Move and Attack
+        EventBinding<PlayerStateChangedEvent> onPlayerSwitchedState; 
+
         public HashSet<Vector3Int> HighlightedTiles { get; private set; } = new HashSet<Vector3Int>();
-        private void Update()
-        {
-            HandleHoverIndicator();
-        }
-        void HandleHoverIndicator()
-        {
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            Vector3Int hoveredCell = groundTilemap.WorldToCell(mouseWorld);
 
+        private void Awake()
+        {
+            currentHighlightTile = highlightMovementTile;
+            currentHoverTile = hoverMovementTile;
+        }
+
+        private void OnEnable()
+        {
+            onPlayerSwitchedState = new EventBinding<PlayerStateChangedEvent>(ChangeCurrentIcons);
+            EventBus<PlayerStateChangedEvent>.Register(onPlayerSwitchedState);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<PlayerStateChangedEvent>.Deregister(onPlayerSwitchedState);
+        }
+
+        /// <summary>
+        /// If a PlayerStateChangedEvent is called, change the icons to represent the new state (either to Attack icons or Movement icons)
+        /// </summary>
+        /// <param name="eventData"></param>
+        private void ChangeCurrentIcons(PlayerStateChangedEvent eventData)
+        {
+            if(eventData.AttackState)
+            {
+                currentHighlightTile = highlightAttackTile;
+                currentHoverTile = hoverAttackTile;
+            }
+            else
+            {
+                currentHighlightTile = highlightMovementTile;
+                currentHoverTile = hoverMovementTile;
+            }
+        }
+
+        /// <summary>
+        /// Handle displaying hover indicator given the mouse position
+        /// </summary>
+        /// <param name="mousePos"></param>
+        public void HandleHoverIndicator(Vector3 mousePos)
+        {
+            Vector3Int hoveredCell = groundTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(mousePos));
+            CheckIfValid(hoveredCell);
+        }
+
+        /// <summary>
+        /// Check to see if the tile is valid to be hovered over
+        /// </summary>
+        /// <param name="hoveredCell">tilemap.WorldToCell() position of the hovered cell.</param>
+        private void CheckIfValid(Vector3Int hoveredCell)
+        {
+                 // Checks if out of bounds            // Checks if hovering over an obstacle    // Checks if outside Highlight range
             if (!groundTilemap.HasTile(hoveredCell) || obstacleTilemap.HasTile(hoveredCell) || !HighlightedTiles.Contains(hoveredCell))
             {
                 hoverTilemap.ClearAllTiles();
-                lastHoveredTile = new Vector3Int(int.MinValue, int.MinValue, 0);
+                lastHoveredTile = Vector3Int.zero;
                 return;
             }
 
@@ -37,18 +97,18 @@ namespace Vampwolf.Pathfinding
             {
                 hoverTilemap.ClearAllTiles();
                 lastHoveredTile = hoveredCell;
-
-                if (groundTilemap.HasTile(hoveredCell) && !obstacleTilemap.HasTile(hoveredCell))
-                {
-                    hoverTilemap.SetTile(hoveredCell, hoverTile); // Show hover indicator
-                }
+                hoverTilemap.SetTile(hoveredCell, currentHoverTile);
             }
         }
+
+        /// <summary>
+        /// Handle displaying highlightable tiles based on range
+        /// </summary>
+        /// <param name="startCell">The player's cell position</param>
+        /// <param name="range"></param>
         public void HighlightMoveableTiles(Vector3Int startCell, int range)
         {
             ClearHighlights();
-
-            HighlightedTiles.Clear();
 
             HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
             Queue<Vector3Int> frontier = new Queue<Vector3Int>();
@@ -63,7 +123,7 @@ namespace Vampwolf.Pathfinding
                 for (int j = 0; j < frontierCount; j++)
                 {
                     Vector3Int current = frontier.Dequeue();
-                    highlightTilemap.SetTile(current, highlightTile);
+                    highlightTilemap.SetTile(current, currentHighlightTile);
                     HighlightedTiles.Add(current);
 
                     foreach (Vector3Int dir in GetDirections())
@@ -84,17 +144,18 @@ namespace Vampwolf.Pathfinding
         public void ClearHighlights()
         {
             highlightTilemap.ClearAllTiles();
+            HighlightedTiles.Clear();
         }
 
         List<Vector3Int> GetDirections()
         {
             return new List<Vector3Int>
-        {
-            Vector3Int.up,
-            Vector3Int.down,
-            Vector3Int.left,
-            Vector3Int.right
-        };
+            {
+                Vector3Int.up,
+                Vector3Int.down,
+                Vector3Int.left,
+                Vector3Int.right
+            };
         }
     }
 }

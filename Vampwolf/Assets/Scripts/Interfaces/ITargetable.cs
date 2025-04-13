@@ -6,6 +6,6 @@ namespace Vampwolf.Interfaces
 {
     public interface ITargetable 
     {
-        void Target();
+
     }
 }

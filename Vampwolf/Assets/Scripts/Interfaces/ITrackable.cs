@@ -6,6 +6,6 @@ namespace Vampwolf.Interfaces
 {
     public interface ITrackable
     {
-        void Initiative();
+        void AddToInitiative();
     }
 }
