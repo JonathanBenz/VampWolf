@@ -5,6 +5,9 @@ using UnityEngine.Tilemaps;
 
 namespace Vampwolf.Pathfinding
 {
+    /// <summary>
+    /// This component is used to calculate movement paths on the current tileset using A* algorithm.
+    /// </summary>
     public class Pathfinder : MonoBehaviour
     {
         public Tilemap groundTilemap;

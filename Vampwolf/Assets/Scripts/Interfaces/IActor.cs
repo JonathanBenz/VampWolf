@@ -9,5 +9,6 @@ namespace Vampwolf.Interfaces
         void Move(Vector2 targetPos);
         void Cast();
         void Die();
+        void TakeDamage(int dmg);
     }
 }
