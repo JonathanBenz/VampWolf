@@ -162,14 +162,13 @@ namespace Vampwolf
             List<Vector3Int> path = pathfinding.FindPath(startCell, targetCell);
             if (path != null && path.Count > 0)
                 StartCoroutine(MoveAlongPath(path));
-
-            hasMoved = true;
         }
 
         public void Cast() 
         {
             Debug.Log($"Attacked with attack {currentSelectedAttack}!");
             hasAttacked = true;
+            HighlightTiles(playerCell);
         }
 
         public void AddToInitiative() { }
@@ -215,6 +214,7 @@ namespace Vampwolf
                 yield return new WaitForSeconds(0.05f);
             }
             isMoving = false;
+            hasMoved = true;
             HighlightTiles(playerCell);
         }
     }
