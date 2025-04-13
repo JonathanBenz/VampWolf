@@ -18,6 +18,8 @@ namespace Vampwolf.Spells
         [SerializeField] private float resourceTweenDuration = 0.5f;
         private Sequence resourceChangeSequence;
 
+        public SpellButton[] SpellButtons => spellButtons;
+
         /// <summary>
         /// Initializes the spell bar
         /// </summary>
@@ -34,15 +36,41 @@ namespace Vampwolf.Spells
         }
 
         /// <summary>
-        /// Register listeners to the spell buttons
+        /// Register listeners to the click event for each button
         /// </summary>
-        public void RegisterListeners(Action<int> listener)
+        public void RegisterClickListeners(Action<int> listener)
         {
             // Iterate through each spell button
             for (int i = 0; i < spellButtons.Length; i++)
             {
                 // Register the listener to the button pressed event
                 spellButtons[i].RegisterClickListener(listener);
+            }
+        }
+
+        /// <summary>
+        /// Register listeners to the pointer entered event for each button
+        /// </summary>
+        public void RegisterEnterListeners(Action<int> listener)
+        {
+            // Iterate through each spell button
+            for (int i = 0; i < spellButtons.Length; i++)
+            {
+                // Register the listener to the pointer entered event
+                spellButtons[i].RegisterEnterListener(listener);
+            }
+        }
+
+        /// <summary>
+        /// Register listeners to the pointer exited event for each button
+        /// </summary>
+        public void RegisterExitListeners(Action listener)
+        {
+            // Iterate through each spell button
+            for (int i = 0; i < spellButtons.Length; i++)
+            {
+                // Register the listener to the pointer exited event
+                spellButtons[i].RegisterExitListener(listener);
             }
         }
 
@@ -58,12 +86,14 @@ namespace Vampwolf.Spells
                 if (i < spells.Count)
                 {
                     // Update the button icon and ensure it's shown
+                    spellButtons[i].Active = true;
                     spellButtons[i].UpdateButtonSprite(spells[i].Icon);
                     spellButtons[i].Show();
                 }
                 else
                 {
                     // Hide the spell icon
+                    spellButtons[i].Active = false;
                     spellButtons[i].Hide();
                 }
             }

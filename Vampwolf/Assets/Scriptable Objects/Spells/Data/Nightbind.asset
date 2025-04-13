@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nightbind
   m_EditorClassIdentifier: 
   characterType: 0
-  Name: 
+  Name: Nightbind
   Description: Stun an enemy for 1 turn
   Cost: 50
   Range: 0

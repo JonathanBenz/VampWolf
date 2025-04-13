@@ -6,15 +6,19 @@ using UnityEngine.UI;
 
 namespace Vampwolf.Spells
 {
-    public class SpellButton : MonoBehaviour, IPointerEnterHandler
+    public class SpellButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         private int index;
         [SerializeField] private Image disabledOverlay;
         [SerializeField] private Image spellIcon;
         private bool canCast;
+        private bool active;
+
+        public bool Active { get => active; set => active = value; }
 
         public event Action<int> OnButtonPressed = delegate { };
-        public event Action OnCursorEntered = delegate { };
+        public event Action<int> OnPointerEntered = delegate { };
+        public event Action OnPointerExited = delegate { };
 
         private void Start()
         {
@@ -22,6 +26,9 @@ namespace Vampwolf.Spells
             Button button = GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
+                // Exit case - if the button is not active
+                if (!active) return;
+
                 // Exit case - if the spell cannot be cast
                 if (!canCast) return;
 
@@ -35,9 +42,14 @@ namespace Vampwolf.Spells
         public void RegisterClickListener(Action<int> listener) => OnButtonPressed += listener;
 
         /// <summary>
-        /// Register a listener to the cursor entered event
+        /// Register a listener to the pointer entered event
         /// </summary>
-        public void RegisterHoverListener(Action listener) => OnCursorEntered += listener;
+        public void RegisterEnterListener(Action<int> listener) => OnPointerEntered += listener;
+
+        /// <summary>
+        /// Register a listener to the pointer exited event
+        /// </summary>
+        public void RegisterExitListener(Action listener) => OnPointerExited += listener;
 
         /// <summary>
         /// Initialize the Spell Button
@@ -74,6 +86,23 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Handle the pointer enter event
         /// </summary>
-        public void OnPointerEnter(PointerEventData eventData) => OnCursorEntered.Invoke();
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            // Exit case - not active
+            if (!active) return;
+
+            OnPointerEntered.Invoke(index);
+        }
+
+        /// <summary>
+        /// Handle the pointer exit event
+        /// </summary>
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            // Exit case - not active
+            if (!active) return;
+
+            OnPointerExited.Invoke();
+        }
     }
 }

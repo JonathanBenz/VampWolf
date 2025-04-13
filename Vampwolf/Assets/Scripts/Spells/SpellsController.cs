@@ -74,8 +74,12 @@ namespace Vampwolf.Spells
         private void ConnectView()
         {
             // Register button listeners
-            view.RegisterVampireListeners(OnVampireSpellButtonPressed);
-            view.RegisterWerewolfListeners(OnWerewolfSpellButtonPressed);
+            view.RegisterVampireClickListeners(OnVampireSpellButtonPressed);
+            view.RegisterWerewolfClickListeners(OnWerewolfSpellButtonPressed);
+            view.RegisterVampireEnterListeners(OnVampireSpellButtonEntered);
+            view.RegisterWerewolfEnterListeners(OnWerewolfSpellButtonEntered);
+            view.RegisterVampireExitListeners(OnSpellButtonExited);
+            view.RegisterWerewolfExitListeners(OnSpellButtonExited);
 
             // Update the view icons
             view.UpdateVampireButtonsSprites(model.VampireSpells);
@@ -91,6 +95,21 @@ namespace Vampwolf.Spells
         /// Cast the Werewolf spell at the given button index
         /// </summary>
         private void OnWerewolfSpellButtonPressed(int index) => model.WerewolfSpells[index].Cast(model);
+
+        /// <summary>
+        /// Show the tooltip for the Vampire spell button at the given index
+        /// </summary>
+        private void OnVampireSpellButtonEntered(int index) => view.ShowVampireTooltip(index, model.VampireSpells[index]);
+
+        /// <summary>
+        /// Show the tooltip for the Werewolf spell button at the given index
+        /// </summary>
+        private void OnWerewolfSpellButtonEntered(int index) => view.ShowWerewolfTooltip(index, model.WerewolfSpells[index]);
+
+        /// <summary>
+        /// Hide the tooltip for the Vampire and Werewolf spell buttons
+        /// </summary>
+        private void OnSpellButtonExited() => view.HideTooltip();
 
         /// <summary>
         /// Update the cast status of the Vampire Spell buttons

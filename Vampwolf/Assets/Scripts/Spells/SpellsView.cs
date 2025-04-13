@@ -9,23 +9,47 @@ namespace Vampwolf.Spells
         [Header("Spell Bars")]
         [SerializeField] private SpellBar vampireSpellBar;
         [SerializeField] private SpellBar werewolfSpellBar;
+        [SerializeField] private SpellTooltip tooltip;
+
+        public SpellTooltip Tooltip => tooltip;
 
         private void Awake()
         {
-            // Initialize the spell bars
+            // Initialize the spell bars and tooltip
             vampireSpellBar.Initialize();
             werewolfSpellBar.Initialize();
+            tooltip.Initialize();
         }
 
         /// <summary>
-        /// Register listeners to the Vampire spell buttons
+        /// Register click listeners to the Vampire spell buttons
         /// </summary>
-        public void RegisterVampireListeners(Action<int> listener) => vampireSpellBar.RegisterListeners(listener);
+        public void RegisterVampireClickListeners(Action<int> listener) => vampireSpellBar.RegisterClickListeners(listener);
 
         /// <summary>
-        /// Register listeners to the Werewolf spell buttons
+        /// Register enter listeners to the Vampire spell buttons
         /// </summary>
-        public void RegisterWerewolfListeners(Action<int> listener) => werewolfSpellBar.RegisterListeners(listener);
+        public void RegisterVampireEnterListeners(Action<int> listener) => vampireSpellBar.RegisterEnterListeners(listener);
+
+        /// <summary>
+        /// Register exit listeners to the Vampire spell buttons
+        /// </summary>
+        public void RegisterVampireExitListeners(Action listener) => vampireSpellBar.RegisterExitListeners(listener);
+
+        /// <summary>
+        /// Register click listeners to the Werewolf spell buttons
+        /// </summary>
+        public void RegisterWerewolfClickListeners(Action<int> listener) => werewolfSpellBar.RegisterClickListeners(listener);
+
+        /// <summary>
+        /// Register enter listeners to the Werewolf spell buttons
+        /// </summary>
+        public void RegisterWerewolfEnterListeners(Action<int> listener) => werewolfSpellBar.RegisterEnterListeners(listener);
+
+        /// <summary>
+        /// Register exit listeners to the Werewolf spell buttons
+        /// </summary>
+        public void RegisterWerewolfExitListeners(Action listener) => werewolfSpellBar.RegisterExitListeners(listener);
 
         /// <summary>
         /// Update the Vampire spell icons
@@ -56,6 +80,49 @@ namespace Vampwolf.Spells
         /// Update the Rage resource for the Werewolf
         /// </summary>
         public void UpdateRage(float rage) => werewolfSpellBar.UpdateResource(rage);
+
+        /// <summary>
+        /// Show the Vampire Tooltip
+        /// </summary>
+        public void ShowVampireTooltip(int index, Spell spell)
+        {
+            // Set the tooltip properties
+            tooltip.Name = spell.Name;
+            tooltip.Description = spell.Description;
+            tooltip.Cost = spell.Cost.ToString();
+            tooltip.Range = spell.Range.ToString();
+
+            // Move the tool tip
+            Vector2 position = vampireSpellBar.SpellButtons[index].transform.position;
+            tooltip.MoveTooltip(position);
+
+            // Show the tooltip
+            tooltip.Show();
+        }
+
+        /// <summary>
+        /// Show the Werewolf Tooltip
+        /// </summary>
+        public void ShowWerewolfTooltip(int index, Spell spell)
+        {
+            // Set the tooltip properties
+            tooltip.Name = spell.Name;
+            tooltip.Description = spell.Description;
+            tooltip.Cost = spell.Cost.ToString();
+            tooltip.Range = spell.Range.ToString();
+
+            // Move the tool tip
+            Vector2 position = werewolfSpellBar.SpellButtons[index].transform.position;
+            tooltip.MoveTooltip(position);
+
+            // Show the tooltip
+            tooltip.Show();
+        }
+
+        /// <summary>
+        /// Hide the tooltip
+        /// </summary>
+        public void HideTooltip() => tooltip.Hide();
 
         /// <summary>
         /// Show the correct spell bar
