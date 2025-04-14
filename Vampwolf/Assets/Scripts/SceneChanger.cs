@@ -3,6 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    //Loads the Main Menu scene
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
     //Loads the main hub/overworld/shop game scene
     public void LoadHub()
     {
@@ -27,17 +33,17 @@ public class SceneChanger : MonoBehaviour
     //     SceneManager.LoadScene(); //Add the scene name when scene is created
     // }
 
-    // //Loads the Win Game scene
-    // public void LoadWinScreen()
-    // {
-    //     SceneManager.LoadScene(); //Add the scene name when scene is created
-    // }
+    //Loads the Win Game scene
+    public void LoadWinScreen()
+    {
+        SceneManager.LoadScene("Win Screen");
+    }
 
-    // //Loads the Lose Game scene
-    // public void LoadLoseScreen()
-    // {
-    //     SceneManager.LoadScene(); //Add the scene name when scene is created
-    // }
+    //Loads the Lose Game scene
+    public void LoadLoseScreen()
+    {
+        SceneManager.LoadScene("Lose Screen");
+    }
 
     //Quit the application
     public void QuitGame()
