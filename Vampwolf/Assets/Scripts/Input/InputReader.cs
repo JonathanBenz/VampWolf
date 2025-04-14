@@ -10,6 +10,7 @@ namespace Vampwolf.Input
     public interface IInputReader
     {
         void EnablePlayerActions();
+        void DisablePlayerActions();
     }
 
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Player Input")]
@@ -38,6 +39,15 @@ namespace Vampwolf.Input
             }
 
             inputActions.Enable();
+        }
+
+        public void DisablePlayerActions()
+        {
+            inputActions.Disable();
+
+            ability1Status = false;
+            ability2Status = false;
+            ability3Status = false;
         }
 
         public void OnSelect(InputAction.CallbackContext context)

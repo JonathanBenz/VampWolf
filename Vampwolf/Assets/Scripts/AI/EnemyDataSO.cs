@@ -12,6 +12,8 @@ namespace Vampwolf.AI
         public EnemyType enemyType;
         public int Health;
         public int Damage;
+        public int MovementRange;
+        public int AttackRange;
         public Sprite sprite;
     }
 }

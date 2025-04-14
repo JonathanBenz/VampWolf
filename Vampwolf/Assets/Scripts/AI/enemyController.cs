@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.Interfaces;
+using Vampwolf.EventBus;
+using Vampwolf.Events;
 
 namespace Vampwolf.AI
 {
-    public class enemyController : MonoBehaviour, IActor, ITargetable, ITrackable
+    public class enemyController : Trackable, IActor, ITargetable
     {
         [SerializeField] EnemyDataSO enemyData;
 
         int currentHealth;
+        int initiative;
         int damage;
+        int movementRange;
+        int attackRange;
         SpriteRenderer spriteRenderer;
+
+        public override int Initiative { get { return initiative; } }
+        public override bool IsEnemy => true;
 
         private void Awake()
         {
@@ -22,17 +30,22 @@ namespace Vampwolf.AI
         {
             currentHealth = enemyData.Health;
             damage = enemyData.Damage;
+            movementRange = enemyData.MovementRange;
+            attackRange = enemyData.AttackRange;
             spriteRenderer.sprite = enemyData.sprite;
         }
 
-        void Update()
-        {
 
+        public override void StartTurn()
+        {
+            // Perform all logic, then end turn
+            // TODO: Search for closest player, move toward to and attack them.
+            EventBus<TurnEndedEvent>.Raise(new TurnEndedEvent() { });
         }
 
-        public void AddToInitiative()
+        public override void RollForInitiative()
         {
-            throw new System.NotImplementedException();
+            initiative = Random.Range(1, 21); //D20 dice roll
         }
 
         public void Move(Vector2 targetPos)
@@ -58,6 +71,7 @@ namespace Vampwolf.AI
         public void Die()
         {
             Debug.Log($"{this.gameObject.name} has lost all HP and is now dead!");
+            EventBus<EnemyDeathEvent>.Raise(new EnemyDeathEvent() { });
         }
     }
 }
