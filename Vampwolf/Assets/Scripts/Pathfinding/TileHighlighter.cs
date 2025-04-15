@@ -33,6 +33,8 @@ namespace Vampwolf.Pathfinding
         bool stateHasSwitched;
 
         public HashSet<Vector3Int> HighlightedTiles { get; private set; } = new HashSet<Vector3Int>();
+        public Tilemap GroundTileMap { get { return groundTilemap; } }
+        public Tilemap ObstacleTileMap { get { return obstacleTilemap; } }
 
         private void Awake()
         {

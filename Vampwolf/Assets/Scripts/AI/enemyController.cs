@@ -41,6 +41,7 @@ namespace Vampwolf.AI
             // Perform all logic, then end turn
             // TODO: Search for closest player, move toward to and attack them.
             EventBus<TurnEndedEvent>.Raise(new TurnEndedEvent() { });
+            Debug.Log($"{this.gameObject.name} has ended their turn!");
         }
 
         public override void RollForInitiative()

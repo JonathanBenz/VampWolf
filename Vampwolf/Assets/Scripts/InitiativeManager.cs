@@ -58,9 +58,10 @@ namespace Vampwolf
             // Sort list based on the calculated Initiative order
             trackables.Sort((a, b) => b.Initiative.CompareTo(a.Initiative)); 
 
-            // DEBUG Purposes
+            // --- DEBUG Purposes ---
             int order = 0;
             foreach (Trackable t in trackables) Debug.Log($"Initiative Order --> {order++}: {t.gameObject.name}");
+            // ----------------------
 
             NewTurn(); 
         }
@@ -70,13 +71,7 @@ namespace Vampwolf
         /// </summary>
         private void NewTurn()
         {
-            currentIdx++;
-            if (currentIdx >= trackables.Count) currentIdx = 0;
-            currentTrackable = trackables[currentIdx];
-            Debug.Log($"It is currently {currentTrackable.gameObject.name}'s turn!");
-
-            StartCoroutine(TurnDelay(delayBetweenTurns));
-            currentTrackable.StartTurn();
+            StartCoroutine(HandleNewTurn(delayBetweenTurns));
         }
 
         /// <summary>
@@ -93,13 +88,24 @@ namespace Vampwolf
         }
 
         /// <summary>
-        /// Add a short delay between the last turn and next turn
+        /// Add a short delay before processing the new turn. 
         /// </summary>
         /// <param name="secondsDelay"></param>
         /// <returns></returns>
-        IEnumerator TurnDelay(float secondsDelay)
+        IEnumerator HandleNewTurn(float secondsDelay)
         {
-            yield return new WaitForSeconds(secondsDelay);
+            yield return new WaitForSeconds(secondsDelay); // Allow time for any cleanup that needs to happen/ to prevent race conditions.
+
+            currentIdx++;
+            if (currentIdx >= trackables.Count) 
+            {
+                currentIdx = 0; 
+                Debug.Log("Initiative Cycle Reset"); 
+            
+            }
+            currentTrackable = trackables[currentIdx];
+            Debug.Log($"It is currently {currentTrackable.gameObject.name}'s turn! | INDEX: {currentIdx}");
+            currentTrackable.StartTurn();
         }
     }
 }

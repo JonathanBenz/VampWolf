@@ -10,8 +10,14 @@ namespace Vampwolf.Pathfinding
     /// </summary>
     public class Pathfinder : MonoBehaviour
     {
-        public Tilemap groundTilemap;
-        public Tilemap obstacleTilemap;
+        Tilemap groundTilemap;
+        Tilemap obstacleTilemap;
+
+        private void Start()
+        {
+            groundTilemap = FindObjectOfType<TileHighlighter>().GroundTileMap;
+            obstacleTilemap = FindObjectOfType<TileHighlighter>().ObstacleTileMap;
+        }
 
         public List<Vector3Int> FindPath(Vector3Int start, Vector3Int target)
         {

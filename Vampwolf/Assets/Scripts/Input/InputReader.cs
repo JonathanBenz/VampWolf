@@ -10,7 +10,6 @@ namespace Vampwolf.Input
     public interface IInputReader
     {
         void EnablePlayerActions();
-        void DisablePlayerActions();
     }
 
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Player Input")]
@@ -38,13 +37,14 @@ namespace Vampwolf.Input
                 inputActions.Player.SetCallbacks(this);
             }
 
-            inputActions.Enable();
+            inputActions.Player.Enable();
         }
 
-        public void DisablePlayerActions()
+        /// <summary>
+        /// In case the player ends their turn with an ability out, reset the flags.
+        /// </summary>
+        public void ResetAbilityFlags()
         {
-            inputActions.Disable();
-
             ability1Status = false;
             ability2Status = false;
             ability3Status = false;

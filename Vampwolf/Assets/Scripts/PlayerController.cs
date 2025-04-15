@@ -49,12 +49,8 @@ namespace Vampwolf
 
         private void Start()
         {
+            input.EnablePlayerActions();
             currentHealth = startingHealth;
-
-            input.Select += isMousePressed => { if (isMousePressed) Select(); };
-            input.UseAbility1 += attacking => { if (attacking) SetIsAttacking(true, 1); else if (!attacking) SetIsAttacking(false, -1); };
-            input.UseAbility2 += attacking => { if (attacking) SetIsAttacking(true, 2); else if (!attacking) SetIsAttacking(false, -1); };
-            input.UseAbility3 += attacking => { if (attacking) SetIsAttacking(true, 3); else if (!attacking) SetIsAttacking(false, -1); };
         }
 
         private void Update()
@@ -65,6 +61,7 @@ namespace Vampwolf
 
             // --- DEBUG Purposes ---
             if (UnityEngine.Input.GetKeyDown(KeyCode.F6)) EndTurn(); 
+            // ----------------------
         }
 
         /// <summary>
@@ -72,14 +69,50 @@ namespace Vampwolf
         /// </summary>
         public override void StartTurn()
         {
-            input.EnablePlayerActions();
+            SubscribeToInputEvents();
 
             hasMoved = false;
             hasAttacked = false;
             hasCurrentTurn = true;
             Vector3Int playerCell = groundMap.WorldToCell(this.transform.position);
             HighlightTiles(playerCell);
+            Debug.Log($"{this.gameObject.name} has started their turn!");
+        }
 
+        private void SubscribeToInputEvents()
+        {
+            input.Select += OnSelect;
+            input.UseAbility1 += OnUseAbility1;
+            input.UseAbility2 += OnUseAbility2;
+            input.UseAbility3 += OnUseAbility3;
+        }
+
+        private void UnsubscribeFromInputEvents()
+        {
+            input.Select -= OnSelect;
+            input.UseAbility1 -= OnUseAbility1;
+            input.UseAbility2 -= OnUseAbility2;
+            input.UseAbility3 -= OnUseAbility3;
+        }
+
+        private void OnSelect(bool isPressed)
+        {
+            if (isPressed) Select();
+        }
+        private void OnUseAbility1(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 1); 
+            else SetIsAttacking(false, -1);
+        }
+        private void OnUseAbility2(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 2);
+            else SetIsAttacking(false, -1);
+        }
+        private void OnUseAbility3(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 3);
+            else SetIsAttacking(false, -1);
         }
 
         /// <summary>
@@ -87,16 +120,25 @@ namespace Vampwolf
         /// </summary>
         private void EndTurn()
         {
-            input.DisablePlayerActions();
+            UnsubscribeFromInputEvents();
+            input.ResetAbilityFlags();
+            ResetVariables();
+            HighlightTiles(playerCell);
+            EventBus<TurnEndedEvent>.Raise(new TurnEndedEvent() { });
+            Debug.Log($"{this.gameObject.name} has ended their turn!");
+        }
 
+        /// <summary>
+        /// Reset the variables to their default values when it is not the player's turn anymore
+        /// </summary>
+        private void ResetVariables()
+        {
             hasMoved = true;
             hasAttacked = true;
             isAttacking = false;
             isMoving = false;
             hasCurrentTurn = false;
-            HighlightTiles(playerCell);
-            EventBus<TurnEndedEvent>.Raise(new TurnEndedEvent() { });
-            EventBus<PlayerStateChangedEvent>.Raise(new PlayerStateChangedEvent() { AttackState = false }); 
+            EventBus<PlayerStateChangedEvent>.Raise(new PlayerStateChangedEvent() { AttackState = false });
         }
 
         /// <summary>
@@ -109,10 +151,7 @@ namespace Vampwolf
             isAttacking = bValue;
             currentSelectedAttack = selectedAttack;
             Debug.Log("Current Selected Attack: Attack " + currentSelectedAttack + " by " + this.gameObject.name);
-            EventBus<PlayerStateChangedEvent>.Raise(new PlayerStateChangedEvent() 
-            { 
-                AttackState = isAttacking
-            });
+            EventBus<PlayerStateChangedEvent>.Raise(new PlayerStateChangedEvent() { AttackState = isAttacking });
             HighlightTiles(playerCell);
         }
 
@@ -123,12 +162,12 @@ namespace Vampwolf
         private void HighlightTiles(Vector3Int playerCell)
         {
             // Highlight movement tiles
-            if (!isAttacking && !hasMoved) { tileHighlighter.HighlightMoveableTiles(playerCell, moveRange); print("Highlighting movement."); }
+            if (!isAttacking && !hasMoved) tileHighlighter.HighlightMoveableTiles(playerCell, moveRange); //print("Highlighting movement.");
 
             // Highlight attack tiles
-            else if (isAttacking && !hasAttacked) { tileHighlighter.HighlightMoveableTiles(playerCell, attackRange); print("Highlighting attack range."); }
+            else if (isAttacking && !hasAttacked) tileHighlighter.HighlightMoveableTiles(playerCell, attackRange); //print("Highlighting attack range."); 
 
-            else { tileHighlighter.ClearHighlights(); print("Nothing to highlight."); }
+            else tileHighlighter.ClearHighlights(); //print("Nothing to highlight."); 
         }
 
         /// <summary>
@@ -137,7 +176,8 @@ namespace Vampwolf
         /// </summary>
         private void UpdateCharacterSprite()
         {
-            if (isMoving) return;
+            if (isMoving) return; // Sprite stays still during movement
+
             Vector2 directionToMouse = (Camera.main.ScreenToWorldPoint(input.MousePos) - this.transform.position).normalized;
 
             if (directionToMouse.y >= 0) spriteRenderer.sprite = characterSprites[1];
@@ -178,7 +218,7 @@ namespace Vampwolf
 
         public void Cast() 
         {
-            Debug.Log($"Attacked with attack {currentSelectedAttack}!");
+            Debug.Log($"{this.gameObject.name} has attacked with attack {currentSelectedAttack}!");
             hasAttacked = true;
             HighlightTiles(playerCell);
         }
@@ -205,7 +245,7 @@ namespace Vampwolf
         /// <summary>
         /// Handle Death Logic for the current character
         /// </summary>
-        public void Die() { Debug.Log("Player has lost all HP and is now dead!"); }
+        public void Die() { Debug.Log($"{this.gameObject.name} has lost all HP and is now dead!"); }
 
         /// <summary>
         /// Move towards the center position of each tile, moving tile by tile until reaching the end of the path. 
