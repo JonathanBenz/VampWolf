@@ -17,4 +17,7 @@ MonoBehaviour:
   Damage: 10
   MovementRange: 4
   AttackRange: 1
-  sprite: {fileID: 21300000, guid: ba63b94788016cb4fbb22bd6c1ecd434, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: 6a2718b8eeb6ec046ae15febe7ee61ec, type: 3}
+  - {fileID: 21300000, guid: 5e0abd6fcf4828443af4bf041bf15e64, type: 3}
+  - {fileID: 21300000, guid: e4c7f04ed14f26845a1356f9bdaf1b38, type: 3}

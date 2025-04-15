@@ -79,42 +79,6 @@ namespace Vampwolf
             Debug.Log($"{this.gameObject.name} has started their turn!");
         }
 
-        private void SubscribeToInputEvents()
-        {
-            input.Select += OnSelect;
-            input.UseAbility1 += OnUseAbility1;
-            input.UseAbility2 += OnUseAbility2;
-            input.UseAbility3 += OnUseAbility3;
-        }
-
-        private void UnsubscribeFromInputEvents()
-        {
-            input.Select -= OnSelect;
-            input.UseAbility1 -= OnUseAbility1;
-            input.UseAbility2 -= OnUseAbility2;
-            input.UseAbility3 -= OnUseAbility3;
-        }
-
-        private void OnSelect(bool isPressed)
-        {
-            if (isPressed) Select();
-        }
-        private void OnUseAbility1(bool isAttacking)
-        {
-            if (isAttacking) SetIsAttacking(true, 1); 
-            else SetIsAttacking(false, -1);
-        }
-        private void OnUseAbility2(bool isAttacking)
-        {
-            if (isAttacking) SetIsAttacking(true, 2);
-            else SetIsAttacking(false, -1);
-        }
-        private void OnUseAbility3(bool isAttacking)
-        {
-            if (isAttacking) SetIsAttacking(true, 3);
-            else SetIsAttacking(false, -1);
-        }
-
         /// <summary>
         /// When Player ends their turn, update hasCurrentTurn flag and raise TurnEndedEvent
         /// </summary>
@@ -271,6 +235,42 @@ namespace Vampwolf
             isMoving = false;
             hasMoved = true;
             HighlightTiles(playerCell);
+        }
+
+        private void SubscribeToInputEvents()
+        {
+            input.Select += OnSelect;
+            input.UseAbility1 += OnUseAbility1;
+            input.UseAbility2 += OnUseAbility2;
+            input.UseAbility3 += OnUseAbility3;
+        }
+
+        private void UnsubscribeFromInputEvents()
+        {
+            input.Select -= OnSelect;
+            input.UseAbility1 -= OnUseAbility1;
+            input.UseAbility2 -= OnUseAbility2;
+            input.UseAbility3 -= OnUseAbility3;
+        }
+
+        private void OnSelect(bool isPressed)
+        {
+            if (isPressed) Select();
+        }
+        private void OnUseAbility1(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 1);
+            else SetIsAttacking(false, -1);
+        }
+        private void OnUseAbility2(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 2);
+            else SetIsAttacking(false, -1);
+        }
+        private void OnUseAbility3(bool isAttacking)
+        {
+            if (isAttacking) SetIsAttacking(true, 3);
+            else SetIsAttacking(false, -1);
         }
     }
 }

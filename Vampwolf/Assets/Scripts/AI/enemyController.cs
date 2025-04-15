@@ -17,6 +17,7 @@ namespace Vampwolf.AI
         int movementRange;
         int attackRange;
         SpriteRenderer spriteRenderer;
+        Vector2 closestTarget;
 
         public override int Initiative { get { return initiative; } }
         public override bool IsEnemy => true;
@@ -32,10 +33,27 @@ namespace Vampwolf.AI
             damage = enemyData.Damage;
             movementRange = enemyData.MovementRange;
             attackRange = enemyData.AttackRange;
-            spriteRenderer.sprite = enemyData.sprite;
+            spriteRenderer.sprite = enemyData.sprites[0]; // Front-facing Sprite
+
+            // --- DEBUGGING Purposes ---
+            closestTarget = FindObjectOfType<PlayerController>().transform.position;
         }
 
+        private void Update()
+        {
+            UpdateCharacterSprite();
+        }
 
+        private void UpdateCharacterSprite()
+        {
+            Vector2 targetdir = (closestTarget - (Vector2)this.transform.position).normalized;
+
+            if (targetdir.y >= 0) spriteRenderer.sprite = enemyData.sprites[1];
+            else if (targetdir.y < 0) spriteRenderer.sprite = enemyData.sprites[0];
+
+            if (targetdir.x >= 0) transform.localScale = Vector3.one;
+            else if (targetdir.x < 0) transform.localScale = new Vector3(-1, 1, 1);
+        }
         public override void StartTurn()
         {
             // Perform all logic, then end turn
@@ -72,6 +90,7 @@ namespace Vampwolf.AI
         public void Die()
         {
             Debug.Log($"{this.gameObject.name} has lost all HP and is now dead!");
+            spriteRenderer.sprite = enemyData.sprites[2]; // Death Sprite
             EventBus<EnemyDeathEvent>.Raise(new EnemyDeathEvent() { });
         }
     }

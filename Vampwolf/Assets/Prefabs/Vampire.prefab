@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 300fa553845cf2c4ab401b52237e3b28, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -165,5 +165,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a73cb6d1325494cb272a2f87fa73f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundTilemap: {fileID: 0}
-  obstacleTilemap: {fileID: 0}
