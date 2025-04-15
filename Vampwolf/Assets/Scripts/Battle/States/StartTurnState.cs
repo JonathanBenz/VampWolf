@@ -1,4 +1,6 @@
-namespace Vampwolf.Battle.States
+using Vampwolf.EventBus;
+
+namespace Vampwolf.Battles.States
 {
     public class StartTurnState : BattleState
     {
@@ -6,6 +8,12 @@ namespace Vampwolf.Battle.States
 
         public override async void OnEnter()
         {
+            // Notify that a turn has started
+            EventBus<TurnStarted>.Raise(new TurnStarted()
+            {
+                Unit = manager.ActiveUnit
+            });
+
             // Start the turn for the active unit
             await manager.ActiveUnit.StartTurn();
 

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Vampwolf.Battle.Commands;
-using Vampwolf.Battle.States;
+using Vampwolf.Battles.Commands;
+using Vampwolf.Battles.States;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 using Vampwolf.StateMachines;
 using Vampwolf.Units;
 
-namespace Vampwolf.Battle
+namespace Vampwolf.Battles
 {
     public class BattleManager : MonoBehaviour
     {
@@ -93,6 +93,12 @@ namespace Vampwolf.Battle
 
                 // Add the units to the turn queue
                 turnQueue.Enqueue(units[i]);
+
+                // Notify that the unit's initiative has been registered
+                EventBus<InitiativeRegistered>.Raise(new InitiativeRegistered()
+                {
+                    Unit = units[i]
+                });
             }
 
             // Set the active unit
@@ -214,8 +220,14 @@ namespace Vampwolf.Battle
             // Remove the unit from the turn queue
             activeUnits.Remove(eventData.Unit);
 
+            // Remove the unit from the initiative tracker
+            EventBus<InitiativeDeregistered>.Raise(new InitiativeDeregistered()
+            {
+                Unit = eventData.Unit
+            });
+
             // Check if the unit is an enemy
-            if(eventData.IsEnemy)
+            if (eventData.IsEnemy)
                 // Decrement the number of enemies
                 numberOfEnemies--;
 

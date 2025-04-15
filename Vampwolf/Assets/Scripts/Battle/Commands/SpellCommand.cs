@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using Vampwolf.Spells;
 using Vampwolf.Units;
 
-namespace Vampwolf.Battle.Commands
+namespace Vampwolf.Battles.Commands
 {
     public class SpellCommand : IBattleCommand
     {

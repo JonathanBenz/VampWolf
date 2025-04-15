@@ -1,8 +1,8 @@
-using Vampwolf.Battle.Commands;
+using Vampwolf.Battles.Commands;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 
-namespace Vampwolf.Battle.States
+namespace Vampwolf.Battles.States
 {
     public class ProcessCommandState : BattleState
     {

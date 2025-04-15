@@ -1,7 +1,7 @@
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 
-namespace Vampwolf.Battle.States
+namespace Vampwolf.Battles.States
 {
     public class EndBattleState : BattleState
     {
@@ -20,6 +20,8 @@ namespace Vampwolf.Battle.States
             {
                 Active = false
             });
+
+            EventBus<BattleWon>.Raise(new BattleWon());
         }
     }
 }

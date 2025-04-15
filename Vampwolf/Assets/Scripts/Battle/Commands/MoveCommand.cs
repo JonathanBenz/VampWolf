@@ -4,7 +4,7 @@ using UnityEngine;
 using Vampwolf.Grid;
 using Vampwolf.Units;
 
-namespace Vampwolf.Battle.Commands
+namespace Vampwolf.Battles.Commands
 {
     public class MoveCommand : IBattleCommand
     {

@@ -1,4 +1,4 @@
-namespace Vampwolf.Battle.States
+namespace Vampwolf.Battles.States
 {
     public class AwaitCommandState : BattleState
     {

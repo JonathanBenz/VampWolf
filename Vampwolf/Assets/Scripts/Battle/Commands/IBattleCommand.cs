@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace Vampwolf.Battle.Commands
+namespace Vampwolf.Battles.Commands
 {
     public interface IBattleCommand
     {

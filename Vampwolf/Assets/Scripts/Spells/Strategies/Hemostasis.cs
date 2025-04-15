@@ -13,8 +13,8 @@ namespace Vampwolf.Spells
         {
             // Implement the logic for casting the Hemostasis spell
 
-            // PLACEHOLDER: deal 15 damage
-            unit.DealDamage(15);
+            // PLACEHOLDER: heal 15 damage
+            unit.DealDamage(-15);
         }
     }
 }

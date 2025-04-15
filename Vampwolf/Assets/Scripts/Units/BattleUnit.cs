@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using Vampwolf.Grid;
 using DG.Tweening;
+using Vampwolf.EventBus;
 
 namespace Vampwolf.Units
 {
@@ -12,16 +13,19 @@ namespace Vampwolf.Units
         [SerializeField] public UnitStatData statData;
 
         [Header("Details")]
+        [SerializeField] private string unitName;
         [SerializeField] protected Vector3Int gridPosition;
         [SerializeField] protected int health;
         [SerializeField] protected UnitStats stats;
         [SerializeField] protected bool hasMoved;
         [SerializeField] protected bool hasCasted;
 
+        public string Name => unitName;
         public Vector3Int GridPosition => gridPosition;
         public int Initiative => stats.Initiative;
         public bool HasMoved { get => hasMoved; set => hasMoved = value; }
         public bool HasCasted { get => hasCasted; set => hasCasted = value; }
+        public int Health => health;
 
         private void Awake()
         {
@@ -71,6 +75,13 @@ namespace Vampwolf.Units
         {
             // Subtract the damage from the health
             health -= damage;
+
+            // Notify that the health has changed
+            EventBus<HealthChanged>.Raise(new HealthChanged()
+            {
+                Unit = this,
+                CurrentHealth = health
+            });
 
             // Check if the unit is dead
             CheckDeath();

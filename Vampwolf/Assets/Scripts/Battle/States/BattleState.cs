@@ -1,6 +1,6 @@
 using Vampwolf.StateMachines;
 
-namespace Vampwolf.Battle.States
+namespace Vampwolf.Battles.States
 {
     public class BattleState : IState
     {
