@@ -32,12 +32,6 @@ namespace Vampwolf.Spells
             // Connect the view and the model to the controller
             ConnectModel();
             ConnectView();
-
-            // Show the vampire spells by default
-            ShowSpells(new ShowSpells()
-            {
-                CharacterType = CharacterType.Vampire
-            });
         }
 
         private void OnEnable()

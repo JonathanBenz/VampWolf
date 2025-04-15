@@ -1,53 +1,65 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Vampwolf.Grid;
+using UnityEngine.Tilemaps;
 
-namespace Vampwolf
+namespace Vampwolf.Grid
 {
     public class GridManager : MonoBehaviour
     {
-        public int width = 10;
-        public int height = 10;
-        public float cellSize = 1f;
+        [Header("References")]
+        [SerializeField] private Tilemap gridTilemap;
 
-        public GridModel Grid { get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         private void Awake()
         {
-            // Initialize the grid model
-            Grid = new GridModel(width, height);
+            // Get the tilemap's cell bounds
+            BoundsInt bounds = gridTilemap.cellBounds;
+
+            // Set the width and height of the grid
+            Width = bounds.size.x;
+            Height = bounds.size.y;
         }
 
         /// <summary>
         /// Convert grid coordinates to a world position
         /// </summary>
-        public Vector3 GetWorldPositionFromGrid(Vector2Int gridPos)
+        public Vector3 GetWorldPositionFromGrid(Vector3Int gridPos)
         {
-            return new Vector3(gridPos.x * cellSize, 0, gridPos.y * cellSize);
+            return gridTilemap.GetCellCenterWorld(gridPos);
         }
 
-        // Check if a target cell is reachable given a move range.
-        public bool IsCellReachable(Vector2Int start, Vector2Int target, int range)
+        /// <summary>
+        /// Check if a target cell is reachable given a move range
+        /// </summary>
+        public bool IsCellReachable(Vector3Int start, Vector3Int target, int range)
         {
-            return (Mathf.Abs(target.x - start.x) + Mathf.Abs(target.y - start.y)) <= range;
+            int distance = Mathf.Abs(target.x - start.x) + Mathf.Abs(target.y - start.y);
+            return distance <= range;
         }
 
-        // Get reachable cells fro ma starting position within a given move range
-        public List<Vector2Int> GetReachableCells(Vector2Int start, int range)
+        /// <summary>
+        /// Get reachable cells from a starting position within a given move range
+        /// </summary>
+        public List<Vector3Int> GetReachableCells(Vector3Int start, int range)
         {
             // Create a container to store the reachable cells
-            List<Vector2Int> reachableCells = new List<Vector2Int>();
+            List<Vector3Int> reachableCells = new List<Vector3Int>();
+
+            // Get the tilemap's cell bounds
+            BoundsInt bounds = gridTilemap.cellBounds;
 
             // Iterate through the grid
-            for (int x = 0; x < width; x++)
+            for (int x = bounds.xMin; x < bounds.xMax; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = bounds.yMin; y < bounds.yMax; y++)
                 {
                     // Create a position at the current cell
-                    Vector2Int targetPos = new Vector2Int(x, y);
+                    Vector3Int targetPos = new Vector3Int(x, y, 0);
 
                     // Skip if the cell is not walkable
-                    if (!Grid.Cells[x, y].IsWalkable) continue;
+                    if (!gridTilemap.HasTile(targetPos)) continue;
 
                     // Skip if the cell is outside the move range
                     if (!IsCellReachable(start, targetPos, range)) continue;
