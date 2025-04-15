@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
+using Vampwolf.Units;
 
 namespace Vampwolf.Spells
 {
@@ -9,10 +10,13 @@ namespace Vampwolf.Spells
     {
         private SpellsModel model;
         private SpellsView view;
+        private BattleUnit castingUnit;
 
         [SerializeField] private List<SpellData> initialSpells = new List<SpellData>();
 
         private EventBinding<ShowSpells> onShowSpells;
+        private EventBinding<HideSpells> onHideSpells;
+        private EventBinding<DisableSpells> onDisableSpells;
 
         private void Awake()
         {
@@ -23,7 +27,7 @@ namespace Vampwolf.Spells
             foreach (SpellData data in initialSpells)
             {
                 // Add the spells to the model
-                model.Add(new Spell(data));
+                model.Add(new Spell(model, data));
             }
 
             // Get the view
@@ -38,11 +42,19 @@ namespace Vampwolf.Spells
         {
             onShowSpells = new EventBinding<ShowSpells>(ShowSpells);
             EventBus<ShowSpells>.Register(onShowSpells);
+
+            onHideSpells = new EventBinding<HideSpells>(HideSpells);
+            EventBus<HideSpells>.Register(onHideSpells);
+
+            onDisableSpells = new EventBinding<DisableSpells>(DisableSpells);
+            EventBus<DisableSpells>.Register(onDisableSpells);
         }
 
         private void OnDisable()
         {
             EventBus<ShowSpells>.Deregister(onShowSpells);
+            EventBus<HideSpells>.Deregister(onHideSpells);
+            EventBus<DisableSpells>.Deregister(onDisableSpells);
         }
 
         /// <summary>
@@ -83,12 +95,28 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the Vampire spell at the given button index
         /// </summary>
-        private void OnVampireSpellButtonPressed(int index) => model.VampireSpells[index].Cast(model);
+        private void OnVampireSpellButtonPressed(int index)
+        {
+            // Set the spell selection mode using the spell at the given index
+            EventBus<SetSpellSelectionMode>.Raise(new SetSpellSelectionMode()
+            {
+                Spell = model.VampireSpells[index],
+                GridPosition = castingUnit.GridPosition
+            });
+        }
 
         /// <summary>
         /// Cast the Werewolf spell at the given button index
         /// </summary>
-        private void OnWerewolfSpellButtonPressed(int index) => model.WerewolfSpells[index].Cast(model);
+        private void OnWerewolfSpellButtonPressed(int index)
+        {
+            // Set the spell selection mode using the spell at the given index
+            EventBus<SetSpellSelectionMode>.Raise(new SetSpellSelectionMode()
+            {
+                Spell = model.WerewolfSpells[index],
+                GridPosition = castingUnit.GridPosition
+            });
+        }
 
         /// <summary>
         /// Show the tooltip for the Vampire spell button at the given index
@@ -118,6 +146,21 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Show the spells and resource of the given character type
         /// </summary>
-        private void ShowSpells(ShowSpells eventData) => view.ShowSpells(eventData.CharacterType);
+        private void ShowSpells(ShowSpells eventData)
+        {
+            // Set data
+            view.ShowSpells(eventData.CharacterType);
+            castingUnit = eventData.CastingUnit;
+        }
+
+        /// <summary>
+        /// Hide the spells and resources
+        /// </summary>
+        private void HideSpells() => view.HideSpells();
+
+        /// <summary>
+        /// Disable the spells to prevent them from being used
+        /// </summary>
+        private void DisableSpells() => view.DisableSpells();
     }
 }

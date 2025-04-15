@@ -1,17 +1,18 @@
 using Cysharp.Threading.Tasks;
 using Vampwolf.Spells;
+using Vampwolf.Units;
 
 namespace Vampwolf.Battle.Commands
 {
     public class SpellCommand : IBattleCommand
     {
+        private readonly BattleUnit target;
         private readonly Spell spell;
-        private readonly SpellsModel model;
 
-        public SpellCommand(Spell spell, SpellsModel model)
+        public SpellCommand(BattleUnit target, Spell spell)
         {
+            this.target = target;
             this.spell = spell;
-            this.model = model;
         }
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace Vampwolf.Battle.Commands
         /// </summary>
         public UniTask Execute()
         {
-            spell.Cast(model);
+            spell.Cast(target);
             return UniTask.CompletedTask;
         }
     }

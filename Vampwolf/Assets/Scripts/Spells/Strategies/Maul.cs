@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.Units;
 
 namespace Vampwolf.Spells
 {
@@ -8,12 +9,13 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Deal damage to a single target enemy
         /// </summary>
-        public override void Cast(Spell spell, SpellsModel model)
+        public override void Cast(Spell spell, BattleUnit unit)
         {
             // Implement the logic for casting the Maul spell
             Debug.Log("Casting Maul spell!");
 
-            model.Rage += 15f;
+            // PLACEHOLDER: deal 15 damage
+            unit.DealDamage(30);
         }
     }
 }

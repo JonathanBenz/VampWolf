@@ -49,7 +49,7 @@ namespace Vampwolf
 
         private void Start()
         {
-            input.EnablePlayerActions();
+            input.Enable();
             currentHealth = startingHealth;
         }
 

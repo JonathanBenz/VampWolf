@@ -6,7 +6,7 @@ namespace Vampwolf.Units
     {
         public int Might;
         public int Fortitude;
-        public int Speed;
+        public int Agility;
 
         private int minMovementRange;
         private int maxMovementRange;
@@ -17,17 +17,22 @@ namespace Vampwolf.Units
         {
             get
             {
-                return (int)Mathf.Lerp(minMovementRange, maxMovementRange, (Speed - minStatValue) / maxStatValue - 1f);
+                return (int)Mathf.Lerp(minMovementRange, maxMovementRange, (Agility - minStatValue) / maxStatValue - 1f);
             }
         }
 
-        public int Initiative { get => Speed; }
+        public int Initiative { get => Agility; }
 
         public UnitStats(UnitStatData data)
         {
             // Set general values
             minStatValue = data.minStatValue;
             maxStatValue = data.maxStatValue;
+
+            // Set stat values
+            Might = data.Might;
+            Fortitude = data.Fortitude;
+            Agility = data.Agility;
 
             // Set speed-specific values
             minMovementRange = data.minMovementRange;

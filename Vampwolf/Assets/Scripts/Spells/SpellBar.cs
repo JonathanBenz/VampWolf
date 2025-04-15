@@ -154,5 +154,10 @@ namespace Vampwolf.Spells
             spellBarGroup.interactable = visible;
             spellBarGroup.blocksRaycasts = visible;
         }
+
+        /// <summary>
+        /// Disable the spellbar
+        /// </summary>
+        public void Disable() => spellBarGroup.interactable = false;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.Units;
 
 namespace Vampwolf.Spells
 {
@@ -8,10 +9,12 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Hurl a spear of blood to damage a single enemy
         /// </summary>
-        public override void Cast(Spell spell, SpellsModel model)
+        public override void Cast(Spell spell, BattleUnit unit)
         {
             // Implement the logic for casting the Blood Lance spell
             Debug.Log("Casting Blood Lance spell!");
+
+            unit.DealDamage(25);
         }
     }
 }

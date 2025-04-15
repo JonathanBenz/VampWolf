@@ -4,7 +4,7 @@ using Vampwolf.Events;
 
 namespace Vampwolf.Units
 {
-    public class Werewolf : BattleUnit
+    public class Vampire : BattleUnit
     {
         /// <summary>
         /// Start the turn by highlighting the cells around the active unit and displaying the werewolf UI
@@ -31,7 +31,7 @@ namespace Vampwolf.Units
             // Display the werewolf UI
             EventBus<ShowSpells>.Raise(new ShowSpells()
             {
-                CharacterType = Spells.CharacterType.Werewolf,
+                CharacterType = Spells.CharacterType.Vampire,
                 CastingUnit = this
             });
 

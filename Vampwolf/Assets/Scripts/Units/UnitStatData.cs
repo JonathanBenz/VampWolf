@@ -9,7 +9,12 @@ namespace Vampwolf.Units
         public int minStatValue;
         public int maxStatValue;
 
-        [Header("Speed")]
+        [Header("Stat Values")]
+        public int Might;
+        public int Fortitude;
+        public int Agility;
+
+        [Header("Agility")]
         public int minMovementRange;
         public int maxMovementRange;
     }

@@ -6,8 +6,14 @@ namespace Vampwolf.Battle.States
 
         public override void OnEnter()
         {
-            // Start the turn for the active unit
-            manager.ActiveUnit.StartTurn();
+            // Set the active unit to await commands
+            manager.ActiveUnit.AwaitCommands();
+        }
+
+        public override void OnExit()
+        {
+            // Set not commanding
+            manager.Commanding = false;
         }
     }
 }

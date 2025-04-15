@@ -8,13 +8,15 @@ namespace Vampwolf.Grid
     public class GridHighlighter : MonoBehaviour
     {
         [Header("Pool")]
-        [SerializeField] private GameObject cellHighlightPrefab;
+        [SerializeField] private TileData cellHighlightPrefab;
         [SerializeField] private Transform highlightsParent;
         private GridManager gridManager;
         private GridHighlightPool highlightPool;
-        private List<GameObject> highlightList;
+        [SerializeField] private List<TileData> highlightedCells;
 
-        private EventBinding<HighlightCells> onHighlightCells;
+        private EventBinding<ClearHighlights> onClearHighlights;
+
+        public List<TileData> HighlightedCells => highlightedCells;
 
         private void Awake()
         {
@@ -22,18 +24,18 @@ namespace Vampwolf.Grid
             gridManager = GetComponent<GridManager>();
 
             // Initialize the highlight list
-            highlightList = new List<GameObject>();
+            highlightedCells = new List<TileData>();
         }
 
         private void OnEnable()
         {
-            onHighlightCells = new EventBinding<HighlightCells>(HighlightCellsInRange);
-            EventBus<HighlightCells>.Register(onHighlightCells);
+            onClearHighlights = new EventBinding<ClearHighlights>(ClearHighlights);
+            EventBus<ClearHighlights>.Register(onClearHighlights);
         }
 
         private void OnDisable()
         {
-            EventBus<HighlightCells>.Deregister(onHighlightCells);
+            EventBus<ClearHighlights>.Deregister(onClearHighlights);
         }
 
         private void Start()
@@ -53,14 +55,14 @@ namespace Vampwolf.Grid
         public void ClearHighlights()
         {
             // Iterate through each grid highlight
-            foreach(GameObject highlight in highlightList)
+            foreach(TileData highlight in highlightedCells)
             {
                 // Release the highlight back to the pool
                 highlightPool.Release(highlight);
             }
 
             // Clear the list of highlights
-            highlightList.Clear();
+            highlightedCells.Clear();
         }
 
         /// <summary>
@@ -78,20 +80,46 @@ namespace Vampwolf.Grid
                 Vector3 worldPos = gridManager.GetWorldPositionFromGrid(cellPosition);
 
                 // Get a highlight from the pool
-                GameObject highlight = highlightPool.Get();
+                TileData highlight = highlightPool.Get();
 
-                // Set its transform to the world position of the cell
+                // Set the grid position of the cell
+                highlight.GridPosition = cellPosition;
+
+                // Set the world position of the cell
                 highlight.transform.position = worldPos;
+
+                // Add the highlight to the list of highlights
+                highlightedCells.Add(highlight);
             }
+        }
+
+        /// <summary>
+        /// Check if a cell is highlighted
+        /// </summary>
+        public bool IsCellHighlighted(Vector3Int cellPosition)
+        {
+            // Iterate through each grid highlight
+            foreach (TileData highlight in highlightedCells)
+            {
+                // Check if the grid positions are the same
+                if (highlight.GridPosition == cellPosition)
+                {
+                    // Return true
+                    return true;
+                }
+            }
+
+            // Return false if no grid positions of the same cell were found
+            return false;
         }
 
         /// <summary>
         /// Callback function to highlight cells within the range of a given grid position
         /// </summary>
-        public void HighlightCellsInRange(HighlightCells eventData)
+        public void HighlightCellsInRange(Vector3Int gridPosition, int range)
         {
             // Get the cell positions within range of the given grid position
-            List<Vector3Int> cellPositions = gridManager.GetReachableCells(eventData.GridPosition, eventData.Range);
+            List<Vector3Int> cellPositions = gridManager.GetReachableCells(gridPosition, range);
 
             // Highlight the cells
             HighlightCells(cellPositions);

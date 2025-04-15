@@ -48,3 +48,9 @@ TagManager:
   - name: Highlight
     uniqueID: 634569863
     locked: 0
+  - name: Cursor
+    uniqueID: 411541955
+    locked: 0
+  - name: UI
+    uniqueID: 4205278001
+    locked: 0

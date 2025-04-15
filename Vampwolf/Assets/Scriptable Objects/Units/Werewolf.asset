@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b1f858372ee5a94ea5ce9a80e80a536, type: 3}
-  m_Name: Unit Stats
+  m_Name: Werewolf
   m_EditorClassIdentifier: 
   minStatValue: 1
   maxStatValue: 20
+  Might: 15
+  Fortitude: 12
+  Agility: 10
   minMovementRange: 2
   maxMovementRange: 8

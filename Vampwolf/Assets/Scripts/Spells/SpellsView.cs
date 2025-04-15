@@ -144,5 +144,23 @@ namespace Vampwolf.Spells
                     break;
             }
         }
+
+        /// <summary>
+        /// Hide both spell bars
+        /// </summary>
+        public void HideSpells()
+        {
+            vampireSpellBar.SetVisibility(false);
+            werewolfSpellBar.SetVisibility(false);
+        }
+
+        /// <summary>
+        /// Disable both spell bars
+        /// </summary>
+        public void DisableSpells()
+        {
+            vampireSpellBar.Disable();
+            werewolfSpellBar.Disable();
+        }
     }
 }
