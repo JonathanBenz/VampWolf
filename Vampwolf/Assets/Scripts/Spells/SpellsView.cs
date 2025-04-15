@@ -89,8 +89,12 @@ namespace Vampwolf.Spells
             // Set the tooltip properties
             tooltip.Name = spell.Name;
             tooltip.Description = spell.Description;
-            tooltip.Cost = spell.Cost.ToString();
-            tooltip.Range = spell.Range.ToString();
+
+            string costColor = spell.Cost > 0 ? "<color=#B22222></color>" : "<color=#40826D></color>";
+            string costString = costColor.Insert(15, Mathf.Abs(spell.Cost).ToString());
+
+            tooltip.Cost = $"Cost: {costString}";
+            tooltip.Range = $"Range: {spell.Range.ToString()}";
 
             // Move the tool tip
             Vector2 position = vampireSpellBar.SpellButtons[index].transform.position;

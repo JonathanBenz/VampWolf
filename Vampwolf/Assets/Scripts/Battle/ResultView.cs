@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Vampwolf.EventBus;
 
 namespace Vampwolf
@@ -15,6 +17,10 @@ namespace Vampwolf
             winGroup.alpha = 0f;
             winGroup.interactable = false;
             winGroup.blocksRaycasts = false;
+
+            // Get the win button
+            Button winButton = winGroup.GetComponentInChildren<Button>();
+            winButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         }
 
         private void OnEnable()

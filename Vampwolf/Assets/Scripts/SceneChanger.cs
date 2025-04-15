@@ -6,7 +6,7 @@ public class SceneChanger : MonoBehaviour
     //Loads the Main Menu scene
     public void LoadMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene(1);
     }
 
     //Loads the main hub/overworld/shop game scene
