@@ -12,7 +12,7 @@ namespace Vampwolf.Spells
         [SerializeField] private SpellButton[] spellButtons;
         [SerializeField] private Image resourceFill;
         [SerializeField] private Text resourceText;
-        private CanvasGroup spellBarGroup;
+        [SerializeField] private CanvasGroup spellBarGroup;
 
         [Header("Tweening Settings")]
         [SerializeField] private float resourceTweenDuration = 0.5f;
@@ -25,8 +25,6 @@ namespace Vampwolf.Spells
         /// </summary>
         public void Initialize()
         {
-            spellBarGroup = GetComponent<CanvasGroup>();
-
             // Iterate through each spell button
             for (int i = 0; i < spellButtons.Length; i++)
             {
@@ -156,5 +154,10 @@ namespace Vampwolf.Spells
             spellBarGroup.interactable = visible;
             spellBarGroup.blocksRaycasts = visible;
         }
+
+        /// <summary>
+        /// Disable the spellbar
+        /// </summary>
+        public void Disable() => spellBarGroup.interactable = false;
     }
 }

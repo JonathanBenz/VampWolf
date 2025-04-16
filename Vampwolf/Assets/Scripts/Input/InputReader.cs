@@ -9,7 +9,7 @@ namespace Vampwolf.Input
 {
     public interface IInputReader
     {
-        void EnablePlayerActions();
+        void Enable();
     }
 
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Player Input")]
@@ -29,7 +29,11 @@ namespace Vampwolf.Input
         private bool ability2Status;
         private bool ability3Status;
 
-        public void EnablePlayerActions()
+        private void OnEnable() => Enable();
+
+        private void OnDisable() => Disable();
+
+        public void Enable()
         {
             if (inputActions == null)
             {
@@ -37,7 +41,19 @@ namespace Vampwolf.Input
                 inputActions.Player.SetCallbacks(this);
             }
 
-            inputActions.Enable();
+            inputActions.Player.Enable();
+        }
+
+        private void Disable() => inputActions.Player.Disable();
+
+        /// <summary>
+        /// In case the player ends their turn with an ability out, reset the flags.
+        /// </summary>
+        public void ResetAbilityFlags()
+        {
+            ability1Status = false;
+            ability2Status = false;
+            ability3Status = false;
         }
 
         public void OnSelect(InputAction.CallbackContext context)

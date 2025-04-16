@@ -15,4 +15,6 @@ MonoBehaviour:
   enemyType: 1
   Health: 50
   Damage: 20
+  MovementRange: 2
+  AttackRange: 5
   sprite: {fileID: 0}

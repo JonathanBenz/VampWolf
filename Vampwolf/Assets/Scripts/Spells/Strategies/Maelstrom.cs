@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.Units;
 
 namespace Vampwolf.Spells
 {
@@ -8,7 +9,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Damage all enemies within range
         /// </summary>
-        public override void Cast(Spell spell, SpellsModel model)
+        public override void Cast(Spell spell, BattleUnit unit)
         {
             // Implement the logic for casting the Maelstrom spell
             Debug.Log("Casting Maelstrom spell!");
