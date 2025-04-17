@@ -6,32 +6,32 @@ public class SceneChanger : MonoBehaviour
     //Loads the Main Menu scene
     public void LoadMenu()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Main Menu");
     }
 
     //Loads the main hub/overworld/shop game scene
     public void LoadHub()
     {
-        SceneManager.LoadScene("Game Scene");
+        SceneManager.LoadScene("Hub Scene");
     }
 
-    // //Loads the Forest/Thicket game scene
-    // public void LoadForest()
-    // {
-    //     SceneManager.LoadScene(); //Add the scene name when scene is created
-    // }
+    //Loads the Forest/Thicket game scene
+    public void LoadForest()
+    {
+        SceneManager.LoadScene("Game Scene"); //Add the scene name when scene is created
+    }
 
-    // //Loads the Mansion/Castle game scene
-    // public void LoadCastle()
-    // {
-    //     SceneManager.LoadScene(); //Add the scene name when scene is created
-    // }
+    //Loads the Mansion/Castle game scene
+    public void LoadCastle()
+    {
+        SceneManager.LoadScene("Castle Scene"); //Add the scene name when scene is created
+    }
 
-    // //Loads the Village game scene
-    // public void LoadVillage()
-    // {
-    //     SceneManager.LoadScene(); //Add the scene name when scene is created
-    // }
+    //Loads the Village game scene
+    public void LoadVillage()
+    {
+        SceneManager.LoadScene("Village Scene"); //Add the scene name when scene is created
+    }
 
     //Loads the Win Game scene
     public void LoadWinScreen()
@@ -50,7 +50,5 @@ public class SceneChanger : MonoBehaviour
     {
         Application.Quit();
     }
-
-
 
 }
