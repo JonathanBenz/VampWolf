@@ -45,6 +45,9 @@ TagManager:
   - name: Unit
     uniqueID: 748307023
     locked: 0
+  - name: Trees
+    uniqueID: 1111413811
+    locked: 0
   - name: Highlight
     uniqueID: 634569863
     locked: 0

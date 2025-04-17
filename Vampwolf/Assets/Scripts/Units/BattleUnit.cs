@@ -19,6 +19,8 @@ namespace Vampwolf.Units
         [SerializeField] protected UnitStats stats;
         [SerializeField] protected bool hasMoved;
         [SerializeField] protected bool hasCasted;
+        protected bool hasCurrentTurn;
+        protected SpriteRenderer spriteRenderer;
 
         public string Name => unitName;
         public Vector3Int GridPosition => gridPosition;
@@ -35,6 +37,9 @@ namespace Vampwolf.Units
             // Set to no actions taken this turn
             hasMoved = false;
             hasCasted = false;
+
+            // Cache local SpriteRenderer component
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         /// <summary>
@@ -103,5 +108,22 @@ namespace Vampwolf.Units
         /// Trigger behaviour on death
         /// </summary>
         protected abstract void OnDeath();
+
+        /// <summary>
+        /// Update unit's sprite to face cardinal directions dependent on circumstance
+        /// </summary>
+        protected void UpdateCharacterSprite(Vector3 targetPos)
+        {
+            // Calculate direction vector
+            Vector3 targetdir = (targetPos - this.transform.position).normalized;
+
+            // Set sprite to face either front or back
+            if (targetdir.y <= 0.2f) spriteRenderer.sprite = statData.frontFacingSprite;
+            else if (targetdir.y > 0.2f) spriteRenderer.sprite = statData.backFacingSprite;
+
+            // Set sprite to face either left or right
+            if (targetdir.x >= 0) transform.localScale = new Vector3(-1, 1, 1);
+            else if (targetdir.x < 0) transform.localScale = Vector3.one;
+        }
     }
 }

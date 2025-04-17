@@ -6,7 +6,7 @@ namespace Vampwolf
 {
     public class PauseMenu : MonoBehaviour
     {
-        public GameObject gamePanel;
+        //public GameObject gamePanel;
         public GameObject pausePanel;
         public GameObject optionsPanel;
         public GameObject controlsPanel;
@@ -17,7 +17,7 @@ namespace Vampwolf
         void Start()
         {
             //Make sure the game is the screen showing
-            gamePanel.SetActive(true);
+            //gamePanel.SetActive(true);
             pausePanel.SetActive(false);
             optionsPanel.SetActive(false);
             controlsPanel.SetActive(false);
@@ -47,7 +47,7 @@ namespace Vampwolf
         {
             isPaused = true;
             Time.timeScale = 0f; // Freeze the game
-            gamePanel.SetActive(false);
+            //gamePanel.SetActive(false);
             pausePanel.SetActive(true);
             optionsPanel.SetActive(false);
             controlsPanel.SetActive(false);
@@ -57,7 +57,7 @@ namespace Vampwolf
         {
             isPaused = false;
             Time.timeScale = 1f; // Unfreeze the game
-            gamePanel.SetActive(true);
+            //gamePanel.SetActive(true);
             pausePanel.SetActive(false);
             optionsPanel.SetActive(false);
             controlsPanel.SetActive(false);

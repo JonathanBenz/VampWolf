@@ -123,7 +123,7 @@ namespace Vampwolf.Grid
             currentSpell = null;
 
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Range);
+            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Range, eventData.tileColor);
         }
 
         /// <summary>
@@ -139,9 +139,9 @@ namespace Vampwolf.Grid
 
             // Set the selection state
             selectionState = SelectionMode.Target;
-
+            
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Spell.Range);
+            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Spell.Range, eventData.tileColor);
         }
 
         private void Select(bool started)
