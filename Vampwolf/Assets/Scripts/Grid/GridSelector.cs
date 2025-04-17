@@ -26,6 +26,7 @@ namespace Vampwolf.Grid
 
         [Header("Fields")]
         [SerializeField] private bool active;
+        [SerializeField] private bool isEnemyUsing;
         [SerializeField] private SelectionMode selectionState;
         private Vector3Int currentCellPos;
         private Vector3Int lastCellPos;
@@ -69,8 +70,8 @@ namespace Vampwolf.Grid
 
         private void Update()
         {
-            // Exit case - the selector is not active
-            if (!active) return;
+            // Exit case - the selector is not active, or an enemy AI is currently using it
+            if (!active || isEnemyUsing) return;
 
             // Get the current mouse position
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
@@ -106,7 +107,7 @@ namespace Vampwolf.Grid
         /// <summary>
         /// Set whether or not the grid selector is active
         /// </summary>
-        private void SetGridSelector(SetGridSelector eventData) => active = eventData.Active;
+        private void SetGridSelector(SetGridSelector eventData) { active = eventData.Active; isEnemyUsing = eventData.isEnemyTurn; }
 
         /// <summary>
         /// Set the movement selection mode
@@ -178,6 +179,55 @@ namespace Vampwolf.Grid
                     });
                     break;
             }
+        }
+
+        /// <summary>
+        /// During an enemy's turn, this method is called to handle their movement behavior
+        /// </summary>
+        /// <param name="gridPos">The enemy's current GridPosition from raising the SetMovementSelectionMode event.</param>
+        /// <param name="targetPos">Where the enemy wants to move toward (e.g., the closest player's location).</param>
+        public void EnemyCellSelect(Vector3Int gridPos, Vector3 targetPos)
+        {
+            Vector3Int target = gridManager.GetGridPositionFromWorld(targetPos);
+
+            // Calculate the path to the target player and the unit's highlighted cells to choose from
+            List<Vector3Int> path = gridManager.FindPath(gridPos, target);
+            List<TileData> highlightedTiles = gridHighlighter.HighlightedCells;
+
+            // Find the best highlighted tile to go to 
+            Vector3Int bestTile = gridPos;
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                bool isHighlighted = highlightedTiles.Exists(h => h.GridPosition == path[i]);
+                if (isHighlighted) bestTile = path[i]; // Update the best tile
+
+                // If we reach a tile that is no longer within the Unit's movement range, then break out because we have already found the best possible tile
+                else break;
+            }
+
+            StartCoroutine(GoToBestCalculatedTile(bestTile));
+        }
+
+        /// <summary>
+        /// Helper coroutine to move the Enemy to the best calculated tile during EnemyCellSelect()
+        /// </summary>
+        /// <param name="bestTile"></param>
+        /// <returns></returns>
+        private System.Collections.IEnumerator GoToBestCalculatedTile(Vector3Int bestTile)
+        {
+            // Activate the hover cursor over the bestTile
+            hoverCursor.transform.position = gridManager.GetWorldPositionFromGrid(bestTile);
+            currentCellPos = bestTile;
+            hoverCursor.SetActive(true);
+
+            yield return new WaitForSeconds(1f); // Have the hover appear for a second before raising the event
+
+            // Move to the bestTile
+            EventBus<MoveCellSelected>.Raise(new MoveCellSelected()
+            {
+                GridManager = gridManager,
+                GridPosition = currentCellPos
+            });
         }
     }
 }
