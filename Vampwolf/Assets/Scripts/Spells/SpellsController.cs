@@ -101,7 +101,8 @@ namespace Vampwolf.Spells
             EventBus<SetSpellSelectionMode>.Raise(new SetSpellSelectionMode()
             {
                 Spell = model.VampireSpells[index],
-                GridPosition = castingUnit.GridPosition
+                GridPosition = castingUnit.GridPosition,
+                tileColor = 1
             });
         }
 
@@ -114,7 +115,8 @@ namespace Vampwolf.Spells
             EventBus<SetSpellSelectionMode>.Raise(new SetSpellSelectionMode()
             {
                 Spell = model.WerewolfSpells[index],
-                GridPosition = castingUnit.GridPosition
+                GridPosition = castingUnit.GridPosition,
+                tileColor = 1
             });
         }
 

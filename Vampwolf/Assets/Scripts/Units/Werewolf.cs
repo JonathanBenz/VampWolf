@@ -14,6 +14,7 @@ namespace Vampwolf.Units
             // Set that the werewolf has not moved or attacked
             hasMoved = false;
             hasCasted = false;
+            hasCurrentTurn = true;
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
@@ -25,7 +26,8 @@ namespace Vampwolf.Units
             EventBus<SetMovementSelectionMode>.Raise(new SetMovementSelectionMode()
             {
                 GridPosition = gridPosition,
-                Range = stats.MovementRange
+                Range = stats.MovementRange,
+                tileColor = 0
             });
 
             // Display the werewolf UI
@@ -62,12 +64,15 @@ namespace Vampwolf.Units
             EventBus<SetMovementSelectionMode>.Raise(new SetMovementSelectionMode()
             {
                 GridPosition = gridPosition,
-                Range = stats.MovementRange
+                Range = stats.MovementRange,
+                tileColor = 0
             });
         }
 
         public override async UniTask EndTurn()
         {
+            hasCurrentTurn = false;
+
             // Hide the end turn button
             EventBus<SetEndTurnButton>.Raise(new SetEndTurnButton()
             {
@@ -79,7 +84,7 @@ namespace Vampwolf.Units
 
             // Clear the highlights
             EventBus<ClearHighlights>.Raise(new ClearHighlights());
-
+            
             await UniTask.CompletedTask;
         }
 
@@ -91,7 +96,13 @@ namespace Vampwolf.Units
                 IsEnemy = false
             });
 
-            Destroy(this);
+            // Display unit death sprite
+            spriteRenderer.sprite = statData.deathSprite;
+        }
+
+        private void FixedUpdate()
+        {
+            if (hasCurrentTurn) UpdateCharacterSprite(UnityEngine.Camera.main.ScreenToWorldPoint(UnityEngine.InputSystem.Mouse.current.position.ReadValue()));
         }
     }
 }

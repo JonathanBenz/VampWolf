@@ -17,5 +17,10 @@ namespace Vampwolf.Units
         [Header("Agility")]
         public int minMovementRange;
         public int maxMovementRange;
+
+        [Header("Sprites")]
+        public Sprite frontFacingSprite;
+        public Sprite backFacingSprite;
+        public Sprite deathSprite;
     }
 }

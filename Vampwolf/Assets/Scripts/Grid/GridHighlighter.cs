@@ -68,12 +68,12 @@ namespace Vampwolf.Grid
         /// <summary>
         /// Highlight a list of cells
         /// </summary>
-        public void HighlightCells(List<Vector3Int> cellPositions)
+        public void HighlightCells(List<Vector3Int> cellPositions, int tileColor)
         {
             // Clear the previous highlights
             ClearHighlights();
 
-            // Itearte through each cell position
+            // Iterate through each cell position
             foreach(Vector3Int cellPosition in cellPositions)
             {
                 // Get the world position of the cell from the grid position
@@ -87,6 +87,8 @@ namespace Vampwolf.Grid
 
                 // Set the world position of the cell
                 highlight.transform.position = worldPos;
+
+                highlight.SetTileColor(tileColor);
 
                 // Add the highlight to the list of highlights
                 highlightedCells.Add(highlight);
@@ -116,13 +118,13 @@ namespace Vampwolf.Grid
         /// <summary>
         /// Callback function to highlight cells within the range of a given grid position
         /// </summary>
-        public void HighlightCellsInRange(Vector3Int gridPosition, int range)
+        public void HighlightCellsInRange(Vector3Int gridPosition, int range, int tileColor)
         {
             // Get the cell positions within range of the given grid position
             List<Vector3Int> cellPositions = gridManager.GetReachableCells(gridPosition, range);
 
             // Highlight the cells
-            HighlightCells(cellPositions);
+            HighlightCells(cellPositions, tileColor);
         }
     }
 }

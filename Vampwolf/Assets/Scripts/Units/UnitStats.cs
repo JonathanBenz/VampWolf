@@ -21,7 +21,7 @@ namespace Vampwolf.Units
             }
         }
 
-        public int Initiative { get => Agility; }
+        public int Initiative { get => Agility + Random.Range(1, 7); } // Roll 1D6 + Agility for Initiative roll
 
         public UnitStats(UnitStatData data)
         {

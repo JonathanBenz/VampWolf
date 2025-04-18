@@ -13,6 +13,7 @@ namespace Vampwolf.Units
 
         public override async UniTask EndTurn()
         {
+            hasCurrentTurn = false;
             await UniTask.CompletedTask;
         }
 
@@ -20,6 +21,7 @@ namespace Vampwolf.Units
         {
             hasMoved = false;
             hasCasted = false;
+            hasCurrentTurn = true;
 
             await UniTask.CompletedTask;
         }
@@ -34,7 +36,10 @@ namespace Vampwolf.Units
             });
 
             // Hide the unit
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+
+            // Display unit death sprite
+            spriteRenderer.sprite = statData.deathSprite;
         }
     }
 }
