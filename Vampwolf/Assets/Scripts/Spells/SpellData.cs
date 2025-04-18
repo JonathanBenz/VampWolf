@@ -5,7 +5,8 @@ namespace Vampwolf.Spells
     public enum CharacterType
     {
         Vampire,
-        Werewolf
+        Werewolf,
+        Enemy
     }
 
     [CreateAssetMenu(fileName = "Spell Data", menuName = "Spells/Data")]

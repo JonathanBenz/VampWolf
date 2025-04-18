@@ -2,8 +2,8 @@ using Cysharp.Threading.Tasks;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 using Vampwolf.Grid;
+using Vampwolf.Spells;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Vampwolf.Units
 {
@@ -13,24 +13,44 @@ namespace Vampwolf.Units
         private Transform werewolf;
         private Vector3 closestTargetPos = Vector3.positiveInfinity;
         private GridSelector gridSelector;
+        private SpellsController spellController;
+
+        private EventBinding<CommandProcessed> onCommandProcessed;
+        private UniTaskCompletionSource commandCompletionSource;
+
+        private const int Melee = 0;
 
         private void Start()
         {
-            gridSelector = FindObjectOfType<GridSelector>();
             vampire = FindObjectOfType<Vampire>().transform;
             werewolf = FindObjectOfType<Werewolf>().transform;
+            gridSelector = FindObjectOfType<GridSelector>();
+            spellController = FindObjectOfType<SpellsController>();
+        }
+
+        private void OnEnable()
+        {
+            onCommandProcessed = new EventBinding<CommandProcessed>(OnEnemyCommandComplete);
+            EventBus<CommandProcessed>.Register(onCommandProcessed);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<CommandProcessed>.Deregister(onCommandProcessed);
         }
 
         public override void AwaitCommands()
         {
-            MoveToClosestPlayer();
-            AttackIfPossible();
-            //EventBus<SkipTurn>.Raise(new SkipTurn());
+            ExecuteEnemyTurn().Forget();
         }
 
         public override async UniTask EndTurn()
         {
             hasCurrentTurn = false;
+
+            // Clear the highlights
+            EventBus<ClearHighlights>.Raise(new ClearHighlights());
+
             await UniTask.CompletedTask;
         }
 
@@ -61,17 +81,29 @@ namespace Vampwolf.Units
                 IsEnemy = true
             });
 
-            // Hide the unit
-            //gameObject.SetActive(false);
-
             // Display unit death sprite
             spriteRenderer.sprite = statData.deathSprite;
+        }
+
+        private async UniTask ExecuteEnemyTurn()
+        {
+            await MoveToClosestPlayer();  
+            await AttackIfPossible();
+
+            EventBus<SkipTurn>.Raise(new SkipTurn());
+        }
+
+        private void OnEnemyCommandComplete()
+        {
+            if (!hasCurrentTurn) return;
+
+            commandCompletionSource?.TrySetResult(); // complete the UniTask
         }
 
         /// <summary>
         /// This will command the active enemy unit to move toward the closest player
         /// </summary>
-        private void MoveToClosestPlayer()
+        private async UniTask MoveToClosestPlayer()
         {
             closestTargetPos = CalculateClosestPlayer();
             if (Mathf.Abs((transform.position - closestTargetPos).magnitude) <= 1.415f) return; // If already 1 tile away from target, there is no need to move
@@ -84,9 +116,32 @@ namespace Vampwolf.Units
                 tileColor = 0
             });
 
+            commandCompletionSource = new UniTaskCompletionSource();
             // Calculate the path to the player and move towards there
-            Vector3Int start = gridPosition;
-            gridSelector.EnemyCellSelect(GridPosition, closestTargetPos);
+            gridSelector.EnemyMovementCellSelect(GridPosition, closestTargetPos);
+            //hasMoved = true;
+
+            // Wait until movement is complete 
+            await commandCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// This will command the enemy to attack if an enemy is within their attack's range
+        /// </summary>
+        /// <returns></returns>
+        private async UniTask AttackIfPossible()
+        {
+            spellController.EnemySpellSelect(Melee, this);
+
+            commandCompletionSource = new UniTaskCompletionSource();
+
+            // If no enemy can be attacked, set command as complete in order to move on
+            if (!gridSelector.EnemyAttackCellSelect(GridPosition, closestTargetPos)) OnEnemyCommandComplete();
+            //hasCasted = true;
+
+            await commandCompletionSource.Task;
+
+            commandCompletionSource = null;
         }
 
         /// <summary>
@@ -97,11 +152,6 @@ namespace Vampwolf.Units
         {
             return (Vector3.Distance(transform.position, vampire.position) <= Vector3.Distance(transform.position, werewolf.position))
                 ? vampire.position : werewolf.position;
-        }
-
-        private void AttackIfPossible()
-        {
-
         }
     }
 }

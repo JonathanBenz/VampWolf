@@ -38,4 +38,6 @@ namespace Vampwolf
     }
 
     public struct BattleWon : IEvent { }
+
+    public struct CommandProcessed : IEvent { }
 }

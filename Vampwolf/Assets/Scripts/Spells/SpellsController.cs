@@ -164,5 +164,21 @@ namespace Vampwolf.Spells
         /// Disable the spells to prevent them from being used
         /// </summary>
         private void DisableSpells() => view.DisableSpells();
+
+        /// <summary>
+        /// Cast the enemy spell at the given index
+        /// </summary>
+        /// <param name="index">Index of the spell to cast.</param>
+        /// <param name="gridPos">Current position of the enemy Unit.</param>
+        public void EnemySpellSelect(int index, BattleUnit castingUnit)
+        {
+            // Set the spell selection mode using the spell at the given index
+            EventBus<SetSpellSelectionMode>.Raise(new SetSpellSelectionMode()
+            {
+                Spell = model.EnemySpells[index],
+                GridPosition = castingUnit.GridPosition,
+                tileColor = 1
+            });
+        }
     }
 }

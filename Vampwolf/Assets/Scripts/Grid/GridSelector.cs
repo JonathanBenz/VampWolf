@@ -186,7 +186,7 @@ namespace Vampwolf.Grid
         /// </summary>
         /// <param name="gridPos">The enemy's current GridPosition from raising the SetMovementSelectionMode event.</param>
         /// <param name="targetPos">Where the enemy wants to move toward (e.g., the closest player's location).</param>
-        public void EnemyCellSelect(Vector3Int gridPos, Vector3 targetPos)
+        public void EnemyMovementCellSelect(Vector3Int gridPos, Vector3 targetPos)
         {
             Vector3Int target = gridManager.GetGridPositionFromWorld(targetPos);
 
@@ -205,7 +205,31 @@ namespace Vampwolf.Grid
                 else break;
             }
 
-            StartCoroutine(GoToBestCalculatedTile(bestTile));
+            StartCoroutine(MoveToBestCalculatedTile(bestTile));
+        }
+
+        /// <summary>
+        /// During an enemy's turn, this method is called to handle their attack behavior. Return false if no target can be attacked
+        /// </summary>
+        /// <param name="gridPos"></param>
+        /// <param name="targetPos"></param>
+        public bool EnemyAttackCellSelect(Vector3Int gridPos, Vector3 targetPos)
+        {
+            Vector3Int target = gridManager.GetGridPositionFromWorld(targetPos);
+
+            // Calculate the path to the target player and the unit's highlighted cells to choose from
+            List<Vector3Int> path = gridManager.FindPath(gridPos, target);
+            List<TileData> highlightedTiles = gridHighlighter.HighlightedCells;
+
+            // Find if the enemy lies on a highlighted tile
+            Vector3Int enemyTile = path[path.Count - 1];
+            if (highlightedTiles.Exists(h => h.GridPosition == enemyTile))
+            {
+                StartCoroutine(AttackEnemyTile(enemyTile));
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -213,7 +237,7 @@ namespace Vampwolf.Grid
         /// </summary>
         /// <param name="bestTile"></param>
         /// <returns></returns>
-        private System.Collections.IEnumerator GoToBestCalculatedTile(Vector3Int bestTile)
+        private System.Collections.IEnumerator MoveToBestCalculatedTile(Vector3Int bestTile)
         {
             // Activate the hover cursor over the bestTile
             hoverCursor.transform.position = gridManager.GetWorldPositionFromGrid(bestTile);
@@ -222,10 +246,30 @@ namespace Vampwolf.Grid
 
             yield return new WaitForSeconds(1f); // Have the hover appear for a second before raising the event
 
+            hoverCursor.SetActive(false);
             // Move to the bestTile
             EventBus<MoveCellSelected>.Raise(new MoveCellSelected()
             {
                 GridManager = gridManager,
+                GridPosition = currentCellPos
+            });
+        }
+
+        private System.Collections.IEnumerator AttackEnemyTile(Vector3Int enemyTile)
+        {
+            // Activate the hover cursor over the player character
+            hoverCursor.transform.position = gridManager.GetWorldPositionFromGrid(enemyTile);
+            currentCellPos = enemyTile;
+            hoverCursor.SetActive(true);
+
+            yield return new WaitForSeconds(1f);
+
+            hoverCursor.SetActive(false);
+            // Exit case - there's no spell selected
+            if (currentSpell == null) { Debug.Log("ERROR: Enemy Spell was NULL"); yield break; }
+            EventBus<TargetCellSelected>.Raise(new TargetCellSelected()
+            {
+                Spell = currentSpell,
                 GridPosition = currentCellPos
             });
         }

@@ -8,6 +8,8 @@ namespace Vampwolf.Spells
     {
         private ObservableList<Spell> vampireSpells = new ObservableList<Spell>();
         private ObservableList<Spell> werewolfSpells = new ObservableList<Spell>();
+        private ObservableList<Spell> enemySpells = new ObservableList<Spell>();
+
         private float blood;
         private float rage;
 
@@ -16,6 +18,8 @@ namespace Vampwolf.Spells
 
         public ObservableList<Spell> VampireSpells => vampireSpells;
         public ObservableList<Spell> WerewolfSpells => werewolfSpells;
+        public ObservableList<Spell> EnemySpells => enemySpells;
+
 
         public float Blood
         {
@@ -65,6 +69,14 @@ namespace Vampwolf.Spells
 
                     // Add the spell to the Werewolf Spells list
                     werewolfSpells.Add(spell);
+                    break;
+
+                case CharacterType.Enemy:
+                    // Exit case - if the spell is already in the list
+                    if (enemySpells.Contains(spell)) return;
+
+                    // Add the spell to the Enemy Spells list
+                    enemySpells.Add(spell);
                     break;
             }
         }
