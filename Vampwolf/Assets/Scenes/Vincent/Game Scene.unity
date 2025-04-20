@@ -3430,6 +3430,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9410a93e335a8614dbc12af92934324d, type: 2}
   - {fileID: 11400000, guid: 61fcb56f55d22ee46a4bb1f4b196d099, type: 2}
   - {fileID: 11400000, guid: 13565078628669742a5d8b1ed2b723c7, type: 2}
+  - {fileID: 11400000, guid: 94292a95996960643882a942d3a4b60b, type: 2}
 --- !u!1 &1071201818
 GameObject:
   m_ObjectHideFlags: 0
@@ -9816,6 +9817,7 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: d79bfda700ee78b42a3fa989b48fe37c, type: 2}
   hoverCursorPrefab: {fileID: 2294832339045570464, guid: a04e5d0e0ca48774c980b48c85f32739, type: 3}
   active: 0
+  isEnemyUsing: 0
   selectionState: 0
 --- !u!1 &1661891244
 GameObject:

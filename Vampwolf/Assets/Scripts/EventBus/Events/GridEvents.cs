@@ -17,6 +17,7 @@ namespace Vampwolf.Events
     public struct SetGridSelector : IEvent
     {
         public bool Active;
+        public bool isEnemyTurn;
     }
 
     public struct SetMovementSelectionMode : IEvent 

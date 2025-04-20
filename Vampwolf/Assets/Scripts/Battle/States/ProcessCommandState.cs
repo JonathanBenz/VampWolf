@@ -29,6 +29,8 @@ namespace Vampwolf.Battles.States
 
             manager.Processing = false;
 
+            EventBus<CommandProcessed>.Raise(new CommandProcessed());
+
             // Check if the active unit has not moved or casted
             if (!manager.ActiveUnit.HasMoved || !manager.ActiveUnit.HasCasted)
                 // Set commanding to true
