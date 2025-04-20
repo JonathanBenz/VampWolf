@@ -204,7 +204,6 @@ namespace Vampwolf.Grid
                 // If we reach a tile that is no longer within the Unit's movement range, then break out because we have already found the best possible tile
                 else break;
             }
-
             StartCoroutine(MoveToBestCalculatedTile(bestTile));
         }
 

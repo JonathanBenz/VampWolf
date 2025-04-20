@@ -87,8 +87,11 @@ namespace Vampwolf.Units
 
         private async UniTask ExecuteEnemyTurn()
         {
-            await MoveToClosestPlayer();  
+            await MoveToClosestPlayer();
+            await UniTask.Delay(100);
+
             await AttackIfPossible();
+            await UniTask.Delay(100);
 
             EventBus<SkipTurn>.Raise(new SkipTurn());
         }
@@ -105,6 +108,8 @@ namespace Vampwolf.Units
         /// </summary>
         private async UniTask MoveToClosestPlayer()
         {
+            if (hasMoved) return;
+
             closestTargetPos = CalculateClosestPlayer();
             if (Mathf.Abs((transform.position - closestTargetPos).magnitude) <= 1.415f) return; // If already 1 tile away from target, there is no need to move
 
@@ -119,7 +124,6 @@ namespace Vampwolf.Units
             commandCompletionSource = new UniTaskCompletionSource();
             // Calculate the path to the player and move towards there
             gridSelector.EnemyMovementCellSelect(GridPosition, closestTargetPos);
-            //hasMoved = true;
 
             // Wait until movement is complete 
             await commandCompletionSource.Task;
@@ -131,13 +135,13 @@ namespace Vampwolf.Units
         /// <returns></returns>
         private async UniTask AttackIfPossible()
         {
+            if (hasCasted) return;
             spellController.EnemySpellSelect(Melee, this);
 
             commandCompletionSource = new UniTaskCompletionSource();
 
             // If no enemy can be attacked, set command as complete in order to move on
             if (!gridSelector.EnemyAttackCellSelect(GridPosition, closestTargetPos)) OnEnemyCommandComplete();
-            //hasCasted = true;
 
             await commandCompletionSource.Task;
 
