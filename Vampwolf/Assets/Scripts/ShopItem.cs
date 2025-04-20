@@ -8,27 +8,31 @@ namespace Vampwolf
 {
 public class ShopItem : MonoBehaviour
 {
-    public string itemName;
-    public int cost;
+    public string itemName; // e.g. "VampItem"
+    public int itemCost = 25;
+    public Button button;
 
-    public TextMeshProUGUI itemLabel;
-    public Button buyButton;
-
-    private void Start()
+    void Start()
     {
-        itemLabel.text = $"{itemName} - {cost} Coins";
-        buyButton.onClick.AddListener(BuyItem);
+        if (InventoryManager.Instance.HasItem(itemName))
+        {
+            button.gameObject.SetActive(false);
+        }
     }
 
-    void BuyItem()
+    public void BuyItem()
     {
-        if (InventoryManager.Instance.TryPurchase(itemName, cost))
+        var inv = InventoryManager.Instance;
+        if (inv.coins >= itemCost && !inv.HasItem(itemName))
         {
-            Debug.Log($"Purchased {itemName}");
+            inv.coins -= itemCost;
+            inv.AddItem(itemName);
+            button.gameObject.SetActive(false);
+            Debug.Log("Bought " + itemName);
         }
         else
         {
-            Debug.Log("Not enough coins!");
+            Debug.Log("Not enough coins or already owned.");
         }
     }
 }
