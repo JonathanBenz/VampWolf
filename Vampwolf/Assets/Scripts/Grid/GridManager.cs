@@ -95,25 +95,54 @@ namespace Vampwolf.Grid
             // Create a container to store the reachable cells
             List<Vector3Int> reachableCells = new List<Vector3Int>();
 
-            // Get the tilemap's cell bounds
-            BoundsInt bounds = gridTilemap.cellBounds;
+            // Track which cells we've already visited to avoid infinite loops and redundant checking
+            HashSet<Vector3Int> visited = new HashSet<Vector3Int>() { start };
 
-            // Iterate through the grid
-            for (int x = bounds.xMin; x < bounds.xMax; x++)
+            // Due to this being a BFS (breadth-first search), we need to use a queue
+            Queue<(Vector3Int pos, int cost)> queue = new Queue<(Vector3Int pos, int cost)>();
+            queue.Enqueue((start, 0));
+
+            // Get the four cardinal directions
+            Vector3Int[] dirs = {
+                new Vector3Int( 1,  0, 0),
+                new Vector3Int(-1,  0, 0),
+                new Vector3Int( 0,  1, 0),
+                new Vector3Int( 0, -1, 0)
+            };
+
+            // BFS loop - expand outward one "ring" at a time
+            while(queue.Count > 0)
             {
-                for (int y = bounds.yMin; y < bounds.yMax; y++)
+                // Get the current position and cost
+                (Vector3Int currentPos, int cost) = queue.Dequeue();
+
+                // Don't want to include the start cell itself
+                if (cost > 0)
+                    reachableCells.Add(currentPos);
+
+                // Skip if we've already moved the maximum distance
+                if (cost == range)
+                    continue;
+
+                // Try all four cardinal neighbors
+                foreach (Vector3Int d in dirs)
                 {
-                    // Create a position at the current cell
-                    Vector3Int targetPos = new Vector3Int(x, y, 0);
+                    // Get the position of the neighbor
+                    Vector3Int next = currentPos + d;
 
-                    // Skip if the cell is not walkable
-                    if (!gridTilemap.HasTile(targetPos)) continue;
+                    // Skip if the neighbor has already been visited
+                    if (visited.Contains(next))
+                        continue;
 
-                    // Skip if the cell is outside the move range
-                    if (!IsCellReachable(start, targetPos, range)) continue;
+                    // Skip if there is no tile
+                    if (!gridTilemap.HasTile(next))
+                        continue;
 
-                    // Add the cell to the reachable cells list
-                    reachableCells.Add(targetPos);
+                    // Track the neighbor
+                    visited.Add(next);
+
+                    // Enquue the neighbor with the added cost for further expansion
+                    queue.Enqueue((next, cost + 1));
                 }
             }
 

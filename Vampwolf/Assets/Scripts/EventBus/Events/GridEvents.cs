@@ -24,14 +24,14 @@ namespace Vampwolf.Events
     {
         public Vector3Int GridPosition;
         public int Range;
-        public int tileColor;
+        public int TileColor;
     }
 
     public struct SetSpellSelectionMode : IEvent
     {
         public Spell Spell;
         public Vector3Int GridPosition;
-        public int tileColor;
+        public int TileColor;
     }
 
     public struct MoveCellSelected : IEvent

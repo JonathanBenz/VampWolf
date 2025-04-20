@@ -1,8 +1,24 @@
+using Vampwolf.EventBus;
+using Vampwolf.Events;
+using Vampwolf.Input;
+using Vampwolf.Units;
+
 namespace Vampwolf.Battles.States
 {
     public class AwaitCommandState : BattleState
     {
-        public AwaitCommandState(BattleManager manager) : base(manager) { }
+        private readonly InputReader inputReader;
+
+        public AwaitCommandState(BattleManager manager, InputReader inputReader) : base(manager) 
+        {
+            this.inputReader = inputReader;
+            inputReader.Cancel += Cancel;
+        }
+
+        ~AwaitCommandState()
+        {
+            inputReader.Cancel -= Cancel;
+        }
 
         public override void OnEnter()
         {
@@ -14,6 +30,22 @@ namespace Vampwolf.Battles.States
         {
             // Set not commanding
             manager.Commanding = false;
+        }
+
+        /// <summary>
+        /// Input handler for canceling a spell
+        /// </summary>
+        private void Cancel(bool started)
+        {
+            // Get the active unit
+            BattleUnit activeUnit = manager.ActiveUnit;
+
+            EventBus<SetMovementSelectionMode>.Raise(new SetMovementSelectionMode()
+            {
+                GridPosition = activeUnit.GridPosition,
+                Range = activeUnit.MovementLeft,
+                TileColor = 0
+            });
         }
     }
 }

@@ -102,7 +102,7 @@ namespace Vampwolf.Spells
             {
                 Spell = model.VampireSpells[index],
                 GridPosition = castingUnit.GridPosition,
-                tileColor = 1
+                TileColor = 1
             });
         }
 
@@ -116,7 +116,7 @@ namespace Vampwolf.Spells
             {
                 Spell = model.WerewolfSpells[index],
                 GridPosition = castingUnit.GridPosition,
-                tileColor = 1
+                TileColor = 1
             });
         }
 
@@ -177,7 +177,7 @@ namespace Vampwolf.Spells
             {
                 Spell = model.EnemySpells[index],
                 GridPosition = castingUnit.GridPosition,
-                tileColor = 1
+                TileColor = 1
             });
         }
     }

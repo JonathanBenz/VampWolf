@@ -71,6 +71,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""be159a99-c6c3-4747-93ce-7ccd654ec1ea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -126,6 +135,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""UseAbility3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2705332-0019-49d9-98de-1e433d0e3068"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -718,6 +738,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_UseAbility1 = m_Player.FindAction("UseAbility1", throwIfNotFound: true);
         m_Player_UseAbility2 = m_Player.FindAction("UseAbility2", throwIfNotFound: true);
         m_Player_UseAbility3 = m_Player.FindAction("UseAbility3", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -796,6 +817,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_UseAbility1;
     private readonly InputAction m_Player_UseAbility2;
     private readonly InputAction m_Player_UseAbility3;
+    private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -805,6 +827,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @UseAbility1 => m_Wrapper.m_Player_UseAbility1;
         public InputAction @UseAbility2 => m_Wrapper.m_Player_UseAbility2;
         public InputAction @UseAbility3 => m_Wrapper.m_Player_UseAbility3;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -829,6 +852,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UseAbility3.started += instance.OnUseAbility3;
             @UseAbility3.performed += instance.OnUseAbility3;
             @UseAbility3.canceled += instance.OnUseAbility3;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -848,6 +874,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UseAbility3.started -= instance.OnUseAbility3;
             @UseAbility3.performed -= instance.OnUseAbility3;
             @UseAbility3.canceled -= instance.OnUseAbility3;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1035,6 +1064,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnUseAbility1(InputAction.CallbackContext context);
         void OnUseAbility2(InputAction.CallbackContext context);
         void OnUseAbility3(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

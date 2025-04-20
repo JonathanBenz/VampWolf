@@ -5,6 +5,7 @@ using Vampwolf.Battles.Commands;
 using Vampwolf.Battles.States;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
+using Vampwolf.Input;
 using Vampwolf.StateMachines;
 using Vampwolf.Units;
 
@@ -12,6 +13,9 @@ namespace Vampwolf.Battles
 {
     public class BattleManager : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private InputReader inputReader;
+
         private Queue<BattleUnit> turnQueue;
         private Queue<IBattleCommand> commandQueue;
 
@@ -126,7 +130,7 @@ namespace Vampwolf.Battles
 
             // Create the states
             StartTurnState startTurn = new StartTurnState(this);
-            AwaitCommandState awaitCommand = new AwaitCommandState(this);
+            AwaitCommandState awaitCommand = new AwaitCommandState(this, inputReader);
             ProcessCommandState processCommand = new ProcessCommandState(this);
             NextTurnState nextTurn = new NextTurnState(this);
             EndBattleState endBattle = new EndBattleState(this);
@@ -155,16 +159,13 @@ namespace Vampwolf.Battles
         private void MoveActivePlayerUnit(MoveCellSelected eventData)
         {
             // Exit case - the unit has already moved
-            if (activeUnit.HasMoved) return;
+            if (activeUnit.MovementLeft <= 0) return;
 
             // Create a new move command
             MoveCommand moveCommand = new MoveCommand(activeUnit, eventData.GridManager, eventData.GridPosition);
 
             // Add the command to the queue
             commandQueue.Enqueue(moveCommand);
-
-            // Notify that the unit has moved
-            activeUnit.HasMoved = true;
         }
 
         /// <summary>

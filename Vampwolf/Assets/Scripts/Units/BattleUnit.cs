@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Vampwolf.Grid;
 using DG.Tweening;
 using Vampwolf.EventBus;
+using UnityEngine.UIElements;
 
 namespace Vampwolf.Units
 {
@@ -17,17 +18,18 @@ namespace Vampwolf.Units
         [SerializeField] protected Vector3Int gridPosition;
         [SerializeField] protected int health;
         [SerializeField] protected UnitStats stats;
-        [SerializeField] protected bool hasMoved;
         [SerializeField] protected bool hasCasted;
         protected bool hasCurrentTurn;
+        protected int movementLeft;
         protected SpriteRenderer spriteRenderer;
 
         public string Name => unitName;
         public Vector3Int GridPosition => gridPosition;
         public int Initiative => stats.Initiative;
-        public bool HasMoved { get => hasMoved; set => hasMoved = value; }
+        public int MovementLeft => movementLeft;
         public bool HasCasted { get => hasCasted; set => hasCasted = value; }
         public int Health => health;
+        public int MovementRange => stats.MovementRange;
 
         private void Awake()
         {
@@ -35,7 +37,7 @@ namespace Vampwolf.Units
             stats = new UnitStats(statData);
 
             // Set to no actions taken this turn
-            hasMoved = false;
+            movementLeft = MovementRange;
             hasCasted = false;
 
             // Cache local SpriteRenderer component
@@ -60,16 +62,21 @@ namespace Vampwolf.Units
         public async UniTask MoveThrough(GridManager gridManager, List<Vector3Int> path)
         {
             // Loop through the path
-            foreach (Vector3Int position in path)
+            for(int i = 0; i < path.Count; i++)
             {
                 // Get the world position
-                Vector3 worldPos = gridManager.GetWorldPositionFromGrid(position);
+                Vector3 worldPos = gridManager.GetWorldPositionFromGrid(path[i]);
 
                 // Wait for the unit to move to the new position
                 await transform.DOMove(worldPos, 0.5f).SetEase(Ease.Linear).ToUniTask();
 
                 // Update the grid position
-                gridPosition = position;
+                gridPosition = path[i];
+
+                // Skip the first movement (the zero node)
+                if (i == 0) continue;
+
+                movementLeft--;
             }
         }
 

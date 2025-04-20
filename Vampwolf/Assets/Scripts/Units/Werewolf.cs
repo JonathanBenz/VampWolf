@@ -12,7 +12,7 @@ namespace Vampwolf.Units
         public override async UniTask StartTurn()
         {
             // Set that the werewolf has not moved or attacked
-            hasMoved = false;
+            movementLeft = MovementRange;
             hasCasted = false;
             hasCurrentTurn = true;
 
@@ -27,7 +27,7 @@ namespace Vampwolf.Units
             {
                 GridPosition = gridPosition,
                 Range = stats.MovementRange,
-                tileColor = 0
+                TileColor = 0
             });
 
             // Display the werewolf UI
@@ -58,14 +58,14 @@ namespace Vampwolf.Units
             });
 
             // Exit case - has already moved
-            if (hasMoved) return;
+            if (movementLeft <= 0) return;
 
             // Set the movement selection mode
             EventBus<SetMovementSelectionMode>.Raise(new SetMovementSelectionMode()
             {
                 GridPosition = gridPosition,
-                Range = stats.MovementRange,
-                tileColor = 0
+                Range = movementLeft,
+                TileColor = 0
             });
         }
 

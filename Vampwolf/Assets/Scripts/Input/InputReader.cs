@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -17,6 +15,7 @@ namespace Vampwolf.Input
     {
         public event UnityAction<Vector2> Look = delegate { };
         public event UnityAction<bool> Select = delegate { };
+        public event UnityAction<bool> Cancel = delegate { };
         public event UnityAction<bool> UseAbility1 = delegate { };
         public event UnityAction<bool> UseAbility2 = delegate { };
         public event UnityAction<bool> UseAbility3 = delegate { };
@@ -65,6 +64,19 @@ namespace Vampwolf.Input
                     break;
                 case InputActionPhase.Canceled:
                     Select.Invoke(false);
+                    break;
+            }
+        }
+
+        public void OnCancel(InputAction.CallbackContext context)
+        {
+            switch (context.phase)
+            {
+                case InputActionPhase.Started:
+                    Cancel.Invoke(true);
+                    break;
+                case InputActionPhase.Canceled:
+                    Cancel.Invoke(false);
                     break;
             }
         }

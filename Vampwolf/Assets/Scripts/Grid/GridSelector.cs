@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ namespace Vampwolf.Grid
         private GridManager gridManager;
         private GridHighlighter gridHighlighter;
         private GameObject hoverCursor;
+
         private Spell currentSpell;
 
         [Header("Fields")]
@@ -124,7 +126,7 @@ namespace Vampwolf.Grid
             currentSpell = null;
 
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Range, eventData.tileColor);
+            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Range, eventData.TileColor);
         }
 
         /// <summary>
@@ -142,9 +144,12 @@ namespace Vampwolf.Grid
             selectionState = SelectionMode.Target;
             
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Spell.Range, eventData.tileColor);
+            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Spell.Range, eventData.TileColor);
         }
 
+        /// <summary>
+        /// Input handler for selecting a tile
+        /// </summary>
         private void Select(bool started)
         {
             // Exit case - the selector is not active
@@ -234,9 +239,7 @@ namespace Vampwolf.Grid
         /// <summary>
         /// Helper coroutine to move the Enemy to the best calculated tile during EnemyCellSelect()
         /// </summary>
-        /// <param name="bestTile"></param>
-        /// <returns></returns>
-        private System.Collections.IEnumerator MoveToBestCalculatedTile(Vector3Int bestTile)
+        private IEnumerator MoveToBestCalculatedTile(Vector3Int bestTile)
         {
             // Activate the hover cursor over the bestTile
             hoverCursor.transform.position = gridManager.GetWorldPositionFromGrid(bestTile);
@@ -254,7 +257,7 @@ namespace Vampwolf.Grid
             });
         }
 
-        private System.Collections.IEnumerator AttackEnemyTile(Vector3Int enemyTile)
+        private IEnumerator AttackEnemyTile(Vector3Int enemyTile)
         {
             // Activate the hover cursor over the player character
             hoverCursor.transform.position = gridManager.GetWorldPositionFromGrid(enemyTile);

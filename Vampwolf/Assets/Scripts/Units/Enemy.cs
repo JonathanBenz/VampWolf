@@ -56,7 +56,7 @@ namespace Vampwolf.Units
 
         public override async UniTask StartTurn()
         {
-            hasMoved = false;
+            movementLeft = MovementRange;
             hasCasted = false;
             hasCurrentTurn = true;
 
@@ -108,7 +108,8 @@ namespace Vampwolf.Units
         /// </summary>
         private async UniTask MoveToClosestPlayer()
         {
-            if (hasMoved) return;
+            // Exit case - still has movement
+            if (movementLeft <= 0) return;
 
             closestTargetPos = CalculateClosestPlayer();
             if (Mathf.Abs((transform.position - closestTargetPos).magnitude) <= 1.415f) return; // If already 1 tile away from target, there is no need to move
@@ -117,8 +118,8 @@ namespace Vampwolf.Units
             EventBus<SetMovementSelectionMode>.Raise(new SetMovementSelectionMode()
             {
                 GridPosition = gridPosition,
-                Range = stats.MovementRange,
-                tileColor = 0
+                Range = movementLeft,
+                TileColor = 0
             });
 
             commandCompletionSource = new UniTaskCompletionSource();
