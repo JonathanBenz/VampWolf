@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: Blood Lance
   Description: Hurl a spear of blood to damage a single enemy
   Cost: 35
-  Range: 7
+  Range: 4
   Icon: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   Strategy: {fileID: 11400000, guid: 1d8869327e9089243a9e0c91ef5b9c76, type: 2}

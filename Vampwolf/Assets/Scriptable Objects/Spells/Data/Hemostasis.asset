@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: Hemostasis
   Description: Heal a small amount to yourself or an ally
   Cost: -15
-  Range: 5
+  Range: 4
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   Strategy: {fileID: 11400000, guid: d82fc04353ee3824fa25ea9dbe4e415f, type: 2}
