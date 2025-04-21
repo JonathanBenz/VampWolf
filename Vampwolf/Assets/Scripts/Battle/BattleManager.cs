@@ -138,9 +138,9 @@ namespace Vampwolf.Battles
             // Definte state transitions
             stateMachine.At(startTurn, awaitCommand, new FuncPredicate(() => commanding));
             stateMachine.At(awaitCommand, processCommand, new FuncPredicate(() => commandQueue.Count > 0));
-            stateMachine.At(awaitCommand, nextTurn, new FuncPredicate(() => skippingTurn));
+            stateMachine.At(awaitCommand, nextTurn, new FuncPredicate(() => skippingTurn && commandQueue.Count == 0));
             stateMachine.At(processCommand, awaitCommand, new FuncPredicate(() => !processing && commanding));
-            stateMachine.At(processCommand, nextTurn, new FuncPredicate(() => !processing && !commanding));
+            stateMachine.At(processCommand, nextTurn, new FuncPredicate(() => !processing && !commanding && commandQueue.Count == 0));
             stateMachine.At(nextTurn, startTurn, new FuncPredicate(() => !changingTurns));
             stateMachine.Any(endBattle, new FuncPredicate(() => numberOfEnemies <= 0));
 

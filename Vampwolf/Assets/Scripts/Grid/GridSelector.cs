@@ -201,7 +201,7 @@ namespace Vampwolf.Grid
 
             // Find the best highlighted tile to go to 
             Vector3Int bestTile = gridPos;
-            for (int i = 0; i < path.Count - 1; i++)
+            for (int i = 1; i < path.Count - 1; i++)
             {
                 bool isHighlighted = highlightedTiles.Exists(h => h.GridPosition == path[i]);
                 if (isHighlighted) bestTile = path[i]; // Update the best tile

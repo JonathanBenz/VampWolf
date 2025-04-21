@@ -88,10 +88,10 @@ namespace Vampwolf.Units
         private async UniTask ExecuteEnemyTurn()
         {
             await MoveToClosestPlayer();
-            await UniTask.Delay(100);
+            //await UniTask.Delay(100);
 
             await AttackIfPossible();
-            await UniTask.Delay(100);
+            //await UniTask.Delay(100);
 
             EventBus<SkipTurn>.Raise(new SkipTurn());
         }
