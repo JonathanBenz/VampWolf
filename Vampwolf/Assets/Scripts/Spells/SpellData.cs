@@ -12,7 +12,7 @@ namespace Vampwolf.Spells
     [CreateAssetMenu(fileName = "Spell Data", menuName = "Spells/Data")]
     public class SpellData : ScriptableObject
     {
-        public CharacterType characterType;
+        public CharacterType CharacterType;
         public string Name;
         [TextArea] public string Description;
         public float Cost;

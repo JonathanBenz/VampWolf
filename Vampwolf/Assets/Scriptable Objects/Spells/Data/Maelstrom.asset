@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
   m_Name: Maelstrom
   m_EditorClassIdentifier: 
-  characterType: 1
+  CharacterType: 1
   Name: Maelstrom
   Description: Damage all enemies within range
   Cost: 50

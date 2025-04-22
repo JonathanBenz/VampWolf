@@ -11,8 +11,6 @@ namespace Vampwolf.Spells
         /// </summary>
         public override void Cast(Spell spell, BattleUnit unit)
         {
-            // Implement the logic for casting the Nightbind spell
-            Debug.Log("Casting Nightbind spell!");
         }
     }
 }

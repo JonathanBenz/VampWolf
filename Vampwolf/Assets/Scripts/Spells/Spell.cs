@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.EventBus;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -8,7 +9,7 @@ namespace Vampwolf.Spells
         private readonly SpellsModel model;
         private readonly SpellData data;
 
-        public CharacterType CharacterType => data.characterType;
+        public CharacterType CharacterType => data.CharacterType;
         public string Name => data.Name;
         public string Description => data.Description;
         public float Cost => data.Cost;
@@ -40,6 +41,13 @@ namespace Vampwolf.Spells
                     model.Rage -= Cost;
                     break;
             }
+
+            // Raise the event to update data
+            EventBus<SpellCast>.Raise(new SpellCast()
+            {
+                CharacterType = data.CharacterType,
+                SpellName = data.Name
+            });
         }
     }
 }

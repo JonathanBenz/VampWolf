@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
   m_Name: Eclipse
   m_EditorClassIdentifier: 
-  characterType: 1
+  CharacterType: 1
   Name: Eclipse
   Description: Leap to an enemy and damage them
   Cost: 60

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
   m_Name: Melee
   m_EditorClassIdentifier: 
-  characterType: 2
+  CharacterType: 2
   Name: Melee
   Description: Swish swish stab!
   Cost: 0

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
+using Vampwolf.Spells;
 
 namespace Vampwolf.Units
 {
@@ -69,6 +70,9 @@ namespace Vampwolf.Units
             });
         }
 
+        /// <summary>
+        /// End the turn by hiding the end turn button and the spell bars
+        /// </summary>
         public override async UniTask EndTurn()
         {
             hasCurrentTurn = false;
@@ -88,6 +92,25 @@ namespace Vampwolf.Units
             await UniTask.CompletedTask;
         }
 
+        /// <summary>
+        /// Deal damage to this unit and update data
+        /// </summary>
+        public override void DealDamage(int damage)
+        {
+            // Call the parent DealDamage()
+            base.DealDamage(damage);
+
+            // Collect data
+            EventBus<DamageTaken>.Raise(new DamageTaken()
+            {
+                CharacterType = CharacterType.Werewolf,
+                Amount = damage
+            });
+        }
+
+        /// <summary>
+        /// Check if the unit is dead
+        /// </summary>
         protected override void OnDeath()
         {
             EventBus<RemoveUnit>.Raise(new RemoveUnit()

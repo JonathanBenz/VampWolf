@@ -83,7 +83,7 @@ namespace Vampwolf.Units
         /// <summary>
         /// Deal damage to the unit
         /// </summary>
-        public void DealDamage(int damage)
+        public virtual void DealDamage(int damage)
         {
             // Subtract the damage from the health
             health -= damage;

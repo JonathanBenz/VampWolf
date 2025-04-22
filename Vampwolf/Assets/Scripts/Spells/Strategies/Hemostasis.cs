@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.EventBus;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -11,10 +12,15 @@ namespace Vampwolf.Spells
         /// </summary>
         public override void Cast(Spell spell, BattleUnit unit)
         {
-            // Implement the logic for casting the Hemostasis spell
-
-            // PLACEHOLDER: heal 15 damage
+            // Heal the unit
             unit.DealDamage(-15);
+
+            // Collect data
+            EventBus<DamageHealed>.Raise(new DamageHealed()
+            {
+                CharacterType = CharacterType.Vampire,
+                Amount = 15
+            });
         }
     }
 }

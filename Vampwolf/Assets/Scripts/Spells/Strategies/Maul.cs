@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.EventBus;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -11,11 +12,15 @@ namespace Vampwolf.Spells
         /// </summary>
         public override void Cast(Spell spell, BattleUnit unit)
         {
-            // Implement the logic for casting the Maul spell
-            Debug.Log("Casting Maul spell!");
-
-            // PLACEHOLDER: deal 15 damage
+            // Deal damage to the unit
             unit.DealDamage(30);
+
+            // Collect data
+            EventBus<DamageDealt>.Raise(new DamageDealt()
+            {
+                CharacterType = CharacterType.Werewolf,
+                Amount = 30
+            });
         }
     }
 }
