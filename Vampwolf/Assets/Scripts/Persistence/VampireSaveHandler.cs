@@ -42,6 +42,9 @@ namespace Vampwolf
         /// </summary>
         private void UpdateDamageDealt(DamageDealt eventData)
         {
+            // Exit case - the enemy is attacking
+            if (eventData.CharacterType == CharacterType.Enemy) return;
+
             // Exit case - the werewolf's data is being updated
             if (eventData.CharacterType == CharacterType.Werewolf) return;
 
@@ -57,6 +60,9 @@ namespace Vampwolf
         /// </summary>
         private void UpdateDamageTaken(DamageTaken eventData)
         {
+            // Exit case - the enemy is attacking
+            if (eventData.CharacterType == CharacterType.Enemy) return;
+
             // Exit case - the werewolf's data is being updated
             if (eventData.CharacterType == CharacterType.Werewolf) return;
 
@@ -72,6 +78,9 @@ namespace Vampwolf
         /// </summary>
         private void UpdateDamageHealed(DamageHealed eventData)
         {
+            // Exit case - the enemy is attacking
+            if (eventData.CharacterType == CharacterType.Enemy) return;
+
             // Exit case - the werewolf's data is being updated
             if (eventData.CharacterType == CharacterType.Werewolf) return;
 
@@ -87,6 +96,9 @@ namespace Vampwolf
         /// </summary>
         private void UpdateSpellCount(SpellCast eventData)
         {
+            // Exit case - the enemy is attacking
+            if (eventData.CharacterType == CharacterType.Enemy) return;
+
             // Exit case - the werewolf's data is being updated
             if (eventData.CharacterType == CharacterType.Werewolf) return;
 

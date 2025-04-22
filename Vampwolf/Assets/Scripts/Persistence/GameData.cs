@@ -13,10 +13,18 @@ namespace Vampwolf.Persistence
     }
 
     [Serializable]
-    public class VampireData : ISaveable
+    public struct SpellCountPair
+    {
+        public string SpellName;
+        public int Count;
+    }
+
+    [Serializable]
+    public class VampireData : ISaveable, ISerializationCallbackReceiver
     {
         [field: SerializeField] public SerializableGuid ID { get; set; }
-        [SerializeField] private Dictionary<string, int> spellsCastedCount;
+        [SerializeField] private List<SpellCountPair> serializedSpellCounts = new();
+        private Dictionary<string, int> spellsCastedCount;
         public int DamageTaken;
         public int DamageDealt;
         public int DamageHealed;
@@ -42,13 +50,50 @@ namespace Vampwolf.Persistence
                 // Otherwise, set it
                 spellsCastedCount[spellName] = 1;
         }
+
+        /// <summary>
+        /// Handle copying data before serialization
+        /// </summary>
+        public void OnBeforeSerialize()
+        {
+            // Clear the list
+            serializedSpellCounts.Clear();
+
+            // Iterate through the dictionary
+            foreach (KeyValuePair<string, int> kvp in spellsCastedCount)
+            {
+                // Add the key-value pair to the list
+                serializedSpellCounts.Add(new SpellCountPair
+                {
+                    SpellName = kvp.Key,
+                    Count = kvp.Value
+                });
+            }
+        }
+
+        /// <summary>
+        /// Handle data copying after deserialization
+        /// </summary>
+        public void OnAfterDeserialize()
+        {
+            // Create the dictionary
+            spellsCastedCount = new Dictionary<string, int>();
+
+            // Iterate through the list
+            foreach (SpellCountPair pair in serializedSpellCounts)
+            {
+                // Set the data
+                spellsCastedCount[pair.SpellName] = pair.Count;
+            }
+        }
     }
 
     [Serializable]
-    public class WerewolfData : ISaveable
+    public class WerewolfData : ISaveable, ISerializationCallbackReceiver
     {
         [field: SerializeField] public SerializableGuid ID { get; set; }
-        [SerializeField] private Dictionary<string, int> spellsCastedCount;
+        [SerializeField] private List<SpellCountPair> serializedSpellCounts = new();
+        private Dictionary<string, int> spellsCastedCount;
         public int DamageTaken;
         public int DamageDealt;
         public int DamageHealed;
@@ -73,6 +118,42 @@ namespace Vampwolf.Persistence
             else
                 // Otherwise, set it
                 spellsCastedCount[spellName] = 1;
+        }
+
+        /// <summary>
+        /// Handle data copying before serialization
+        /// </summary>
+        public void OnBeforeSerialize()
+        {
+            // Clear the list
+            serializedSpellCounts.Clear();
+
+            // Iterate through the dictionary
+            foreach (KeyValuePair<string, int> kvp in spellsCastedCount)
+            {
+                // Add the key-value pair to the list
+                serializedSpellCounts.Add(new SpellCountPair
+                {
+                    SpellName = kvp.Key,
+                    Count = kvp.Value
+                });
+            }
+        }
+
+        /// <summary>
+        /// Handle data copying after deserialization
+        /// </summary>
+        public void OnAfterDeserialize()
+        {
+            // Create the dictionary
+            spellsCastedCount = new Dictionary<string, int>();
+
+            // Iterate through the list
+            foreach (SpellCountPair pair in serializedSpellCounts)
+            {
+                // Set the data
+                spellsCastedCount[pair.SpellName] = pair.Count;
+            }
         }
     }
 }
