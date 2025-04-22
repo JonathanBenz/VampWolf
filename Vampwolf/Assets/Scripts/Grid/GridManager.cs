@@ -95,54 +95,77 @@ namespace Vampwolf.Grid
             // Create a container to store the reachable cells
             List<Vector3Int> reachableCells = new List<Vector3Int>();
 
-            // Track which cells we've already visited to avoid infinite loops and redundant checking
-            HashSet<Vector3Int> visited = new HashSet<Vector3Int>() { start };
+            // Edge Case --> Make a full square if range is just 1 (playtesters were complaining about this)
+            if (range == 1) 
+            {
+                // Forget the four cardinal directions, get all eight!!!
+                Vector3Int[] dirs = {
+                new Vector3Int( 1,  0, 0),    // RIGHT
+                new Vector3Int(-1,  0, 0),    // LEFT
+                new Vector3Int( 0,  1, 0),    // UP
+                new Vector3Int( 0, -1, 0),    // DOWN
+                new Vector3Int( 1,  1, 0),    // TOP-RIGHT
+                new Vector3Int(-1,  1, 0),    // TOP-LEFT
+                new Vector3Int( 1,  -1, 0),   // BOTTOM-RIGHT
+                new Vector3Int( -1, -1, 0)};  // BOTTOM-LEFT
 
-            // Due to this being a BFS (breadth-first search), we need to use a queue
-            Queue<(Vector3Int pos, int cost)> queue = new Queue<(Vector3Int pos, int cost)>();
-            queue.Enqueue((start, 0));
+                foreach(Vector3Int d in dirs)
+                {
+                    reachableCells.Add(start + d);
+                }
+            }
 
-            // Get the four cardinal directions
-            Vector3Int[] dirs = {
+            // Regular Case
+            else
+            {
+                // Track which cells we've already visited to avoid infinite loops and redundant checking
+                HashSet<Vector3Int> visited = new HashSet<Vector3Int>() { start };
+
+                // Due to this being a BFS (breadth-first search), we need to use a queue
+                Queue<(Vector3Int pos, int cost)> queue = new Queue<(Vector3Int pos, int cost)>();
+                queue.Enqueue((start, 0));
+
+                // Get the four cardinal directions
+                Vector3Int[] dirs = {
                 new Vector3Int( 1,  0, 0),
                 new Vector3Int(-1,  0, 0),
                 new Vector3Int( 0,  1, 0),
-                new Vector3Int( 0, -1, 0)
-            };
+                new Vector3Int( 0, -1, 0)};
 
-            // BFS loop - expand outward one "ring" at a time
-            while(queue.Count > 0)
-            {
-                // Get the current position and cost
-                (Vector3Int currentPos, int cost) = queue.Dequeue();
-
-                // Don't want to include the start cell itself
-                if (cost > 0)
-                    reachableCells.Add(currentPos);
-
-                // Skip if we've already moved the maximum distance
-                if (cost == range)
-                    continue;
-
-                // Try all four cardinal neighbors
-                foreach (Vector3Int d in dirs)
+                // BFS loop - expand outward one "ring" at a time
+                while (queue.Count > 0)
                 {
-                    // Get the position of the neighbor
-                    Vector3Int next = currentPos + d;
+                    // Get the current position and cost
+                    (Vector3Int currentPos, int cost) = queue.Dequeue();
 
-                    // Skip if the neighbor has already been visited
-                    if (visited.Contains(next))
+                    // Don't want to include the start cell itself
+                    if (cost > 0)
+                        reachableCells.Add(currentPos);
+
+                    // Skip if we've already moved the maximum distance
+                    if (cost == range)
                         continue;
 
-                    // Skip if there is no tile
-                    if (!gridTilemap.HasTile(next))
-                        continue;
+                    // Try all four cardinal neighbors
+                    foreach (Vector3Int d in dirs)
+                    {
+                        // Get the position of the neighbor
+                        Vector3Int next = currentPos + d;
 
-                    // Track the neighbor
-                    visited.Add(next);
+                        // Skip if the neighbor has already been visited
+                        if (visited.Contains(next))
+                            continue;
 
-                    // Enquue the neighbor with the added cost for further expansion
-                    queue.Enqueue((next, cost + 1));
+                        // Skip if there is no tile
+                        if (!gridTilemap.HasTile(next))
+                            continue;
+
+                        // Track the neighbor
+                        visited.Add(next);
+
+                        // Enquue the neighbor with the added cost for further expansion
+                        queue.Enqueue((next, cost + 1));
+                    }
                 }
             }
 
