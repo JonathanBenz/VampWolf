@@ -111,6 +111,9 @@ namespace Vampwolf.Grid
 
                 foreach(Vector3Int d in dirs)
                 {
+                    if (!gridTilemap.HasTile(start + d))
+                        continue;
+
                     reachableCells.Add(start + d);
                 }
             }
@@ -163,7 +166,7 @@ namespace Vampwolf.Grid
                         // Track the neighbor
                         visited.Add(next);
 
-                        // Enquue the neighbor with the added cost for further expansion
+                        // Enqueue the neighbor with the added cost for further expansion
                         queue.Enqueue((next, cost + 1));
                     }
                 }
