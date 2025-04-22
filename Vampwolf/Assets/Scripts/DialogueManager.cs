@@ -78,6 +78,10 @@ namespace Vampwolf
             continueText.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// When the player beats a level, update the dialogue to reflect that progress
+        /// </summary>
+        /// <param name="newLines"></param>
         private void UpdateCurrentLines(List<DialogueLine> newLines)
         {
             currentLines = newLines;

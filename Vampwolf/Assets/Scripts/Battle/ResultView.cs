@@ -42,6 +42,11 @@ namespace Vampwolf
             winGroup.alpha = 1f;
             winGroup.interactable = true;
             winGroup.blocksRaycasts = true;
+
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 2) // Forest Level
+                ProgressTracker.Instance.level1Complete = true;
+            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 3) // Castle Level
+                ProgressTracker.Instance.level2Complete = true;
         }
     }
 }
