@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Vampwolf.Grid;
 using DG.Tweening;
 using Vampwolf.EventBus;
-using UnityEngine.UIElements;
 
 namespace Vampwolf.Units
 {
@@ -31,6 +30,8 @@ namespace Vampwolf.Units
         public bool HasCasted { get => hasCasted; set => hasCasted = value; }
         public int Health => health;
         public int MovementRange => stats.MovementRange;
+        public Sprite Frame => statData.frame;
+        public Sprite Portrait => statData.portrait;
 
         private void Awake()
         {

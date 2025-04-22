@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Vampwolf.Units
 {
@@ -22,5 +23,7 @@ namespace Vampwolf.Units
         public Sprite frontFacingSprite;
         public Sprite backFacingSprite;
         public Sprite deathSprite;
+        public Sprite frame;
+        public Sprite portrait;
     }
 }

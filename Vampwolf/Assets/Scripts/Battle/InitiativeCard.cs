@@ -9,8 +9,10 @@ namespace Vampwolf.Battles
     {
         [Header("References")]
         [SerializeField] private Image healthFill;
-        [SerializeField] private Text nameText;
+        // [SerializeField] private Text nameText;
         private RectTransform rectTransform;
+        private Sprite frame;
+        private Sprite portrait;
 
         [Header("Fields")]
         [SerializeField] private BattleUnit attachedUnit;
@@ -41,10 +43,12 @@ namespace Vampwolf.Battles
         {
             // Get components
             rectTransform = GetComponent<RectTransform>();
+            frame = unit.Frame;
+            portrait = unit.Portrait;
 
             // Set the attached unit and name
             attachedUnit = unit;
-            nameText.text = unit.Name;
+            // nameText.text = unit.Name;
 
             // Set the health fill
             maxHealth = unit.Health;
@@ -56,6 +60,10 @@ namespace Vampwolf.Battles
 
             // Set the game object's name
             gameObject.name = $"{unit.Name} Card";
+
+            // Set the frame and portrait
+            transform.GetChild(0).GetComponent<Image>().sprite = frame;
+            transform.GetChild(1).GetComponent<Image>().sprite = portrait;
         }
 
         /// <summary>
