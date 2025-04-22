@@ -20,7 +20,7 @@ namespace Vampwolf
 
             // Get the win button
             Button winButton = winGroup.GetComponentInChildren<Button>();
-            winButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+            winButton.onClick.AddListener(() => SceneManager.LoadScene(1)); // Load into hub
         }
 
         private void OnEnable()

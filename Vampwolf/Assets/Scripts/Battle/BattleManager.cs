@@ -25,6 +25,7 @@ namespace Vampwolf.Battles
         [SerializeField] private string currentState;
         [SerializeField] private BattleUnit activeUnit;
         [SerializeField] private int numberOfEnemies;
+        [SerializeField] private int numberOfPlayers;
         [SerializeField] private bool commanding;
         [SerializeField] private bool processing;
         [SerializeField] private bool changingTurns;
@@ -42,6 +43,7 @@ namespace Vampwolf.Battles
         public bool Commanding { get => commanding; set => commanding = value; }
         public bool Processing  { get => processing; set => processing = value; }
         public bool ChangingTurns { get => changingTurns; set => changingTurns = value; }
+        public int NumberOfEnemies { get => numberOfEnemies; }
 
         private void OnEnable()
         {
@@ -72,8 +74,9 @@ namespace Vampwolf.Battles
             turnQueue = new Queue<BattleUnit>();
             commandQueue = new Queue<IBattleCommand>();
 
-            // Start counting enemies
+            // Start counting enemies and players
             numberOfEnemies = 0;
+            numberOfPlayers = 2;
 
             // Find all units in the scene and order them by initiative
             BattleUnit[] units = FindObjectsOfType<BattleUnit>().OrderByDescending(unit => unit.Initiative).ToArray();
@@ -142,7 +145,7 @@ namespace Vampwolf.Battles
             stateMachine.At(processCommand, awaitCommand, new FuncPredicate(() => !processing && commanding));
             stateMachine.At(processCommand, nextTurn, new FuncPredicate(() => !processing && !commanding && commandQueue.Count == 0));
             stateMachine.At(nextTurn, startTurn, new FuncPredicate(() => !changingTurns));
-            stateMachine.Any(endBattle, new FuncPredicate(() => numberOfEnemies <= 0));
+            stateMachine.Any(endBattle, new FuncPredicate(() => numberOfEnemies <= 0 || numberOfPlayers <= 0));
 
             // Set the default state
             stateMachine.SetState(startTurn);
@@ -231,6 +234,7 @@ namespace Vampwolf.Battles
             if (eventData.IsEnemy)
                 // Decrement the number of enemies
                 numberOfEnemies--;
+            else numberOfPlayers--;
 
             // Clear the turn queue
             turnQueue.Clear();

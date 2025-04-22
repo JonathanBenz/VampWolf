@@ -23,6 +23,9 @@ namespace Vampwolf
 
         [Header("Dialogue")]
         public List<DialogueLine> lines;
+        public List<DialogueLine> level1CompleteLines;
+        public List<DialogueLine> level2CompleteLines;
+        private List<DialogueLine> currentLines;
         public float typeSpeed = 0.04f;
 
         private int currentLineIndex = 0;
@@ -31,8 +34,19 @@ namespace Vampwolf
 
         void Start()
         {
-            if (lines.Count > 0)
+            if (lines.Count > 0 && !ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete)
             {
+                UpdateCurrentLines(lines);
+                StartCoroutine(PlayDialogue());
+            }
+            else if (level1CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete)
+            {
+                UpdateCurrentLines(level1CompleteLines);
+                StartCoroutine(PlayDialogue());
+            }
+            else if (level2CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && ProgressTracker.Instance.level2Complete)
+            {
+                UpdateCurrentLines(level2CompleteLines);
                 StartCoroutine(PlayDialogue());
             }
         }
@@ -49,7 +63,7 @@ namespace Vampwolf
             waitingForInput = false;
             continueText.gameObject.SetActive(false);
 
-            DialogueLine current = lines[currentLineIndex];
+            DialogueLine current = currentLines[currentLineIndex];
             nameText.text = current.speakerName;
             dialogueText.text = "";
 
@@ -64,6 +78,11 @@ namespace Vampwolf
             continueText.gameObject.SetActive(true);
         }
 
+        private void UpdateCurrentLines(List<DialogueLine> newLines)
+        {
+            currentLines = newLines;
+        }
+
         void Update()
         {
             if (waitingForInput && UnityEngine.Input.GetMouseButtonDown(0))
@@ -71,7 +90,7 @@ namespace Vampwolf
                 continueText.gameObject.SetActive(false);
                 currentLineIndex++;
 
-                if (currentLineIndex < lines.Count)
+                if (currentLineIndex < currentLines.Count)
                 {
                     StartCoroutine(ShowLine());
                 }

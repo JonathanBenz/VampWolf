@@ -9,11 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: ecdeae24304403b449d0101124281527
   - enabled: 1
-    path: Assets/Scenes/Vincent/Game Scene.unity
-    guid: 1dbf00d26a36bee4e913ee7a3ab4cfd5
-  - enabled: 1
     path: Assets/Scenes/Hub Scene.unity
     guid: 72a6885d0b44e3142ad700bcf4e54d59
+  - enabled: 1
+    path: Assets/Scenes/Forest Level.unity
+    guid: 1dbf00d26a36bee4e913ee7a3ab4cfd5
+  - enabled: 1
+    path: Assets/Scenes/Castle Level.unity
+    guid: e33a9c921819f9543a431501b13f3d8a
+  - enabled: 1
+    path: Assets/Scenes/Village Level.unity
+    guid: c3821c18b3523b04db97781ae882e39a
   - enabled: 1
     path: Assets/Scenes/Lose Screen.unity
     guid: 49ecc985001855a41a53016fb10fbcb2

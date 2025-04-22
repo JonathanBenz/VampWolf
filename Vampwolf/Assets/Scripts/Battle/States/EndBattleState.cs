@@ -21,7 +21,11 @@ namespace Vampwolf.Battles.States
                 Active = false
             });
 
-            EventBus<BattleWon>.Raise(new BattleWon());
+            // If there are no enemies
+            if (manager.NumberOfEnemies <= 0) EventBus<BattleWon>.Raise(new BattleWon());
+
+            // Else, there must be no players left
+            else UnityEngine.SceneManagement.SceneManager.LoadScene(5); // EXTREMELY LAZY WAY OF GOING TO LOSE SCREEN
         }
     }
 }
