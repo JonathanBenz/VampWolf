@@ -66,7 +66,7 @@ namespace Vampwolf
 
         void Update()
         {
-            if (waitingForInput && Keyboard.current.eKey.wasPressedThisFrame)
+            if (waitingForInput && UnityEngine.Input.GetMouseButtonDown(0))
             {
                 continueText.gameObject.SetActive(false);
                 currentLineIndex++;
