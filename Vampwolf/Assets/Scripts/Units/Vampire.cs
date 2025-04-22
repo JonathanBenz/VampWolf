@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 using Vampwolf.Spells;
+using UnityEngine;
 
 namespace Vampwolf.Units
 {
@@ -16,6 +17,7 @@ namespace Vampwolf.Units
             movementLeft = MovementRange;
             hasCasted = false;
             hasCurrentTurn = true;
+            ringSprite.color = Color.white; // Default color
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
@@ -76,6 +78,7 @@ namespace Vampwolf.Units
         public override async UniTask EndTurn()
         {
             hasCurrentTurn = false;
+            ringSprite.color = Color.black; // Inactive color
 
             // Hide the end turn button
             EventBus<SetEndTurnButton>.Raise(new SetEndTurnButton()
@@ -121,6 +124,7 @@ namespace Vampwolf.Units
 
             // Display unit death sprite
             spriteRenderer.sprite = statData.deathSprite;
+            ringSprite.enabled = false;
         }
 
         private void FixedUpdate()

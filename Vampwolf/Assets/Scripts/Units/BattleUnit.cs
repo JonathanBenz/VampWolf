@@ -22,6 +22,7 @@ namespace Vampwolf.Units
         protected bool hasCurrentTurn;
         protected int movementLeft;
         protected SpriteRenderer spriteRenderer;
+        protected SpriteRenderer ringSprite;
 
         public string Name => unitName;
         public Vector3Int GridPosition => gridPosition;
@@ -42,6 +43,7 @@ namespace Vampwolf.Units
 
             // Cache local SpriteRenderer component
             spriteRenderer = GetComponent<SpriteRenderer>();
+            ringSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         }
 
         /// <summary>

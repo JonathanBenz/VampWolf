@@ -19,6 +19,7 @@ namespace Vampwolf.Units
         private UniTaskCompletionSource commandCompletionSource;
 
         private const int Melee = 0;
+        private const int Ranged = 1;
 
         private void Start()
         {
@@ -44,21 +45,12 @@ namespace Vampwolf.Units
             ExecuteEnemyTurn().Forget();
         }
 
-        public override async UniTask EndTurn()
-        {
-            hasCurrentTurn = false;
-
-            // Clear the highlights
-            EventBus<ClearHighlights>.Raise(new ClearHighlights());
-
-            await UniTask.CompletedTask;
-        }
-
         public override async UniTask StartTurn()
         {
             movementLeft = MovementRange;
             hasCasted = false;
             hasCurrentTurn = true;
+            ringSprite.color = Color.white; // Default color
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
@@ -72,6 +64,28 @@ namespace Vampwolf.Units
             await UniTask.CompletedTask;
         }
 
+        public override async UniTask EndTurn()
+        {
+            hasCurrentTurn = false;
+            ringSprite.color = Color.black; // Inactive color
+
+            // Clear the highlights
+            EventBus<ClearHighlights>.Raise(new ClearHighlights());
+
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask ExecuteEnemyTurn()
+        {
+            await MoveToClosestPlayer();
+            await UniTask.Delay(200);
+
+            await AttackIfPossible();
+            await UniTask.Delay(200);
+
+            EventBus<SkipTurn>.Raise(new SkipTurn());
+        }
+
         protected override void OnDeath()
         {
             // Remove the unit
@@ -83,17 +97,7 @@ namespace Vampwolf.Units
 
             // Display unit death sprite
             spriteRenderer.sprite = statData.deathSprite;
-        }
-
-        private async UniTask ExecuteEnemyTurn()
-        {
-            await MoveToClosestPlayer();
-            //await UniTask.Delay(100);
-
-            await AttackIfPossible();
-            //await UniTask.Delay(100);
-
-            EventBus<SkipTurn>.Raise(new SkipTurn());
+            ringSprite.enabled = false;
         }
 
         private void OnEnemyCommandComplete()
