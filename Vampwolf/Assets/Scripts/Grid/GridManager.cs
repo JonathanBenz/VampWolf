@@ -11,31 +11,57 @@ namespace Vampwolf.Grid
     {
         [Header("References")]
         [SerializeField] private Tilemap gridTilemap;
+        private Dictionary<Vector2Int, GridCell> gridDictionary;
+
+        private EventBinding<PlaceUnit> onPlaceUnit;
+        private EventBinding<RemoveGridCellUnit> onRemoveGridCellUnit;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        private EventBinding<PlaceUnit> onPlaceUnit;
-
         private void Awake()
         {
+            // Initialize the dictionary
+            gridDictionary = new Dictionary<Vector2Int, GridCell>();
+
             // Get the tilemap's cell bounds
             BoundsInt bounds = gridTilemap.cellBounds;
 
-            // Set the width and height of the grid
+            // Set the width and height
             Width = bounds.size.x;
             Height = bounds.size.y;
+
+            // Loop through the width
+            for (int x = bounds.min.x; x <= bounds.max.x; x++)
+            {
+                // Loop through the height
+                for (int y = bounds.min.y; y < bounds.max.y; y++)
+                {
+                    // Construct the grid position
+                    Vector2Int gridPos = new Vector2Int(x, y);
+
+                    // Create a grid cell
+                    GridCell cell = new GridCell();
+
+                    // Link the cell and the position in the dictionary
+                    gridDictionary.Add(gridPos, cell);
+                }
+            }
         }
 
         private void OnEnable()
         {
             onPlaceUnit = new EventBinding<PlaceUnit>(PlaceUnit);
             EventBus<PlaceUnit>.Register(onPlaceUnit);
+
+            onRemoveGridCellUnit = new EventBinding<RemoveGridCellUnit>(RemoveUnit);
+            EventBus<RemoveGridCellUnit>.Register(onRemoveGridCellUnit);
         }
 
         private void OnDisable()
         {
             EventBus<PlaceUnit>.Deregister(onPlaceUnit);
+            EventBus<RemoveGridCellUnit>.Deregister(onRemoveGridCellUnit);
         }
 
         /// <summary>
@@ -76,6 +102,45 @@ namespace Vampwolf.Grid
 
             // Set the position of the unit
             unit.transform.position = GetWorldPositionFromGrid(gridPosition);
+
+            // Set the grid cell data
+            gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].SetUnit(unit);
+        }
+
+        /// <summary>
+        /// Remove a unit from the grid
+        /// </summary>
+        private void RemoveUnit(RemoveGridCellUnit eventData)
+        {
+            // Extract the necessary data
+            Vector3Int gridPosition = eventData.GridPosition;
+
+            // Set the grid cell data
+            gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].RemoveUnit();
+        } 
+
+        /// <summary>
+        /// Set a unit at a grid cell
+        /// </summary>
+        public void SetUnitAtGridCell(Vector2Int position, BattleUnit unit)
+        {
+            // Exit case - the dictionary does not hold the position
+            if (!gridDictionary.TryGetValue(position, out GridCell cell)) return;
+
+            // Set the unit to the grid cell
+            cell.SetUnit(unit);
+        }
+
+        /// <summary>
+        /// Remove a unit at a grid cell
+        /// </summary>
+        public void RemoveUnitAtGridCell(Vector2Int position)
+        {
+            // Exit case - the dictionary does not hold the position
+            if (!gridDictionary.TryGetValue(position, out GridCell cell)) return;
+
+            // Remove the unit from the grid cell
+            cell.RemoveUnit();
         }
 
         /// <summary>
@@ -173,6 +238,31 @@ namespace Vampwolf.Grid
             }
 
             return reachableCells;
+        }
+
+        /// <summary>
+        /// Get a list of valid cells within a range according to a predicate
+        /// </summary>
+        public List<Vector3Int> GetValidCells(List<Vector3Int> range, GridPredicate predicate)
+        {
+            // Create a container to store the valid cells
+            List<Vector3Int> validCells = new List<Vector3Int>();
+
+            // Iterate through each position in the range
+            foreach (Vector3Int position in range)
+            {
+                // Get the grid cell at the position
+                GridCell cellAtPos = gridDictionary[new Vector2Int(position.x, position.y)];
+
+                // Skip if the grid cell does not pass the predicate
+                if (!predicate.Evaluate(cellAtPos)) continue;
+
+                // Add the cell to the position
+                validCells.Add(position);
+            }
+
+
+            return validCells;
         }
 
         /// <summary>

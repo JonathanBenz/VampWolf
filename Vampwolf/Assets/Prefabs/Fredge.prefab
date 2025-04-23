@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statData: {fileID: 11400000, guid: da92346a69a643d4e853dfae95e3911c, type: 2}
+  characterType: 2
   unitName: Fredge
   gridPosition: {x: -1, y: -3, z: 0}
   health: 35

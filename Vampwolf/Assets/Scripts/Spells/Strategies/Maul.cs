@@ -1,5 +1,6 @@
 using UnityEngine;
 using Vampwolf.EventBus;
+using Vampwolf.Grid;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -7,13 +8,15 @@ namespace Vampwolf.Spells
     [CreateAssetMenu(fileName = "Maul", menuName = "Spells/Strategies/Maul")]
     public class Maul : SpellStrategy
     {
+        public override GridPredicate Predicate => new GridPredicate((gridCell) => gridCell.HasEnemyUnit);
+
         /// <summary>
         /// Deal damage to a single target enemy
         /// </summary>
-        public override void Cast(Spell spell, BattleUnit unit)
+        public override void Cast(Spell spell, BattleUnit caster, BattleUnit target)
         {
             // Deal damage to the unit
-            unit.DealDamage(30);
+            target.DealDamage(30);
 
             // Collect data
             EventBus<DamageDealt>.Raise(new DamageDealt()

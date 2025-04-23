@@ -18,7 +18,7 @@ namespace Vampwolf.Battles
         private EventBinding<TurnStarted> onTurnStarted;
         private EventBinding<HealthChanged> onHealthChanged;
 
-        private void Awake()
+        private void Start()
         {
             // Initialize the card pool
             cardPool = new InitiativeCardPool(_initiativePrefab, _initiativeParent);
@@ -44,10 +44,10 @@ namespace Vampwolf.Battles
 
         private void OnDisable()
         {
-            EventBus<InitiativeRegistered>.Register(onInitiativeRegistered);
-            EventBus<InitiativeDeregistered>.Register(onInitiativeDeregistered);
-            EventBus<TurnStarted>.Register(onTurnStarted);
-            EventBus<HealthChanged>.Register(onHealthChanged);
+            EventBus<InitiativeRegistered>.Deregister(onInitiativeRegistered);
+            EventBus<InitiativeDeregistered>.Deregister(onInitiativeDeregistered);
+            EventBus<TurnStarted>.Deregister(onTurnStarted);
+            EventBus<HealthChanged>.Deregister(onHealthChanged);
         }
 
         /// <summary>

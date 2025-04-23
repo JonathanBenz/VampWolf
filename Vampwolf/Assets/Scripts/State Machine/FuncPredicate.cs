@@ -4,7 +4,7 @@ namespace Vampwolf.StateMachines
 {
     public class FuncPredicate : IPredicate
     {
-        readonly Func<bool> func;
+        private readonly Func<bool> func;
 
         public FuncPredicate(Func<bool> func)
         {

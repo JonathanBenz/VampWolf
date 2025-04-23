@@ -9,10 +9,18 @@ namespace Vampwolf.Spells
         Enemy
     }
 
+    public enum SpellType
+    {
+        Attack,
+        Heal,
+        Buff
+    }
+
     [CreateAssetMenu(fileName = "Spell Data", menuName = "Spells/Data")]
     public class SpellData : ScriptableObject
     {
         public CharacterType CharacterType;
+        public SpellType spellType;
         public string Name;
         [TextArea] public string Description;
         public float Cost;

@@ -44,7 +44,7 @@ namespace Vampwolf.Battles.States
             {
                 GridPosition = activeUnit.GridPosition,
                 Range = activeUnit.MovementLeft,
-                TileColor = 0
+                HighlightType = Grid.HighlightType.Move
             });
         }
     }

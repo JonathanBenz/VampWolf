@@ -6,6 +6,7 @@ using Vampwolf.Battles.States;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 using Vampwolf.Input;
+using Vampwolf.Spells;
 using Vampwolf.StateMachines;
 using Vampwolf.Units;
 
@@ -157,6 +158,50 @@ namespace Vampwolf.Battles
         private void SkipTurn() => skippingTurn = true;
 
         /// <summary>
+        /// Find a unit in the turn queue using a position
+        /// </summary>
+        private BattleUnit FindUnitAtPosition(Vector3Int gridPosition)
+        {
+            // Cast the turn queue to a list
+            List<BattleUnit> activeUnits = turnQueue.ToList();
+
+            // Iterate through the active units
+            foreach (BattleUnit currentUnit in activeUnits)
+            {
+                // Check if the grid positions are equal
+                if(currentUnit.GridPosition == gridPosition)
+                {
+                    // Set the found unit
+                    return currentUnit;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Find a unit in the turn queue using a character type
+        /// </summary>
+        private BattleUnit FindUnitByType(CharacterType characterType)
+        {
+            // Cast the turn queue to a list
+            List<BattleUnit> activeUnits = turnQueue.ToList();
+
+            // Iterate through the active units
+            foreach (BattleUnit currentUnit in activeUnits)
+            {
+                // Check if the unit is of the same type
+                if (currentUnit.CharacterType == characterType)
+                {
+                    // Set the found unit
+                    return currentUnit;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Move the active player unit to a new grid position
         /// </summary>
         private void MoveActivePlayerUnit(MoveCellSelected eventData)
@@ -179,26 +224,20 @@ namespace Vampwolf.Battles
             // Exit case - the unit has already casted
             if (activeUnit.HasCasted) return;
 
-            // Get the list of units
-            List<BattleUnit> units = turnQueue.ToList();
-
-            // Create a default, empty target
-            BattleUnit target = null;
-
-            // Iterate through the units
-            foreach (BattleUnit unit in units)
-            {
-                // Skip if the unit's grid position does not match the given grid position
-                if (unit.GridPosition != eventData.GridPosition) continue;
-
-                target = unit;
-            }
+            // Try to find the target at the grid position
+            BattleUnit target = FindUnitAtPosition(eventData.GridPosition);
 
             // Exit case - if a target is not found
             if (target == null) return;
 
+            // Create a default, empty caster
+            BattleUnit caster = FindUnitByType(eventData.Spell.CharacterType);
+
+            // Exit case - if a caster is not found
+            if (caster == null) return;
+
             // Create a new cast command
-            SpellCommand spellCommand = new SpellCommand(target, eventData.Spell);
+            SpellCommand spellCommand = new SpellCommand(caster, target, eventData.Spell);
 
             // Add the command to the queue
             commandQueue.Enqueue(spellCommand);
@@ -216,18 +255,18 @@ namespace Vampwolf.Battles
         private void RemoveUnit(RemoveUnit eventData)
         {
             // Cast the turn queue to a list
-            List<BattleUnit> activeUnits = turnQueue.ToList();
+            List<BattleUnit> battleUnits = turnQueue.ToList();
+
+            // Extract the unit
+            BattleUnit unit = eventData.Unit;
 
             // Exit case - the unit is not in the turn queue
-            if (!activeUnits.Contains(eventData.Unit)) return;
-
-            // Remove the unit from the turn queue
-            activeUnits.Remove(eventData.Unit);
+            if (!battleUnits.Contains(unit)) return;
 
             // Remove the unit from the initiative tracker
             EventBus<InitiativeDeregistered>.Raise(new InitiativeDeregistered()
             {
-                Unit = eventData.Unit
+                Unit = unit
             });
 
             // Check if the unit is an enemy
@@ -235,16 +274,6 @@ namespace Vampwolf.Battles
                 // Decrement the number of enemies
                 numberOfEnemies--;
             else numberOfPlayers--;
-
-            // Clear the turn queue
-            turnQueue.Clear();
-
-            // Rebuild the turn queue
-            foreach (BattleUnit unit in activeUnits)
-            {
-                // Add the unit to the turn queue
-                turnQueue.Enqueue(unit);
-            }
         }
     }
 }

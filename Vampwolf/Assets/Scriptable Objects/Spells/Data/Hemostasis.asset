@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
   m_Name: Hemostasis
   m_EditorClassIdentifier: 
-  characterType: 0
+  CharacterType: 0
+  spellType: 1
   Name: Hemostasis
   Description: Heal a small amount to yourself or an ally
   Cost: -15

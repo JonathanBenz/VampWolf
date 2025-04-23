@@ -47,10 +47,7 @@ namespace Vampwolf.Units
 
         public override async UniTask StartTurn()
         {
-            movementLeft = MovementRange;
-            hasCasted = false;
-            hasCurrentTurn = true;
-            ringSprite.color = Color.white; // Default color
+            await base.StartTurn();
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
@@ -66,13 +63,10 @@ namespace Vampwolf.Units
 
         public override async UniTask EndTurn()
         {
-            hasCurrentTurn = false;
-            ringSprite.color = Color.black; // Inactive color
-
             // Clear the highlights
             EventBus<ClearHighlights>.Raise(new ClearHighlights());
 
-            await UniTask.CompletedTask;
+            await base.EndTurn();
         }
 
         private async UniTask ExecuteEnemyTurn()
@@ -123,7 +117,7 @@ namespace Vampwolf.Units
             {
                 GridPosition = gridPosition,
                 Range = movementLeft,
-                TileColor = 0
+                HighlightType = Grid.HighlightType.Move
             });
 
             commandCompletionSource = new UniTaskCompletionSource();

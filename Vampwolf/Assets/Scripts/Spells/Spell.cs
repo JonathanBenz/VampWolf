@@ -1,5 +1,6 @@
 using UnityEngine;
 using Vampwolf.EventBus;
+using Vampwolf.Grid;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -10,11 +11,13 @@ namespace Vampwolf.Spells
         private readonly SpellData data;
 
         public CharacterType CharacterType => data.CharacterType;
+        public SpellType SpellType => data.spellType;
         public string Name => data.Name;
         public string Description => data.Description;
         public float Cost => data.Cost;
         public int Range => data.Range;
         public Sprite Icon => data.Icon;
+        public GridPredicate Predicate => data.Strategy.Predicate;
 
         public Spell(SpellsModel model, SpellData data)
         {
@@ -26,10 +29,10 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the spell
         /// </summary>
-        public void Cast(BattleUnit target)
+        public void Cast(BattleUnit caster, BattleUnit target)
         {
             // Cast the spell
-            data.Strategy.Cast(this, target);
+            data.Strategy.Cast(this, caster, target);
 
             // Remove the cost from the model depending on the character type
             switch (CharacterType)

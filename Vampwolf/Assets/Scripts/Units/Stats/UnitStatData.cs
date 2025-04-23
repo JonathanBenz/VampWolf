@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Vampwolf.Units
+namespace Vampwolf.Units.Stats
 {
     [CreateAssetMenu(fileName = "Unit Stats", menuName = "Units/Stats")]
     public class UnitStatData : ScriptableObject

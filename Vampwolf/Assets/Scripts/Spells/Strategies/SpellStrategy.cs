@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.Grid;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -8,6 +9,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the spell
         /// </summary>
-        public abstract void Cast(Spell spell, BattleUnit target);
+        public abstract void Cast(Spell spell, BattleUnit caster, BattleUnit target);
+        public abstract GridPredicate Predicate { get; }
     }
 }

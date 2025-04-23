@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Vampwolf.Grid;
 using DG.Tweening;
 using Vampwolf.EventBus;
+using Vampwolf.Spells;
+using Vampwolf.Units.Stats;
 
 namespace Vampwolf.Units
 {
@@ -13,6 +15,7 @@ namespace Vampwolf.Units
         [SerializeField] public UnitStatData statData;
 
         [Header("Details")]
+        [SerializeField] private CharacterType characterType;
         [SerializeField] private string unitName;
         [SerializeField] protected Vector3Int gridPosition;
         [SerializeField] protected int health;
@@ -23,12 +26,14 @@ namespace Vampwolf.Units
         protected SpriteRenderer spriteRenderer;
         protected SpriteRenderer ringSprite;
 
+        public CharacterType CharacterType => characterType;
         public string Name => unitName;
         public Vector3Int GridPosition => gridPosition;
         public int Initiative => stats.Initiative;
         public int MovementLeft => movementLeft;
         public bool HasCasted { get => hasCasted; set => hasCasted = value; }
         public int Health => health;
+        public bool Dead => health <= 0;
         public int MovementRange => stats.MovementRange;
         public Sprite Frame => statData.frame;
         public Sprite Portrait => statData.portrait;
@@ -50,12 +55,32 @@ namespace Vampwolf.Units
         /// <summary>
         /// Trigger behaviour on the start of the turn
         /// </summary>
-        public abstract UniTask StartTurn();
+        public virtual UniTask StartTurn()
+        {
+            // Set that the werewolf has not moved or attacked
+            movementLeft = MovementRange;
+            hasCasted = false;
+            hasCurrentTurn = true;
+            ringSprite.color = Color.white; // Default color
+
+            return UniTask.CompletedTask;
+        }
 
         /// <summary>
         /// Trigger behaviour on the end of the turn
         /// </summary>
-        public abstract UniTask EndTurn();
+        public virtual async UniTask EndTurn()
+        {
+            hasCurrentTurn = false;
+            ringSprite.color = Color.black; // Inactive color
+
+            // Update the stats mediator
+            stats.UpdateModifiers();
+
+            Debug.Log($"Current Modifiers for {gameObject}: {stats.Modifiers}");
+
+            await UniTask.CompletedTask;
+        }
 
         public abstract void AwaitCommands();
 
@@ -64,8 +89,11 @@ namespace Vampwolf.Units
         /// </summary>
         public async UniTask MoveThrough(GridManager gridManager, List<Vector3Int> path)
         {
+            // Remove the unit from the grid cell
+            gridManager.RemoveUnitAtGridCell(new Vector2Int(gridPosition.x, gridPosition.y));
+
             // Loop through the path
-            for(int i = 0; i < path.Count; i++)
+            for (int i = 0; i < path.Count; i++)
             {
                 // Get the world position
                 Vector3 worldPos = gridManager.GetWorldPositionFromGrid(path[i]);
@@ -81,6 +109,9 @@ namespace Vampwolf.Units
 
                 movementLeft--;
             }
+
+            // Set the unit at the grid cell
+            gridManager.SetUnitAtGridCell(new Vector2Int(gridPosition.x, gridPosition.y), this);
         }
 
         /// <summary>
@@ -135,5 +166,10 @@ namespace Vampwolf.Units
             if (targetdir.x >= 0) transform.localScale = new Vector3(-1, 1, 1);
             else if (targetdir.x < 0) transform.localScale = Vector3.one;
         }
+
+        /// <summary>
+        /// Add a stat modifier to the stats mediator
+        /// </summary>
+        public void AddStatModifier(StatModifier modifier) => stats.AddModifier(modifier);
     }
 }

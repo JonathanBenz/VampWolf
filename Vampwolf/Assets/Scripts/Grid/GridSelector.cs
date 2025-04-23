@@ -126,7 +126,7 @@ namespace Vampwolf.Grid
             currentSpell = null;
 
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Range, eventData.TileColor);
+            gridHighlighter.HighlightCellsInMovementRange(eventData.GridPosition, eventData.Range, eventData.HighlightType);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Vampwolf.Grid
             selectionState = SelectionMode.Target;
             
             // Highlight the cells in range
-            gridHighlighter.HighlightCellsInRange(eventData.GridPosition, eventData.Spell.Range, eventData.TileColor);
+            gridHighlighter.HighlightCellsInSpellRange(eventData.GridPosition, eventData.Spell.Range, eventData.Spell.SpellType, eventData.Spell.Predicate);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Vampwolf.Grid
 
             // Calculate the path to the target player and the unit's highlighted cells to choose from
             List<Vector3Int> path = gridManager.FindPath(gridPos, target);
-            List<TileData> highlightedTiles = gridHighlighter.HighlightedCells;
+            List<HighlightTile> highlightedTiles = gridHighlighter.HighlightedCells;
 
             // Find the best highlighted tile to go to 
             Vector3Int bestTile = gridPos;
@@ -223,7 +223,7 @@ namespace Vampwolf.Grid
 
             // Calculate the path to the target player and the unit's highlighted cells to choose from
             List<Vector3Int> path = gridManager.FindPath(gridPos, target);
-            List<TileData> highlightedTiles = gridHighlighter.HighlightedCells;
+            List<HighlightTile> highlightedTiles = gridHighlighter.HighlightedCells;
 
             // Find if the enemy lies on a highlighted tile
             Vector3Int enemyTile = path[path.Count - 1];

@@ -12,6 +12,11 @@ namespace Vampwolf.Events
         public Vector3Int GridPosition;
     }
 
+    public struct RemoveGridCellUnit : IEvent
+    {
+        public Vector3Int GridPosition;
+    }
+
     public struct ClearHighlights : IEvent { }
 
     public struct SetGridSelector : IEvent
@@ -24,14 +29,13 @@ namespace Vampwolf.Events
     {
         public Vector3Int GridPosition;
         public int Range;
-        public int TileColor;
+        public HighlightType HighlightType;
     }
 
     public struct SetSpellSelectionMode : IEvent
     {
         public Spell Spell;
         public Vector3Int GridPosition;
-        public int TileColor;
     }
 
     public struct MoveCellSelected : IEvent

@@ -6,11 +6,14 @@ namespace Vampwolf.Battles.Commands
 {
     public class SpellCommand : IBattleCommand
     {
+        private readonly BattleUnit caster;
         private readonly BattleUnit target;
         private readonly Spell spell;
 
-        public SpellCommand(BattleUnit target, Spell spell)
+        public SpellCommand(BattleUnit caster, BattleUnit target, Spell spell)
         {
+            // Set the caster, target and spell
+            this.caster = caster;
             this.target = target;
             this.spell = spell;
         }
@@ -20,7 +23,7 @@ namespace Vampwolf.Battles.Commands
         /// </summary>
         public UniTask Execute()
         {
-            spell.Cast(target);
+            spell.Cast(caster, target);
             return UniTask.CompletedTask;
         }
     }

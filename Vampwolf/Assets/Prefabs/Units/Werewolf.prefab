@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statData: {fileID: 11400000, guid: e7d31f65629ac8f4eae03e6b916d734b, type: 2}
+  characterType: 1
   unitName: Werewolf
   gridPosition: {x: 0, y: 0, z: 0}
   health: 100

@@ -51,6 +51,9 @@ namespace Vampwolf
             // Update the data
             data.DamageDealt += eventData.Amount;
 
+            // Exit case - there's no save load system
+            if (!SaveLoadSystem.Instance) return;
+
             // Save the game
             SaveLoadSystem.Instance.SaveGame();
         }
@@ -68,6 +71,9 @@ namespace Vampwolf
 
             // Update the data
             data.DamageTaken += eventData.Amount;
+
+            // Exit case - there's no save load system
+            if (!SaveLoadSystem.Instance) return;
 
             // Save the game
             SaveLoadSystem.Instance.SaveGame();
@@ -87,6 +93,9 @@ namespace Vampwolf
             // Update the data
             data.DamageHealed += eventData.Amount;
 
+            // Exit case - there's no save load system
+            if (!SaveLoadSystem.Instance) return;
+
             // Save the game
             SaveLoadSystem.Instance.SaveGame();
         }
@@ -104,6 +113,9 @@ namespace Vampwolf
 
             // Update the dictionary
             data.IncrementSpell(eventData.SpellName);
+
+            // Exit case - there's no save load system
+            if (!SaveLoadSystem.Instance) return;
 
             // Save the game
             SaveLoadSystem.Instance.SaveGame();

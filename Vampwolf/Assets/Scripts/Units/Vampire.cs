@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
 using Vampwolf.Spells;
-using UnityEngine;
 
 namespace Vampwolf.Units
 {
@@ -13,11 +12,7 @@ namespace Vampwolf.Units
         /// </summary>
         public override async UniTask StartTurn()
         {
-            // Set that the werewolf has not moved or attacked
-            movementLeft = MovementRange;
-            hasCasted = false;
-            hasCurrentTurn = true;
-            ringSprite.color = Color.white; // Default color
+            await base.StartTurn();
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
@@ -30,13 +25,13 @@ namespace Vampwolf.Units
             {
                 GridPosition = gridPosition,
                 Range = movementLeft,
-                TileColor = 0
+                HighlightType = Grid.HighlightType.Move
             });
 
             // Display the werewolf UI
             EventBus<ShowSpells>.Raise(new ShowSpells()
             {
-                CharacterType = Spells.CharacterType.Vampire,
+                CharacterType = CharacterType.Vampire,
                 CastingUnit = this
             });
 
@@ -68,7 +63,7 @@ namespace Vampwolf.Units
             {
                 GridPosition = gridPosition,
                 Range = movementLeft,
-                TileColor = 0
+                HighlightType = Grid.HighlightType.Move
             });
         }
 
@@ -77,9 +72,6 @@ namespace Vampwolf.Units
         /// </summary>
         public override async UniTask EndTurn()
         {
-            hasCurrentTurn = false;
-            ringSprite.color = Color.black; // Inactive color
-
             // Hide the end turn button
             EventBus<SetEndTurnButton>.Raise(new SetEndTurnButton()
             {
@@ -92,7 +84,7 @@ namespace Vampwolf.Units
             // Clear the highlights
             EventBus<ClearHighlights>.Raise(new ClearHighlights());
 
-            await UniTask.CompletedTask;
+            await base.EndTurn();
         }
 
         /// <summary>
