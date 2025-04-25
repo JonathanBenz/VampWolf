@@ -69,7 +69,7 @@ namespace Vampwolf.Units
         /// <summary>
         /// Trigger behaviour on the end of the turn
         /// </summary>
-        public virtual async UniTask EndTurn()
+        public virtual UniTask EndTurn()
         {
             hasCurrentTurn = false;
             ringSprite.color = Color.black; // Inactive color
@@ -77,9 +77,7 @@ namespace Vampwolf.Units
             // Update the stats mediator
             stats.UpdateModifiers();
 
-            Debug.Log($"Current Modifiers for {gameObject}: {stats.Modifiers}");
-
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         }
 
         public abstract void AwaitCommands();

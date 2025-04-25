@@ -12,7 +12,7 @@ namespace Vampwolf.Units.Stats
         protected StatModifier(int duration)
         {
             // Exit case - if the duration is less than or equal to 0
-            if (turnsLeft <= 0) return;
+            if (duration <= 0) return;
 
             // Set the duration of the modifier
             turnsLeft = duration;

@@ -27,8 +27,6 @@ namespace Vampwolf.Spells
             AdditiveModifier attackModifier = new AdditiveModifier(StatType.Might, 3, 5);
             AdditiveModifier fortitudeModifier = new AdditiveModifier(StatType.Fortitude, 3, 5);
 
-            Debug.Log($"Caster: {caster}");
-
             // Add the modifiers to the caster
             caster.AddStatModifier(attackModifier);
             caster.AddStatModifier(fortitudeModifier);

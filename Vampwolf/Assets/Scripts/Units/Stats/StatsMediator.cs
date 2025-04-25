@@ -40,10 +40,11 @@ namespace Vampwolf.Units.Stats
                 // Deregister the modifier's handle from the queries
                 Queries -= modifier.Handle;
             };
-
-            UnityEngine.Debug.Log($"Added modifier - {modifiers.Count}");
         }
 
+        /// <summary>
+        /// Update the modifiers
+        /// </summary>
         public void Update()
         {
             // Get the first node
