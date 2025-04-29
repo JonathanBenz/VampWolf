@@ -1,5 +1,6 @@
 using UnityEngine;
 using Vampwolf.EventBus;
+using Vampwolf.Events;
 using Vampwolf.Grid;
 using Vampwolf.Units;
 

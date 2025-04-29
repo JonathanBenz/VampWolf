@@ -1,7 +1,7 @@
 using Vampwolf.EventBus;
 using Vampwolf.Spells;
 
-namespace Vampwolf
+namespace Vampwolf.Events
 {
     public struct DamageDealt : IEvent
     {

@@ -1,9 +1,9 @@
 using UnityEngine;
 using Vampwolf.EventBus;
-using Vampwolf.Persistence;
+using Vampwolf.Events;
 using Vampwolf.Spells;
 
-namespace Vampwolf
+namespace Vampwolf.Persistence
 {
     public class VampireSaveHandler : SaveHandler, IBind<VampireData>
     {

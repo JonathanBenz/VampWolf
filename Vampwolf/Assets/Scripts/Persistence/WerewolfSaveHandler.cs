@@ -1,10 +1,9 @@
-using System.Diagnostics.Tracing;
 using UnityEngine;
 using Vampwolf.EventBus;
-using Vampwolf.Persistence;
+using Vampwolf.Events;
 using Vampwolf.Spells;
 
-namespace Vampwolf
+namespace Vampwolf.Persistence
 {
     public class WerewolfSaveHandler : SaveHandler, IBind<WerewolfData>
     {
