@@ -1875,6 +1875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 420cdd3c70faf3a42b26e45969d1fc5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 1188991817}
 --- !u!4 &652629508
 Transform:
   m_ObjectHideFlags: 0
@@ -2891,18 +2892,38 @@ MonoBehaviour:
   continueText: {fileID: 588140021}
   lines:
   - speakerName: Narrator
+    line: In a forgotten land where fear has taken root, dark things move in the
+      night. Whispers speak of monsters, but the truth hides deeper. Those who hunt
+      the unknown may become what they fear most.
+  - speakerName: Tutorial
     line: Welcome to the Hubworld!
-  - speakerName: Narrator
+  - speakerName: Tutorial
     line: Here you can look at your inventory, access the shop, or choose which level
       you'd like to play.
-  - speakerName: Narrator
+  - speakerName: Tutorial
     line: When you're ready, enter "The Forest" to begin your adventure!
   level1CompleteLines:
-  - speakerName: Narrator
+  - speakerName: Tutorial
     line: Level 2 Unlocked
   level2CompleteLines:
   - speakerName: Secret Amogus
     line: amogus
+  forestIntroLines:
+  - speakerName: Narrator
+    line: Beyond the safety of stone walls, the Forest Thicket waits. Twisting paths
+      and tangled roots hide more than just hunters. Shadows move where there are
+      no footsteps, and survival will not be given easily. It must be earned.
+  castleIntroLines:
+  - speakerName: Narrator
+    line: Deep in the heart of the lands, the ruins of an old castle rise against
+      the fog. Its crumbling halls remember older times, and the secrets buried within
+      are not so eager to be found. Tread carefully as some doors should never be
+      opened.
+  villageIntroLines:
+  - speakerName: Narrator
+    line: Among the shouting crowds and the burning torches, the village stirs with
+      fear and fury. Here, survival alone is not enough. The greatest monsters wear
+      human faces, and the true enemy must be unmasked.
   typeSpeed: 0.004
 --- !u!4 &1188991818
 Transform:
@@ -5176,6 +5197,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1188991817}
+        m_TargetAssemblyTypeName: Vampwolf.DialogueManager, Assembly-CSharp
+        m_MethodName: PlayForestIntroDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 652629507}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: LoadForest

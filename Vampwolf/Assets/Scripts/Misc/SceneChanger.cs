@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using Vampwolf;
 public class SceneChanger : MonoBehaviour
 {
+    public DialogueManager dialogueManager;
     /// <summary>
     /// Make sure this matches the Build Settings!
     /// </summary>
@@ -25,19 +26,19 @@ public class SceneChanger : MonoBehaviour
     //Loads the Forest/Thicket game scene
     public void LoadForest()
     {
-        SceneManager.LoadScene((int)levelNames.FOREST);
+            SceneManager.LoadScene((int)levelNames.FOREST);
     }
 
     //Loads the Mansion/Castle game scene
     public void LoadCastle()
     {
-        SceneManager.LoadScene((int)levelNames.CASTLE); 
+            SceneManager.LoadScene((int)levelNames.CASTLE); 
     }
 
     //Loads the Village game scene
     public void LoadVillage()
     {
-        SceneManager.LoadScene((int)levelNames.VILLAGE); 
+            SceneManager.LoadScene((int)levelNames.VILLAGE); 
     }
 
 

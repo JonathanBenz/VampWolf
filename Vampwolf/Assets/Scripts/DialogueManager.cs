@@ -25,6 +25,11 @@ namespace Vampwolf
         public List<DialogueLine> lines;
         public List<DialogueLine> level1CompleteLines;
         public List<DialogueLine> level2CompleteLines;
+        public List<DialogueLine> forestIntroLines;
+        public List<DialogueLine> castleIntroLines;
+        public List<DialogueLine> villageIntroLines;
+
+private System.Action onDialogueComplete;
         private List<DialogueLine> currentLines;
         public float typeSpeed = 0.04f;
 
@@ -50,7 +55,6 @@ namespace Vampwolf
                 StartCoroutine(PlayDialogue());
             }
         }
-
         IEnumerator PlayDialogue()
         {
             dialoguePanel.SetActive(true);
@@ -85,6 +89,36 @@ namespace Vampwolf
         private void UpdateCurrentLines(List<DialogueLine> newLines)
         {
             currentLines = newLines;
+        }
+
+        public void PlayForestIntroDialogue()
+        {
+            currentLineIndex = 0;  // Reset to start of dialogue list
+            UpdateCurrentLines(forestIntroLines);
+            if (forestIntroLines.Count > 0)
+            {
+                StartCoroutine(PlayDialogue());
+            }
+        }
+
+        public void PlayCastleIntroDialogue()
+        {
+            currentLineIndex = 0;  // Reset to start of dialogue list
+            UpdateCurrentLines(castleIntroLines);
+            if (castleIntroLines.Count > 0)
+            {
+                StartCoroutine(PlayDialogue());
+            }
+        }
+
+        public void PlayVillageIntroDialogue()
+        {
+            currentLineIndex = 0;  // Reset to start of dialogue list
+            UpdateCurrentLines(villageIntroLines);
+            if (villageIntroLines.Count > 0)
+            {
+                StartCoroutine(PlayDialogue());
+            }
         }
 
         void Update()
