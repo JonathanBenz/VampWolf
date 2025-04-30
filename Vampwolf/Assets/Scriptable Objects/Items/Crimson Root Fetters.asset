@@ -13,17 +13,14 @@ MonoBehaviour:
   m_Name: Crimson Root Fetters
   m_EditorClassIdentifier: 
   Name: Veil of Ashen Wings
-  Description: 'Grants the ability Bloodbind
+  Description: 'Grants the ability <color=#FFC857><b>Bloodbind</b></color>.
 
 
-    Bloodbind
+    <color=#FFC857><b>Bloodbind</b></color>
 
-    Entangle an enemy
-    in pulsing tendrils of blood, preventing their movement for a turn.
-
-
-    "The
-    ground is thirsty, and so are you."'
+    Entangle
+    an enemy in pulsing tendrils of blood, preventing their movement for a turn.'
+  Flavor: <i>The ground is thirsty, and so are you.</i>
   Cost: 100
   User: 0
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}

@@ -9,6 +9,7 @@ namespace Vampwolf.Shop
 
         public string Name => data.Name;
         public string Description => data.Description;
+        public string Flavor => data.Flavor;
         public int Cost => data.Cost;
         public UserType User => data.User;
         public Sprite Icon => data.Icon;

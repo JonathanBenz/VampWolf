@@ -134,11 +134,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0185341e8f57d4543ab666bae3a5c3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 5648870356534967737}
   outOfStockGroup: {fileID: 6152203730645445674}
   itemIcon: {fileID: 8697617459957137181}
   nameText: {fileID: 6153967908644578103}
   userText: {fileID: 1454316689596115387}
   priceText: {fileID: 1004887768628785464}
+  highlightDuration: 0.1
+  highlightColor: {r: 0.24528301, g: 0, b: 0, a: 1}
 --- !u!114 &4489751052927273802
 MonoBehaviour:
   m_ObjectHideFlags: 0

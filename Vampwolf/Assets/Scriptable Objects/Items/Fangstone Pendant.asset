@@ -13,16 +13,14 @@ MonoBehaviour:
   m_Name: Fangstone Pendant
   m_EditorClassIdentifier: 
   Name: Fangstone Pendant
-  Description: 'Grants the ability Savage Leap
+  Description: 'Grants the ability <color=#55B4FF><b>Savage Leap</b></color>.
 
 
-    Savage Leap
+    <color=#55B4FF><b>Savage
+    Leap</b></color>
 
-    Lunge forward
-    and deal damage to an enemy.
-
-
-    "Subtlety is overrated. Try velocity."'
+    Lunge forward and deal damage to an enemy.'
+  Flavor: <i>Subtlety is overrated. Try velocity.</i>
   Cost: 100
   User: 1
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}

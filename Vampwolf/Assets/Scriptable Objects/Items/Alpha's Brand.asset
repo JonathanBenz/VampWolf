@@ -13,17 +13,16 @@ MonoBehaviour:
   m_Name: Alpha's Brand
   m_EditorClassIdentifier: 
   Name: Alpha's Brand
-  Description: 'Grants the ability Challenging Roar
+  Description: 'Grants the ability <color=#FFC857><b>Challenging Roar</b></color>.
 
 
-    Challenging Roar
+    <color=#FFC857><b>Challenging
+    Roar</b></color>
 
-    Draw
-    all enemy attention, forcing them to focus attacks on you for one round.
-
-
-    "Ever
-    shouted so loud that people started making life decisions around you?"'
+    Draw all enemy attention, forcing them to focus attacks
+    on you for one turn.'
+  Flavor: <i>Ever shouted so loud that people started making life decisions around
+    you?</i>
   Cost: 100
   User: 1
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}

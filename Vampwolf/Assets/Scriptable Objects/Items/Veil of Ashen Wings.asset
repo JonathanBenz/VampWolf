@@ -13,17 +13,15 @@ MonoBehaviour:
   m_Name: Veil of Ashen Wings
   m_EditorClassIdentifier: 
   Name: Veil of Ashen Wings
-  Description: 'Grants the ability Ashstep
+  Description: 'Grants the ability <color=#55B4FF><b>Ashstep</b></color>.
 
 
-    Ashstep
+    <color=#55B4FF><b>Ashstep</b></color>
 
-    Teleport to a nearby
-    location in a flurry of shadow and ash.
-
-
-    "Wherever the wind mourns and the
-    shadows twitch, you''ll find a vampire who didn''t feel like walking."'
+    Teleport
+    to a nearby location in a flurry of shadow and ash.'
+  Flavor: <i>Wherever the wind mourns and the shadows twitch, you'll find a vampire
+    who didn't feel like walking.</i>
   Cost: 100
   User: 0
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}

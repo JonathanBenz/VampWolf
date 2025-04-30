@@ -13,17 +13,14 @@ MonoBehaviour:
   m_Name: Chalice of Hollow Echoes
   m_EditorClassIdentifier: 
   Name: Chalice of Hollow Echoes
-  Description: 'Grants the ability Nightform
+  Description: 'Grants the ability <color=#8FFFAF><b>Nightform</b></color>.
 
 
-    Nightform
+    <color=#8FFFAF><b>Nightform</b></color>
 
-    Turn into a bat,
-    becoming untargetable and losing all enemy aggression for a short duration
-
-
-    "Not
-    all who turn into bats are cowards - but it certainly helps"'
+    Turn
+    into a bat, becoming untargetable and losing all enemy aggression for one turn.'
+  Flavor: <i>Not all who turn into bats are cowards - but it certainly helps</i>
   Cost: 100
   User: 0
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}

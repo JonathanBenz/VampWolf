@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Text;
 using UnityEngine;
@@ -10,16 +11,30 @@ namespace Vampwolf.Shop
 {
     public class ItemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private Button button;
+        [Header("References")]
+        [SerializeField] private Image background;
         [SerializeField] private CanvasGroup outOfStockGroup;
         [SerializeField] private Image itemIcon;
         [SerializeField] private Text nameText;
         [SerializeField] private Text userText;
         [SerializeField] private Text priceText;
+        private Button button;
+
+        [Header("Tweenign Variables")]
+        [SerializeField] private float highlightDuration;
+        [SerializeField] private Color highlightColor;
+        private Color initialColor;
+        private Tween highlightTween;
 
         public event Action<ItemButton> OnItemClicked = delegate { };
 
         public Item Item { get; private set; }
+
+        public void OnDestroy()
+        {
+            // Kill any existing tweens
+            highlightTween?.Kill();
+        }
 
         /// <summary>
         /// Initialize the item button
@@ -85,6 +100,9 @@ namespace Vampwolf.Shop
             {
                 Item = Item
             });
+
+            // Set the highlight color
+            Highlight(highlightColor, highlightDuration);
         }
 
         /// <summary>
@@ -94,6 +112,21 @@ namespace Vampwolf.Shop
         {
             // Raise the event to clear the item info panel
             EventBus<ClearItemInfo>.Raise(new ClearItemInfo());
+
+            // Set the initial color
+            Highlight(initialColor, highlightDuration);
+        }
+
+        /// <summary>
+        /// Handle tweening the highlight color
+        /// </summary>
+        private void Highlight(Color color, float duration)
+        {
+            // Kill the highlight tween if it exists
+            highlightTween?.Kill();
+
+            // Create the highlight tween
+            highlightTween = background.DOColor(color, duration).SetEase(Ease.InOutSine);
         }
     }
 }

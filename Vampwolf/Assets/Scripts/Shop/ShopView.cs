@@ -15,6 +15,7 @@ namespace Vampwolf.Shop
         [SerializeField] private Button exitButton;
         private CanvasGroup shopPanel;
         private ItemInfoPanel itemInfoPanel;
+        private ShopDialoguePanel dialoguePanel;
 
         private ItemPool itemPool;
         private List<ItemButton> itemButtons;
@@ -37,9 +38,11 @@ namespace Vampwolf.Shop
             // Get components
             shopPanel = GetComponent<CanvasGroup>();
             itemInfoPanel = GetComponentInChildren<ItemInfoPanel>();
+            dialoguePanel = GetComponentInChildren<ShopDialoguePanel>();
 
-            // Initialize the item info panel
+            // Initialize panels
             itemInfoPanel.Initialize();
+            dialoguePanel.Initialize(); 
 
             // Initialize the list of item buttons
             itemButtons = new List<ItemButton>();
@@ -131,6 +134,9 @@ namespace Vampwolf.Shop
                 // Set non-interactable and to not block raycasts
                 shopPanel.interactable = true;
                 shopPanel.blocksRaycasts = true;
+
+                // Create a piece of dialogue
+                dialoguePanel.CreateWelcomeDialogue();
             });
         }
 
@@ -145,6 +151,9 @@ namespace Vampwolf.Shop
                 // Set non-interactable and to not block raycasts
                 shopPanel.interactable = false;
                 shopPanel.blocksRaycasts = false;
+
+                // Clear the dialogue
+                dialoguePanel.ClearDialogue();
             });
         }
 

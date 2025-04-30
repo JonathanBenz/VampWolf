@@ -13,17 +13,16 @@ MonoBehaviour:
   m_Name: Harmonized Howlstone
   m_EditorClassIdentifier: 
   Name: Harmonized Howlstone
-  Description: 'Grants the ability Pack Howl
+  Description: 'Grants the ability <color=#8FFFAF><b>Pack Howl</b></color>.
 
 
-    Pack Howl
+    <color=#8FFFAF><b>Pack
+    Howl</b></color>
 
-    Let out a harmonious
-    howl that buffs agility for both the Werewolf and the Vampire
-
-
-    "When one
-    of us howls, we all get faster. And louder. And, occasionally, smugger."'
+    Let out a harmonious howl that buffs agility for both the
+    Werewolf and the Vampire.'
+  Flavor: <i>When one of us howls, we all get faster. And louder. And, occasionally,
+    smugger.</i>
   Cost: 100
   User: 1
   Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
