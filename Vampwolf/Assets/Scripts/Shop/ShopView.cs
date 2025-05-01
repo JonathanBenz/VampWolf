@@ -12,6 +12,7 @@ namespace Vampwolf.Shop
         [Header("References")]
         [SerializeField] private ItemButton prefab;
         [SerializeField] private Transform buttonParent;
+        [SerializeField] private Text moneyText;
         [SerializeField] private Button exitButton;
         private CanvasGroup shopPanel;
         private ItemInfoPanel itemInfoPanel;
@@ -62,6 +63,12 @@ namespace Vampwolf.Shop
             {
                 EventBus<HideShop>.Raise(new HideShop());
             });
+
+            // Update the initial item availability
+            UpdateItemAvailability(Bank.Instance.Gold);
+
+            // Set the amount of gold
+            SetBankText(Bank.Instance.Gold);
         }
 
         /// <summary>
@@ -122,6 +129,25 @@ namespace Vampwolf.Shop
             // Release the item button back to the pool
             itemPool.Release(button);
         }
+
+        /// <summary>
+        /// Update the item buttons to reflect if they can be bought with the 
+        /// current amount of gold
+        /// </summary>
+        public void UpdateItemAvailability(int currentGold)
+        {
+            // Iterate through each item button
+            foreach (ItemButton itemButton in itemButtons)
+            {
+                // Check the availability of the item button using the current gold
+                itemButton.CheckAvailability(currentGold);
+            }
+        }
+
+        /// <summary>
+        /// Set the bank text to the current amount of gold
+        /// </summary>
+        public void SetBankText(int currentGold) => moneyText.text = currentGold.ToString();
 
         /// <summary>
         /// Show the shop

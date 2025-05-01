@@ -9,6 +9,10 @@ namespace Vampwolf.Events
     {
         public Item Item;
     }
+    public struct UpdateGold : IEvent
+    {
+        public int CurrentGold;
+    }
     public struct ClearItemInfo : IEvent { }
     public struct ShowInventory : IEvent { }
     public struct HideInventory : IEvent { }

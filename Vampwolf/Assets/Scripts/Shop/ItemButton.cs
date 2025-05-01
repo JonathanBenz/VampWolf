@@ -14,6 +14,7 @@ namespace Vampwolf.Shop
         [Header("References")]
         [SerializeField] private Image background;
         [SerializeField] private CanvasGroup outOfStockGroup;
+        [SerializeField] private CanvasGroup poorGroup;
         [SerializeField] private Image itemIcon;
         [SerializeField] private Text nameText;
         [SerializeField] private Text userText;
@@ -74,6 +75,43 @@ namespace Vampwolf.Shop
         }
 
         /// <summary>
+        /// Check if the item is available for purchase
+        /// </summary>
+        public void CheckAvailability(float currentGold)
+        {
+            // Exit case - the item is already bought
+            if (Item.Bought)
+            {
+                // Set the button to non-interactable
+                button.interactable = false;
+
+                // Enable the out-of-stock group
+                outOfStockGroup.alpha = 1f;
+                outOfStockGroup.interactable = true;
+                outOfStockGroup.blocksRaycasts = true;
+
+                return;
+            }
+
+            // Exit case - the player does not have enough gold to buy the item
+            if (Item.Cost > currentGold)
+            {
+                // Set the button to non-interactable
+                button.interactable = false;
+
+                // Enable the poor group
+                poorGroup.alpha = 1f;
+                poorGroup.interactable = true;
+                poorGroup.blocksRaycasts = true;
+
+                return;
+            }
+
+            // Set the button to interactable
+            button.interactable = true;
+        }
+
+        /// <summary>
         /// Buy the item
         /// </summary>
         private void Buy()
@@ -101,6 +139,9 @@ namespace Vampwolf.Shop
                 Item = Item
             });
 
+            // Exit case - the button is not interactable
+            if (!button.interactable) return;
+
             // Set the highlight color
             Highlight(highlightColor, highlightDuration);
         }
@@ -112,6 +153,9 @@ namespace Vampwolf.Shop
         {
             // Raise the event to clear the item info panel
             EventBus<ClearItemInfo>.Raise(new ClearItemInfo());
+
+            // Exit case - the button is not interactable
+            if (!button.interactable) return;
 
             // Set the initial color
             Highlight(initialColor, highlightDuration);

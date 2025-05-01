@@ -14,6 +14,7 @@ namespace Vampwolf.Shop
 
         private EventBinding<ShowShop> onShowShop;
         private EventBinding<HideShop> onHideShop;
+        private EventBinding<UpdateGold> onUpdateGold;
 
         private void Awake()
         {
@@ -33,12 +34,16 @@ namespace Vampwolf.Shop
 
             onHideShop = new EventBinding<HideShop>(Hide);
             EventBus<HideShop>.Register(onHideShop);
+
+            onUpdateGold = new EventBinding<UpdateGold>(UpdateItemAvailability);
+            EventBus<UpdateGold>.Register(onUpdateGold);
         }
 
         private void OnDisable()
         {
             EventBus<ShowShop>.Deregister(onShowShop);
             EventBus<HideShop>.Deregister(onHideShop);
+            EventBus<UpdateGold>.Deregister(onUpdateGold);
 
             // Disconnect the model and the controller
             model.RemoveListener(UpdateItems);
@@ -76,6 +81,18 @@ namespace Vampwolf.Shop
                 // Add the item to the view
                 shopView.AddItem(item);
             }
+        }
+
+        /// <summary>
+        /// Update the item availability in the view when the gold amount changes
+        /// </summary>
+        private void UpdateItemAvailability(UpdateGold eventData)
+        {
+            // Update the item availability in the view
+            shopView.UpdateItemAvailability(eventData.CurrentGold);
+
+            // Update the bank text in the view
+            shopView.SetBankText(eventData.CurrentGold);
         }
 
         /// <summary>

@@ -11,6 +11,7 @@ namespace Vampwolf.Shop
         public string Description => data.Description;
         public string Flavor => data.Flavor;
         public int Cost => data.Cost;
+        public bool Bought => bought;
         public UserType User => data.User;
         public Sprite Icon => data.Icon;
 
@@ -19,6 +20,9 @@ namespace Vampwolf.Shop
             this.data = data;
         }
 
+        /// <summary>
+        /// Buy the item
+        /// </summary>
         public void Buy()
         {
             // Exit case - the item is already bought
@@ -27,7 +31,8 @@ namespace Vampwolf.Shop
             // Set to bought
             bought = true;
 
-            // TODO: Remove money
+            // Remove gold from the bank
+            Bank.Instance.RemoveGold(Bank.Instance.Gold);
         }
     }
 }
