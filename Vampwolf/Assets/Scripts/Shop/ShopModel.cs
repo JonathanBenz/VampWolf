@@ -33,13 +33,10 @@ namespace Vampwolf.Shop
         /// <summary>
         /// Remove an item from the stock
         /// </summary>
-        public void Remove(ItemData data)
+        public void Remove(Item itemToRemove)
         {
-            // Find the item in the stock
-            Item itemToRemove = itemStock.FirstOrDefault(item => item.Name == data.Name);
-
-            // Exit case - if the item is not found
-            if (itemToRemove == null) return;
+            // Exit case - the item stock does not contain the item to remove
+            if (!itemStock.Contains(itemToRemove)) return;
 
             // Remove the item from the stock
             itemStock.Remove(itemToRemove);

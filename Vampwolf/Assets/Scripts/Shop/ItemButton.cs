@@ -27,8 +27,6 @@ namespace Vampwolf.Shop
         private Color initialColor;
         private Tween highlightTween;
 
-        public event Action<ItemButton> OnItemClicked = delegate { };
-
         public Item Item { get; private set; }
 
         public void OnDestroy()
