@@ -3,32 +3,27 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Vampwolf.Shop;
 
 namespace Vampwolf.Inventory
 {
-    public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("References")]
         [SerializeField] private Image highlightBorder;
         [SerializeField] private Image equipmentIcon;
         [SerializeField] private CanvasGroup emptyGroup;
         [SerializeField] private CanvasGroup filledGroup;
-        private RectTransform rectTransform;
         private Button button;
-        private Equipment equipment;
 
-        [Header("Fields")]
-        [SerializeField] private UserType slotType;
+        private Equipment equipment;
 
         [Header("Tweening Variables")]
         [SerializeField] private float highlightDuration;
         private Tween highlightTween;
 
-        public event Action<EquipmentSlot, RectTransform> EmptySlotClicked = delegate { };
+        public event Action<Equipment> InventorySlotClicked = delegate { };
 
         public Equipment Equipment => equipment;
-        public UserType SlotType => slotType;
 
         private void OnDestroy()
         {
@@ -37,16 +32,18 @@ namespace Vampwolf.Inventory
         }
 
         /// <summary>
-        /// Initialize the item slot
+        /// Initialize the Inventory Slot
         /// </summary>
-        public void Initialize()
+        public void Initialize(int index)
         {
             // Get components
             button = GetComponent<Button>();
-            rectTransform = GetComponent<RectTransform>();
 
             // Set the button on-click listener
             button.onClick.AddListener(OnClick);
+
+            // Set the name of the inventory slot
+            gameObject.name = $"Inventory Slot {index}";
         }
 
         /// <summary>
@@ -54,81 +51,64 @@ namespace Vampwolf.Inventory
         /// </summary>
         private void OnClick()
         {
-            // Check if there's no equipment
-            if(equipment == null)
-            {
-                // Notify that this equipment slot has been clicked
-                EmptySlotClicked?.Invoke(this, rectTransform);
+            // Exit case - there's no equipment attached to this slot
+            if (equipment == null) return;
 
-                return;
-            }
-
-            // Clear the equipment slot
-            Clear();
+            // Notify that this equipment slot has been clicked
+            InventorySlotClicked?.Invoke(equipment);
         }
 
         /// <summary>
-        /// Set a piece of equipment for the slot
+        /// Set the inventory slot
         /// </summary>
         public void Set(Equipment equipment)
         {
             // Set the equipment
             this.equipment = equipment;
 
-            // Set the equipment icon
-            equipmentIcon.sprite = equipment.Icon;
-
-            // Set the empty group to invisible
-            emptyGroup.alpha = 0f;
-            emptyGroup.interactable = false;
-            emptyGroup.blocksRaycasts = false;
-
-            // Set the filled group to true
+            // Show the empty group
             filledGroup.alpha = 1f;
             filledGroup.interactable = true;
             filledGroup.blocksRaycasts = true;
 
-            // Equip the equipment
-            equipment.Equip();
+            // Hide the filled group
+            emptyGroup.alpha = 0f;
+            emptyGroup.interactable = false;
+            emptyGroup.blocksRaycasts = false;
         }
 
         /// <summary>
-        /// Clear the equipment slot
+        /// Clear the inventory slot
         /// </summary>
         public void Clear()
         {
-            // Unequip the equipment
-            equipment.Unequip();
-
             // Nullify the equipment
             equipment = null;
 
-            // Set the empty group to invisible
-            filledGroup.alpha = 0f;
-            filledGroup.interactable = false;
-            filledGroup.blocksRaycasts = false;
-
-            // Set the filled group to true
+            // Show the empty group
             emptyGroup.alpha = 1f;
             emptyGroup.interactable = true;
             emptyGroup.blocksRaycasts = true;
+
+            // Hide the filled group
+            filledGroup.alpha = 0f;
+            filledGroup.interactable = false;
+            filledGroup.blocksRaycasts = false;
         }
 
         /// <summary>
-        /// Handle the selecting of the item slot when the mouse enters
+        /// Highlight the inventory slot when the mouse enters
         /// </summary>
         public void OnPointerEnter(PointerEventData eventData)
         {
-            // Highlight the border of the item slot
             Highlight(1f, highlightDuration);
         }
 
         /// <summary>
-        /// Handle the deselecting of the item slot when the mouse exits
+        /// Remove the highlight when the mouse exits
         /// </summary>
         public void OnPointerExit(PointerEventData eventData)
         {
-            // Remove the highlight from the border of the item slot
             Highlight(0f, highlightDuration);
         }
 

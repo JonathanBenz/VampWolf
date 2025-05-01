@@ -19,14 +19,26 @@ namespace Vampwolf.Inventory
             ConnectView();
         }
 
-        private void ConnectModel()
+        private void OnDestroy()
         {
-
+            model.RemoveListener(UpdateInventory);
         }
 
+        /// <summary>
+        /// Connect the model to the controller
+        /// </summary>
+        private void ConnectModel()
+        {
+            model.AddListener(UpdateInventory);
+        }
+
+        /// <summary>
+        /// Connect the view to the controller
+        /// </summary>
         private void ConnectView()
         {
-
+            // Initialize the view
+            view.Initialize();
         }
 
         /// <summary>
