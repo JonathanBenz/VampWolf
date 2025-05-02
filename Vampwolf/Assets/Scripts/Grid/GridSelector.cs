@@ -199,6 +199,9 @@ namespace Vampwolf.Grid
             List<Vector3Int> path = gridManager.FindPath(gridPos, target);
             List<HighlightTile> highlightedTiles = gridHighlighter.HighlightedCells;
 
+            // If no valid path, return
+            if (path.Count == 0) return;
+
             // Find the best highlighted tile to go to 
             Vector3Int bestTile = gridPos;
             for (int i = 1; i < path.Count - 1; i++)

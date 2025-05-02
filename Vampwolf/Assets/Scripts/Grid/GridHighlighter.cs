@@ -174,7 +174,7 @@ namespace Vampwolf.Grid
         public void HighlightCellsInSpellRange(Vector3Int gridPosition, int range, SpellType type, GridPredicate predicate)
         {
             // Get the cell positions within range of the given grid position
-            List<Vector3Int> cellPositions = gridManager.GetReachableCells(gridPosition, range);
+            List<Vector3Int> cellPositions = gridManager.GetReachableCells(gridPosition, range, true);
 
             // Get highlight types
             HighlightType rangeHighlight;

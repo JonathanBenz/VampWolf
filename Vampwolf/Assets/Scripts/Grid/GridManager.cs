@@ -155,13 +155,13 @@ namespace Vampwolf.Grid
         /// <summary>
         /// Get reachable cells from a starting position within a given move range
         /// </summary>
-        public List<Vector3Int> GetReachableCells(Vector3Int start, int range)
+        public List<Vector3Int> GetReachableCells(Vector3Int start, int range, bool isAttack = false)
         {
             // Create a container to store the reachable cells
             List<Vector3Int> reachableCells = new List<Vector3Int>();
 
-            // Edge Case --> Make a full square if range is just 1 (playtesters were complaining about this)
-            if (range == 1) 
+            // Edge Case --> Make a full square if range is just 1. ONLY for ATTACK.
+            if (range == 1 && isAttack) 
             {
                 // Forget the four cardinal directions, get all eight!!!
                 Vector3Int[] dirs = {

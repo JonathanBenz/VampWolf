@@ -97,7 +97,7 @@ namespace Vampwolf.Units
                 Vector3 worldPos = gridManager.GetWorldPositionFromGrid(path[i]);
 
                 // Wait for the unit to move to the new position
-                await transform.DOMove(worldPos, 0.5f).SetEase(Ease.Linear).ToUniTask();
+                await transform.DOMove(worldPos, 0.33f).SetEase(Ease.Linear).ToUniTask();
 
                 // Update the grid position
                 gridPosition = path[i];
