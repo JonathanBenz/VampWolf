@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7207104736252844295}
+  - {fileID: 4841546219496385276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7536265533201809084
@@ -216,3 +217,69 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &4994649867640434665
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4589939718587279411}
+    m_Modifications:
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384505550144111211, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_Name
+      value: blood splatter vfx
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384505550144111211, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+--- !u!4 &4841546219496385276 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 459419066983990549, guid: 2bdb55a9239148f4b922ad100bad1217, type: 3}
+  m_PrefabInstance: {fileID: 4994649867640434665}
+  m_PrefabAsset: {fileID: 0}

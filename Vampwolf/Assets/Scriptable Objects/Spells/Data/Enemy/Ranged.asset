@@ -19,4 +19,4 @@ MonoBehaviour:
   Cost: 0
   Range: 5
   Icon: {fileID: 0}
-  Strategy: {fileID: 11400000, guid: 92a4a977f4b6ca843b57a906bf5fe616, type: 2}
+  Strategy: {fileID: 11400000, guid: dcf3f113f820e2540bcb4418120b644b, type: 2}
