@@ -167,8 +167,8 @@ namespace Vampwolf.Grid
                 Vector3Int[] dirs = {
                 new Vector3Int( 1,  0, 0),    // RIGHT
                 new Vector3Int(-1,  0, 0),    // LEFT
-                new Vector3Int( 0,  1, 0),    // UP
-                new Vector3Int( 0, -1, 0),    // DOWN
+                new Vector3Int( 0,  1, 0),    // TOP
+                new Vector3Int( 0, -1, 0),    // BOTTOM
                 new Vector3Int( 1,  1, 0),    // TOP-RIGHT
                 new Vector3Int(-1,  1, 0),    // TOP-LEFT
                 new Vector3Int( 1,  -1, 0),   // BOTTOM-RIGHT
@@ -227,6 +227,10 @@ namespace Vampwolf.Grid
                         // Skip if there is no tile
                         if (!gridTilemap.HasTile(next))
                             continue;
+
+                        // Skip during movement if the tile is already occupied by a unit (only 1 unit can fit in a tile at a time, cannot move to it)
+                        GridCell cellAtPos = gridDictionary[new Vector2Int(next.x, next.y)];
+                        if (cellAtPos.HasAnyUnit && !isAttack) continue;
 
                         // Track the neighbor
                         visited.Add(next);
