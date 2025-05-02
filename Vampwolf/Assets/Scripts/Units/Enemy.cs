@@ -5,8 +5,6 @@ using Vampwolf.Grid;
 using Vampwolf.Spells;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace Vampwolf.Units
 {
@@ -120,6 +118,9 @@ namespace Vampwolf.Units
             // Exit case - still has movement
             if (hasMoved) return;
 
+            // Exit case - no movement left
+            if (movementLeft <= 0) return; 
+
             targetPos = CalculateTarget();
             if (targetPos == Vector3.negativeInfinity) return; // Exit case - no valid positions were found when calculating. 
 
@@ -144,8 +145,7 @@ namespace Vampwolf.Units
             commandCompletionSource = new UniTaskCompletionSource();
 
             // Calculate the path to the player and move towards there
-            gridSelector.EnemyMovementCellSelect(GridPosition, closestTargetPos, attackRange);
-            gridSelector.EnemyMovementCellSelect(GridPosition, targetPos);
+            gridSelector.EnemyMovementCellSelect(GridPosition, targetPos, attackRange);
 
             hasMoved = true;
             await commandCompletionSource.Task;
