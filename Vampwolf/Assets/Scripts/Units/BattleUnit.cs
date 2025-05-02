@@ -26,6 +26,7 @@ namespace Vampwolf.Units
         protected int movementLeft;
         protected SpriteRenderer spriteRenderer;
         protected SpriteRenderer ringSprite;
+        protected GameObject bloodSplatter;
 
         public CharacterType CharacterType => characterType;
         public string Name => unitName;
@@ -51,6 +52,7 @@ namespace Vampwolf.Units
             // Cache local SpriteRenderer component
             spriteRenderer = GetComponent<SpriteRenderer>();
             ringSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            bloodSplatter = transform.GetChild(1).gameObject;
         }
 
         /// <summary>
@@ -137,6 +139,7 @@ namespace Vampwolf.Units
         {
             // Subtract the damage from the health
             health -= damage;
+            bloodSplatter.SetActive(true);
 
             // Notify that the health has changed
             EventBus<HealthChanged>.Raise(new HealthChanged()

@@ -24,5 +24,9 @@ namespace Vampwolf.Units.Stats
         public Sprite deathSprite;
         public Sprite frame;
         public Sprite portrait;
+
+        [Header("Enemy Class")]
+        public bool isMeleeEnemy;
+        public bool isRangedEnemy;
     }
 }

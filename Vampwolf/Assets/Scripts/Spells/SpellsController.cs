@@ -194,5 +194,10 @@ namespace Vampwolf.Spells
                 GridPosition = castingUnit.GridPosition,
             });
         }
+
+        public int GetEnemySpellAttackRange(int index)
+        {
+            return model.EnemySpells[index].Range;
+        }
     }
 }

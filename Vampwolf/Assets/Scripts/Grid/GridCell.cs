@@ -10,6 +10,7 @@ namespace Vampwolf
         public bool HasEnemyUnit => unit != null && IsEnemyUnit();
         public bool HasPlayerUnit => unit != null && IsPlayerUnit();
         public bool HasDeadUnit => unit != null && IsEnemyUnit() && unit.Dead;
+        public bool HasAnyUnit => unit != null;
 
         public GridCell()
         {

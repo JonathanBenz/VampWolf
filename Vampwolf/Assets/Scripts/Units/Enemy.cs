@@ -26,6 +26,9 @@ namespace Vampwolf.Units
 
         private const int Melee = 0;
         private const int Ranged = 1;
+        int attackType = -1;
+        int attackRange = -1;
+        bool hasMoved; // Enemy shouldn't use movesLeft (having the enemy move multiple times in the same turn was causing bugs)
 
         private void Start()
         {
@@ -33,6 +36,12 @@ namespace Vampwolf.Units
             werewolf = FindObjectOfType<Werewolf>();
             gridSelector = FindObjectOfType<GridSelector>();
             spellController = FindObjectOfType<SpellsController>();
+
+            if (statData.isMeleeEnemy) attackType = Melee;
+            else if (statData.isRangedEnemy) attackType = Ranged;
+
+            attackRange = spellController.GetEnemySpellAttackRange(attackType);
+            print(attackRange);
 
             // Initialize the aggro dictionary
             aggressiveThreats = new Dictionary<BattleUnit, int>();
@@ -61,6 +70,7 @@ namespace Vampwolf.Units
         {
             await base.StartTurn();
 
+            hasMoved = false;
             Debug.Log($"It's {gameObject.name}'s turn!");
 
             await UniTask.CompletedTask;
@@ -108,7 +118,7 @@ namespace Vampwolf.Units
         private async UniTask MoveToTarget()
         {
             // Exit case - still has movement
-            if (movementLeft <= 0) return;
+            if (hasMoved) return;
 
             targetPos = CalculateTarget();
             if (targetPos == Vector3.negativeInfinity) return; // Exit case - no valid positions were found when calculating. 
@@ -128,14 +138,16 @@ namespace Vampwolf.Units
             {
                 GridPosition = gridPosition,
                 Range = movementLeft,
-                HighlightType = Grid.HighlightType.Move
+                HighlightType = HighlightType.Move
             });
 
             commandCompletionSource = new UniTaskCompletionSource();
 
             // Calculate the path to the player and move towards there
+            gridSelector.EnemyMovementCellSelect(GridPosition, closestTargetPos, attackRange);
             gridSelector.EnemyMovementCellSelect(GridPosition, targetPos);
 
+            hasMoved = true;
             await commandCompletionSource.Task;
         }
 
@@ -156,7 +168,7 @@ namespace Vampwolf.Units
                 isEnemyTurn = true
             });
 
-            spellController.EnemySpellSelect(Melee, this);
+            spellController.EnemySpellSelect(attackType, this);
 
             commandCompletionSource = new UniTaskCompletionSource();
 
