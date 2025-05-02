@@ -26,6 +26,7 @@ namespace Vampwolf.Inventory
         private Tween highlightTween;
 
         public event Action<EquipmentSlot, RectTransform> EmptySlotClicked = delegate { };
+        public event Action<EquipmentSlot> FilledSlotClicked = delegate { };
 
         public Equipment Equipment => equipment;
         public UserType SlotType => slotType;
@@ -57,14 +58,14 @@ namespace Vampwolf.Inventory
             // Check if there's no equipment
             if(equipment == null)
             {
-                // Notify that this equipment slot has been clicked
+                // Notify that this equipment slot - with no data - has been clicked
                 EmptySlotClicked?.Invoke(this, rectTransform);
 
                 return;
             }
 
-            // Clear the equipment slot
-            Clear();
+            // Notify that this equipment slot - with data - has been clicked
+            FilledSlotClicked?.Invoke(this);
         }
 
         /// <summary>

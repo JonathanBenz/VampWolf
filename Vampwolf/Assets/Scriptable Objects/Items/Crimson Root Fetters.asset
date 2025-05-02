@@ -23,4 +23,5 @@ MonoBehaviour:
   Flavor: <i>The ground is thirsty, and so are you.</i>
   Cost: 100
   User: 0
-  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Icon: {fileID: 21300000, guid: 6d3cf8949e18a1e49a6461904038eebc, type: 3}
+  Spell: {fileID: 11400000, guid: 123942369f9122d4eb88c161163ce2bc, type: 2}

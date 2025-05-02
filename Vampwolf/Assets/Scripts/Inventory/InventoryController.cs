@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Vampwolf.EventBus;
+using Vampwolf.Events;
 
 namespace Vampwolf.Inventory
 {
@@ -7,6 +9,12 @@ namespace Vampwolf.Inventory
     {
         private InventoryModel model;
         private InventoryView view;
+
+        private EventBinding<ShowInventory> onShowInventory;
+        private EventBinding<HideInventory> onHideInventory;
+        private EventBinding<AddItemToInventory> onAddItemToInventory;
+
+        public InventoryModel Model => model;
 
         public void Awake()
         {
@@ -17,6 +25,25 @@ namespace Vampwolf.Inventory
             // Connect the model and the view to the controller
             ConnectModel();
             ConnectView();
+        }
+
+        private void OnEnable()
+        {
+            onShowInventory = new EventBinding<ShowInventory>(Show);
+            EventBus<ShowInventory>.Register(onShowInventory);
+
+            onHideInventory = new EventBinding<HideInventory>(Hide);
+            EventBus<HideInventory>.Register(onHideInventory);
+
+            onAddItemToInventory = new EventBinding<AddItemToInventory>(AddItem);
+            EventBus<AddItemToInventory>.Register(onAddItemToInventory);
+        }
+
+        private void OnDisable()
+        {
+            EventBus<ShowInventory>.Deregister(onShowInventory);
+            EventBus<HideInventory>.Deregister(onHideInventory);
+            EventBus<AddItemToInventory>.Deregister(onAddItemToInventory);
         }
 
         private void OnDestroy()
@@ -38,7 +65,7 @@ namespace Vampwolf.Inventory
         private void ConnectView()
         {
             // Initialize the view
-            view.Initialize();
+            view.Initialize(this);
         }
 
         /// <summary>
@@ -53,5 +80,20 @@ namespace Vampwolf.Inventory
                 view.AddEquipment(equipment);
             }
         }
+
+        /// <summary>
+        /// Add an item to the inventory
+        /// </summary>
+        private void AddItem(AddItemToInventory eventData) => model.Add(eventData.Item);
+
+        /// <summary>
+        /// Show the inventory screen
+        /// </summary>
+        private void Show() => view.Show();
+
+        /// <summary>
+        /// Hide the inventory screen
+        /// </summary>
+        private void Hide() => view.Hide();
     }
 }

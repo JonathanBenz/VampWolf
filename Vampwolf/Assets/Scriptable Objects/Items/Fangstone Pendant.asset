@@ -23,4 +23,5 @@ MonoBehaviour:
   Flavor: <i>Subtlety is overrated. Try velocity.</i>
   Cost: 100
   User: 1
-  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Icon: {fileID: 21300000, guid: ca326ae747ca99b46ac5ba21458014ad, type: 3}
+  Spell: {fileID: 11400000, guid: f48a26da32f6825428290c2155d913fd, type: 2}

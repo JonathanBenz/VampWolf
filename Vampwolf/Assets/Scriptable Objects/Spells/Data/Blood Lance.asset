@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
   m_Name: Blood Lance
   m_EditorClassIdentifier: 
-  characterType: 0
+  CharacterType: 0
+  spellType: 0
   Name: Blood Lance
   Description: Hurl a spear of blood to damage a single enemy
-  Cost: 35
+  Cost: 45
   Range: 4
+  RequiresTarget: 1
   Icon: {fileID: 21300000, guid: 9a3af06e029236643859b275171e57b9, type: 3}
   Strategy: {fileID: 11400000, guid: 1d8869327e9089243a9e0c91ef5b9c76, type: 2}

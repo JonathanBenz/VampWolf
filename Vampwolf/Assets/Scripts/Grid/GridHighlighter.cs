@@ -197,6 +197,11 @@ namespace Vampwolf.Grid
                     targetHighlight = HighlightType.BuffTarget;
                     break;
 
+                case SpellType.Movement:
+                    rangeHighlight = HighlightType.MoveRange;
+                    targetHighlight = HighlightType.MoveRange;
+                    break;
+
                 default:
                     rangeHighlight = HighlightType.None;
                     targetHighlight = HighlightType.None;

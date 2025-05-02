@@ -1,4 +1,5 @@
 using UnityEngine;
+using Vampwolf.Spells;
 
 namespace Vampwolf.Shop
 {
@@ -17,5 +18,6 @@ namespace Vampwolf.Shop
         public int Cost;
         public UserType User;
         public Sprite Icon;
+        public SpellData Spell;
     }
 }

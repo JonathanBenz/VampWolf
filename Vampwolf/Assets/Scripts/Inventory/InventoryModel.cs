@@ -34,11 +34,11 @@ namespace Vampwolf.Inventory
 
             // Add the equipment to the inventory
             equipments.Add(equipment);
-
-            // Notify that the inventory has changed
-            equipments.Invoke();
         }
 
+        /// <summary>
+        /// Remove an item from the inventory
+        /// </summary>
         public void Remove(Equipment equipment)
         {
             // Exit case - the equipment is not in the inventory
@@ -46,9 +46,6 @@ namespace Vampwolf.Inventory
 
             // Remove the equipment from the inventory
             equipments.Remove(equipment);
-
-            // Notify that the inventory has changed
-            equipments.Invoke();
         }
 
         /// <summary>

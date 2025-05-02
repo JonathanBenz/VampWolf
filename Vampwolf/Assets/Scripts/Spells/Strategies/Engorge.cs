@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
@@ -15,7 +16,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Devour an enemy to boost the Werewolf's Might and Fortitude by 5
         /// </summary>
-        public override void Cast(Spell spell, BattleUnit caster, BattleUnit target)
+        public override void Cast(Spell spell, BattleUnit caster, BattleUnit target, List<BattleUnit> unitsInRange, List<BattleUnit> allUnits, Vector3Int gridPosition)
         {
             // Remove the eaten unit
             EventBus<RemoveGridCellUnit>.Raise(new RemoveGridCellUnit()

@@ -15,6 +15,7 @@ namespace Vampwolf.Grid
 
         private EventBinding<PlaceUnit> onPlaceUnit;
         private EventBinding<RemoveGridCellUnit> onRemoveGridCellUnit;
+        private EventBinding<MoveUnit> onMoveUnit;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -56,12 +57,16 @@ namespace Vampwolf.Grid
 
             onRemoveGridCellUnit = new EventBinding<RemoveGridCellUnit>(RemoveUnit);
             EventBus<RemoveGridCellUnit>.Register(onRemoveGridCellUnit);
+
+            onMoveUnit = new EventBinding<MoveUnit>(MoveUnit);
+            EventBus<MoveUnit>.Register(onMoveUnit);
         }
 
         private void OnDisable()
         {
             EventBus<PlaceUnit>.Deregister(onPlaceUnit);
             EventBus<RemoveGridCellUnit>.Deregister(onRemoveGridCellUnit);
+            EventBus<MoveUnit>.Deregister(onMoveUnit);
         }
 
         /// <summary>
@@ -117,7 +122,26 @@ namespace Vampwolf.Grid
 
             // Set the grid cell data
             gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].RemoveUnit();
-        } 
+        }
+
+        /// <summary>
+        /// Move a unit on the grid instantly
+        /// </summary>
+        private void MoveUnit(MoveUnit eventData)
+        {
+            // Extract the data
+            BattleUnit unit = eventData.Unit;
+            Vector2Int lastPosition = (Vector2Int)eventData.LastPosition;
+            Vector2Int newPosition = (Vector2Int)eventData.NewPosition;
+
+            // Set the unit at the new position
+            gridDictionary[newPosition].SetUnit(unit);
+
+            // Remove the unit from the last position
+            gridDictionary[lastPosition].RemoveUnit();
+
+            unit.transform.position = GetWorldPositionFromGrid(eventData.NewPosition);
+        }
 
         /// <summary>
         /// Set a unit at a grid cell
@@ -141,15 +165,6 @@ namespace Vampwolf.Grid
 
             // Remove the unit from the grid cell
             cell.RemoveUnit();
-        }
-
-        /// <summary>
-        /// Check if a target cell is reachable given a move range
-        /// </summary>
-        public bool IsCellReachable(Vector3Int start, Vector3Int target, int range)
-        {
-            int distance = Mathf.Abs(target.x - start.x) + Mathf.Abs(target.y - start.y);
-            return distance <= range;
         }
 
         /// <summary>

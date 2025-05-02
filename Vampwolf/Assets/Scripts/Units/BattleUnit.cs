@@ -6,6 +6,7 @@ using DG.Tweening;
 using Vampwolf.EventBus;
 using Vampwolf.Spells;
 using Vampwolf.Units.Stats;
+using Vampwolf.Events;
 
 namespace Vampwolf.Units
 {
@@ -110,6 +111,23 @@ namespace Vampwolf.Units
 
             // Set the unit at the grid cell
             gridManager.SetUnitAtGridCell(new Vector2Int(gridPosition.x, gridPosition.y), this);
+        }
+
+        /// <summary>
+        /// Blink a battle unit across the grid
+        /// </summary>
+        public void Blink(Vector3Int targetPos)
+        {
+            // Move the unit instantly
+            EventBus<MoveUnit>.Raise(new MoveUnit()
+            {
+                Unit = this,
+                LastPosition = new Vector3Int(gridPosition.x, gridPosition.y),
+                NewPosition = targetPos
+            });
+
+            // Set the grid position
+            gridPosition = targetPos;
         }
 
         /// <summary>

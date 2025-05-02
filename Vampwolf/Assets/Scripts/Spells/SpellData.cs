@@ -13,7 +13,8 @@ namespace Vampwolf.Spells
     {
         Attack,
         Heal,
-        Buff
+        Buff,
+        Movement
     }
 
     [CreateAssetMenu(fileName = "Spell Data", menuName = "Spells/Data")]
@@ -25,6 +26,7 @@ namespace Vampwolf.Spells
         [TextArea] public string Description;
         public float Cost;
         public int Range;
+        public bool RequiresTarget;
         public Sprite Icon;
         public SpellStrategy Strategy;
     }

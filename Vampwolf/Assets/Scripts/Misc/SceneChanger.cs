@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Vampwolf;
+using Vampwolf.Persistence;
 public class SceneChanger : MonoBehaviour
 {
     public DialogueManager dialogueManager;
@@ -21,6 +22,12 @@ public class SceneChanger : MonoBehaviour
     public void LoadHub()
     {
         SceneManager.LoadScene((int)levelNames.HUB);
+
+        // Create a new game
+        SaveLoadSystem.Instance.NewGame();
+
+        // Set the initial gold amount
+        Bank.Instance.SetGold(100);
     }
 
     //Loads the Forest/Thicket game scene

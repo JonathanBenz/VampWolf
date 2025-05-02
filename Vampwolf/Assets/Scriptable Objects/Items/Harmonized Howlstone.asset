@@ -19,10 +19,11 @@ MonoBehaviour:
     <color=#8FFFAF><b>Pack
     Howl</b></color>
 
-    Let out a harmonious howl that buffs agility for both the
-    Werewolf and the Vampire.'
+    Let out a harmonious howl that buffs Agility and Fortitude
+    for both the Werewolf and the Vampire.'
   Flavor: <i>When one of us howls, we all get faster. And louder. And, occasionally,
     smugger.</i>
   Cost: 100
   User: 1
-  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Icon: {fileID: 21300000, guid: 83301acbc2dffba4dae2de6d7ef7e059, type: 3}
+  Spell: {fileID: 11400000, guid: 7b617e34b4ab1e741963a31089844f05, type: 2}

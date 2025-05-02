@@ -70,6 +70,8 @@ namespace Vampwolf.Units.Stats
         {
             get
             {
+                if (Agility < 0) return 0;
+
                 return (int)Mathf.Lerp(minMovementRange, maxMovementRange, (Agility - minStatValue) / maxStatValue - 1f);
             }
         }

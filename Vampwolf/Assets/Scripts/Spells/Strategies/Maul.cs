@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
@@ -14,7 +15,7 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Deal damage to a single target enemy
         /// </summary>
-        public override void Cast(Spell spell, BattleUnit caster, BattleUnit target)
+        public override void Cast(Spell spell, BattleUnit caster, BattleUnit target, List<BattleUnit> unitsInRange, List<BattleUnit> allUnits, Vector3Int gridPosition)
         {
             // Deal damage to the unit
             target.DealDamage(30);

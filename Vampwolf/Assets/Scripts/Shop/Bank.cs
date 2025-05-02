@@ -12,6 +12,21 @@ namespace Vampwolf
         public int Gold => gold;
 
         /// <summary>
+        /// Set the gold amount in the bank
+        /// </summary>
+        public void SetGold(int amount)
+        {
+            // Set the gold amount
+            gold = amount;
+
+            // Notify that the gold has changed
+            EventBus<UpdateGold>.Raise(new UpdateGold()
+            {
+                CurrentGold = gold
+            });
+        }
+
+        /// <summary>
         /// Add gold to the bank
         /// </summary>
         public void AddGold(int amount)

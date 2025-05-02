@@ -12,6 +12,13 @@ namespace Vampwolf.Events
         public Vector3Int GridPosition;
     }
 
+    public struct MoveUnit : IEvent
+    {
+        public BattleUnit Unit;
+        public Vector3Int LastPosition;
+        public Vector3Int NewPosition;
+    }
+
     public struct RemoveGridCellUnit : IEvent
     {
         public Vector3Int GridPosition;

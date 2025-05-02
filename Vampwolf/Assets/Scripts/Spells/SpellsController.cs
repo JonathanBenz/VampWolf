@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
+using Vampwolf.Inventory;
 using Vampwolf.Units;
 
 namespace Vampwolf.Spells
@@ -36,6 +37,22 @@ namespace Vampwolf.Spells
             // Connect the view and the model to the controller
             ConnectModel();
             ConnectView();
+
+            if (!ItemTracker.HasInstance) return;
+
+            // Iterate through each piece of vampire equipment that's equipped
+            foreach(Equipment equipment in ItemTracker.Instance.VampireEquipment)
+            {
+                // Add the spells to the model
+                model.Add(new Spell(model, equipment.Spell));
+            }
+
+            // Iterate through each piece of werewolf equipment that's equipped
+            foreach (Equipment equipment in ItemTracker.Instance.WerewolfEquipment)
+            {
+                // Add the spells to the model
+                model.Add(new Spell(model, equipment.Spell));
+            }
         }
 
         private void OnEnable()

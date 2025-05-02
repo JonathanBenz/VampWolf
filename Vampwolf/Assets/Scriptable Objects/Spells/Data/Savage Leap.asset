@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
+  m_Name: Savage Leap
+  m_EditorClassIdentifier: 
+  CharacterType: 1
+  spellType: 0
+  Name: Savage Leap
+  Description: Lunge forward and deal damage to an enemy.
+  Cost: 30
+  Range: 3
+  RequiresTarget: 1
+  Icon: {fileID: 21300000, guid: ca326ae747ca99b46ac5ba21458014ad, type: 3}
+  Strategy: {fileID: 11400000, guid: ae92012eb1aeb3c4399fd8e5fc0e1b00, type: 2}

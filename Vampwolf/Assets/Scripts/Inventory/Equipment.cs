@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
 using Vampwolf.Shop;
+using Vampwolf.Spells;
 
 namespace Vampwolf.Inventory
 {
+    [Serializable]
     public class Equipment
     {
-        private readonly string name;
-        private readonly string description;
-        private readonly string flavor;
+        [SerializeField] private string name;
+        [SerializeField] private string description;
+        [SerializeField] private string flavor;
         private readonly Sprite icon;
-        private readonly UserType user;
-        private bool equipped;
+        private readonly SpellData spell;
+        [SerializeField] private UserType user;
+        [SerializeField] private bool equipped;
 
         public string Name => name;
         public string Description => description;
@@ -18,6 +22,7 @@ namespace Vampwolf.Inventory
         public Sprite Icon => icon;
         public UserType User => user;
         public bool Equipped => equipped;
+        public SpellData Spell => spell;
 
         public Equipment(Item item)
         {
@@ -26,6 +31,7 @@ namespace Vampwolf.Inventory
             flavor = item.Flavor;
             icon = item.Icon;
             user = item.User;
+            spell = item.Spell;
         }
 
         /// <summary>
@@ -33,7 +39,14 @@ namespace Vampwolf.Inventory
         /// </summary>
         public void Equip()
         {
+            // Set the item equipped
             equipped = true;
+
+            // Exit case - an item tracker does not exist
+            if (!ItemTracker.HasInstance) return;
+
+            // Add the equipment to the item tracker
+            ItemTracker.Instance.AddEquipment(this);
         }
 
         /// <summary>
@@ -41,7 +54,14 @@ namespace Vampwolf.Inventory
         /// </summary>
         public void Unequip()
         {
+            // Set the item unequipped
             equipped = false;
+
+            // Exit case - an item tracker does not exist
+            if (!ItemTracker.HasInstance) return;
+
+            // Remove the equipment from the item tracker
+            ItemTracker.Instance.RemoveEquipment(this);
         }
     }
 }

@@ -1,4 +1,7 @@
 using UnityEngine;
+using Vampwolf.EventBus;
+using Vampwolf.Events;
+using Vampwolf.Spells;
 
 namespace Vampwolf.Shop
 {
@@ -14,6 +17,7 @@ namespace Vampwolf.Shop
         public bool Bought => bought;
         public UserType User => data.User;
         public Sprite Icon => data.Icon;
+        public SpellData Spell => data.Spell;
 
         public Item(ItemData data)
         {
@@ -33,6 +37,12 @@ namespace Vampwolf.Shop
 
             // Remove gold from the bank
             Bank.Instance.RemoveGold(Bank.Instance.Gold);
+
+            // Add the item to the inventory
+            EventBus<AddItemToInventory>.Raise(new AddItemToInventory()
+            {
+                Item = this
+            });
         }
     }
 }

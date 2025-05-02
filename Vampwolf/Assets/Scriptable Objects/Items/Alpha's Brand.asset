@@ -25,4 +25,5 @@ MonoBehaviour:
     you?</i>
   Cost: 100
   User: 1
-  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Icon: {fileID: 21300000, guid: 415f78a45ab72ff428cc1bf1b139d03b, type: 3}
+  Spell: {fileID: 11400000, guid: 5c8ae76ac238f634c8ae4457a1b3ed39, type: 2}

@@ -11,7 +11,8 @@ namespace Vampwolf.Grid
         HealRange,
         HealTarget,
         BuffRange,
-        BuffTarget
+        BuffTarget,
+        MoveRange,
     }
 
     public class HighlightTile : MonoBehaviour
@@ -24,6 +25,7 @@ namespace Vampwolf.Grid
         private Color healTargetColor = new Color(0f, 1.0f, 0f, 0.4f);
         private Color buffRangeColor = new Color(1.0f, 0.741f, 0.2f, 0.1f); // Orange
         private Color buffTargetColor = new Color(1.0f, 0.741f, 0.2f, 0.4f);
+        private Color moveRangeColor = new Color(0.2f, 0.2f, 1.0f, 0.1f); // Blue
         private SpriteRenderer spriteRenderer;
         public Vector3Int GridPosition { get => gridPosition; set => gridPosition = value; }
 
@@ -74,6 +76,10 @@ namespace Vampwolf.Grid
 
                 case HighlightType.BuffTarget:
                     spriteRenderer.color = buffTargetColor;
+                    break;
+
+                case HighlightType.MoveRange:
+                    spriteRenderer.color = moveRangeColor;
                     break;
             }
         }

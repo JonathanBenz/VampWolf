@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
@@ -17,6 +18,7 @@ namespace Vampwolf.Spells
         public string Description => data.Description;
         public float Cost => data.Cost;
         public int Range => data.Range;
+        public bool RequiresTarget => data.RequiresTarget;
         public Sprite Icon => data.Icon;
         public GridPredicate Predicate => data.Strategy.Predicate;
 
@@ -30,10 +32,10 @@ namespace Vampwolf.Spells
         /// <summary>
         /// Cast the spell
         /// </summary>
-        public void Cast(BattleUnit caster, BattleUnit target)
+        public void Cast(BattleUnit caster, BattleUnit target, List<BattleUnit> unitsInRange, List<BattleUnit> allUnits, Vector3Int gridPosition)
         {
             // Cast the spell
-            data.Strategy.Cast(this, caster, target);
+            data.Strategy.Cast(this, caster, target, unitsInRange, allUnits, gridPosition);
 
             // Remove the cost from the model depending on the character type
             switch (CharacterType)

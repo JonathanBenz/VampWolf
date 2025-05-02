@@ -24,4 +24,5 @@ MonoBehaviour:
     who didn't feel like walking.</i>
   Cost: 100
   User: 0
-  Icon: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Icon: {fileID: 21300000, guid: 0e5e6093a64f0a1419a7f83f9f775300, type: 3}
+  Spell: {fileID: 11400000, guid: 30d2ba70e5807594ba1c2f1c540e8451, type: 2}

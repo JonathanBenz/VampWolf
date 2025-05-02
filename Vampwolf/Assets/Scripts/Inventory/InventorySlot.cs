@@ -15,7 +15,7 @@ namespace Vampwolf.Inventory
         [SerializeField] private CanvasGroup filledGroup;
         private Button button;
 
-        private Equipment equipment;
+        [SerializeField] private Equipment equipment;
 
         [Header("Tweening Variables")]
         [SerializeField] private float highlightDuration;
@@ -42,6 +42,9 @@ namespace Vampwolf.Inventory
             // Set the button on-click listener
             button.onClick.AddListener(OnClick);
 
+            // Clear the slot
+            Clear();
+
             // Set the name of the inventory slot
             gameObject.name = $"Inventory Slot {index}";
         }
@@ -65,6 +68,9 @@ namespace Vampwolf.Inventory
         {
             // Set the equipment
             this.equipment = equipment;
+
+            // Set the equipment icon
+            equipmentIcon.sprite = equipment.Icon;
 
             // Show the empty group
             filledGroup.alpha = 1f;

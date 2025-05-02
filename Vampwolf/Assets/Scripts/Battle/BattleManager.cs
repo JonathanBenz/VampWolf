@@ -5,6 +5,7 @@ using Vampwolf.Battles.Commands;
 using Vampwolf.Battles.States;
 using Vampwolf.EventBus;
 using Vampwolf.Events;
+using Vampwolf.Grid;
 using Vampwolf.Input;
 using Vampwolf.Spells;
 using Vampwolf.StateMachines;
@@ -16,6 +17,7 @@ namespace Vampwolf.Battles
     {
         [Header("References")]
         [SerializeField] private InputReader inputReader;
+        [SerializeField] private GridManager gridManager;
 
         private Queue<BattleUnit> turnQueue;
         private Queue<IBattleCommand> commandQueue;
@@ -201,6 +203,29 @@ namespace Vampwolf.Battles
             return null;
         }
 
+        private List<BattleUnit> FindUnitsInRange(Vector3Int center, int range)
+        {
+            // Cast the turn queue to a list
+            List<BattleUnit> activeUnits = turnQueue.ToList();
+            List<Vector3Int> reachableCells = gridManager.GetReachableCells(center, range);
+            List<BattleUnit> unitsInRange = new List<BattleUnit>();
+
+            // Iterate through the active units
+            foreach (BattleUnit currentUnit in activeUnits)
+            {
+                foreach(Vector3Int cell in reachableCells)
+                {
+                    // Skip if the unit is not in range
+                    if (currentUnit.GridPosition != cell) continue;
+
+                    // Add the current unit
+                    unitsInRange.Add(currentUnit);
+                }
+            }
+
+            return unitsInRange;
+        }
+
         /// <summary>
         /// Move the active player unit to a new grid position
         /// </summary>
@@ -227,17 +252,23 @@ namespace Vampwolf.Battles
             // Try to find the target at the grid position
             BattleUnit target = FindUnitAtPosition(eventData.GridPosition);
 
-            // Exit case - if a target is not found
-            if (target == null) return;
+            // Exit case - the target is null and the spell requires a target
+            if (target == null && eventData.Spell.RequiresTarget) return;
 
             // Create a default, empty caster
             BattleUnit caster = FindUnitByType(eventData.Spell.CharacterType);
 
-            // Exit case - if a caster is not found
-            if (caster == null) return;
+            // Exit case - the caster is null and the spell requires a caster
+            if (caster == null && eventData.Spell.RequiresTarget) return;
+
+            // Find units in range
+            List<BattleUnit> unitsInRange = FindUnitsInRange(caster.GridPosition, eventData.Spell.Range);
+
+            // Get all units on the board
+            List<BattleUnit> allUnits = turnQueue.ToList();
 
             // Create a new cast command
-            SpellCommand spellCommand = new SpellCommand(caster, target, eventData.Spell);
+            SpellCommand spellCommand = new SpellCommand(caster, target, unitsInRange, allUnits, eventData.Spell, eventData.GridPosition);
 
             // Add the command to the queue
             commandQueue.Enqueue(spellCommand);

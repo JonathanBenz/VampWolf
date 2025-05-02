@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3a380280872e844a2ec862b0ef9b02, type: 3}
-  m_Name: Eclipse
+  m_Name: Ashstep
   m_EditorClassIdentifier: 
-  CharacterType: 1
-  Name: Eclipse
-  Description: Leap to an enemy and damage them
+  CharacterType: 0
+  spellType: 3
+  Name: Ashstep
+  Description: Teleport to a nearby location in a flurry of shadow and ash.
   Cost: 60
-  Range: 4
-  Icon: {fileID: 2747690628134850419, guid: 16037dbd798344f57a526d53d48f5ead, type: 3}
-  Strategy: {fileID: 11400000, guid: 273f1625f7b676044a5ca3a817d02ec0, type: 2}
+  Range: 5
+  Icon: {fileID: 21300000, guid: 0e5e6093a64f0a1419a7f83f9f775300, type: 3}
+  Strategy: {fileID: 11400000, guid: 2155b357f7165b14da1b935ed880e071, type: 2}
