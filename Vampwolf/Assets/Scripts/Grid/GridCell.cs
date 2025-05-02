@@ -6,11 +6,13 @@ namespace Vampwolf
     public class GridCell
     {
         private BattleUnit unit;
+        private HellPortal portal;
 
         public bool HasEnemyUnit => unit != null && IsEnemyUnit();
         public bool HasPlayerUnit => unit != null && IsPlayerUnit();
         public bool HasDeadUnit => unit != null && IsEnemyUnit() && unit.Dead;
         public bool HasAnyUnit => unit != null;
+        public bool HasHellPortal => portal != null;
 
         public GridCell()
         {
@@ -22,6 +24,8 @@ namespace Vampwolf
         /// Set a unit to this cell
         /// </summary>
         public void SetUnit(BattleUnit unit) => this.unit = unit;
+
+        public void SetHellPortal(HellPortal portal) => this.portal = portal;
         
         /// <summary>
         /// Remove a unit from this cell

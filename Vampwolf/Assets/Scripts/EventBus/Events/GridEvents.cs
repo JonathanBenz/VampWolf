@@ -12,6 +12,16 @@ namespace Vampwolf.Events
         public Vector3Int GridPosition;
     }
 
+    public struct PlaceHellPortal : IEvent
+    {
+        public HellPortal HellPortal;
+        public Vector3Int GridPosition;
+    }
+
+    public struct PortalOpened : IEvent
+    {
+    }
+
     public struct MoveUnit : IEvent
     {
         public BattleUnit Unit;

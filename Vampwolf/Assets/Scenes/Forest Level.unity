@@ -3885,7 +3885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524004661350286839, guid: 2f57db247b0fb2049896df210d66507c, type: 3}
       propertyPath: totalTurns
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5156787340698908142, guid: 2f57db247b0fb2049896df210d66507c, type: 3}
       propertyPath: m_Name
@@ -15067,6 +15067,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c94a178eb6e7b439942839620893af, type: 3}
+--- !u!1001 &6384810734448293728
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2992978250140734627, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_Name
+      value: Hell Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035828125313489080, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: gridPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -15078,3 +15139,4 @@ SceneRoots:
   - {fileID: 1663563768}
   - {fileID: 1028320145}
   - {fileID: 114449194}
+  - {fileID: 6384810734448293728}

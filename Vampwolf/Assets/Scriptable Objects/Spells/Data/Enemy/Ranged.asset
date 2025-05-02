@@ -17,6 +17,7 @@ MonoBehaviour:
   Name: Ranged
   Description: 360 N0-SC0p3 mum get the camera!!
   Cost: 0
-  Range: 5
+  Range: 6
+  RequiresTarget: 0
   Icon: {fileID: 0}
   Strategy: {fileID: 11400000, guid: dcf3f113f820e2540bcb4418120b644b, type: 2}

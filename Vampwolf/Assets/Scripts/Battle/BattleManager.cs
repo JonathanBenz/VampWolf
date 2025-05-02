@@ -33,6 +33,7 @@ namespace Vampwolf.Battles
         [SerializeField] private bool processing;
         [SerializeField] private bool changingTurns;
         [SerializeField] private bool skippingTurn;
+        private Vector3Int hellPortalPos;
 
         private EventBinding<MoveCellSelected> onMoveCellSelected;
         private EventBinding<TargetCellSelected> onTargetCellSelected;
@@ -80,6 +81,15 @@ namespace Vampwolf.Battles
             // Start counting enemies and players
             numberOfEnemies = 0;
             numberOfPlayers = 2;
+
+            // Find the hell portal in the scene and place it on the grid
+            HellPortal hellPortal = FindObjectOfType<HellPortal>();
+            EventBus<PlaceHellPortal>.Raise(new PlaceHellPortal
+            {
+                HellPortal = hellPortal,
+                GridPosition = hellPortal.GridPosition
+            });
+            hellPortalPos = hellPortal.GridPosition;
 
             // Find all units in the scene and order them by initiative
             BattleUnit[] units = FindObjectsOfType<BattleUnit>().OrderByDescending(unit => unit.Initiative).ToArray();
@@ -248,6 +258,13 @@ namespace Vampwolf.Battles
         {
             // Exit case - the unit has already casted
             if (activeUnit.HasCasted) return;
+
+            // If the spell was cast to open the portal, then open the portal and return
+            if (eventData.GridPosition == hellPortalPos)
+            {
+                EventBus<PortalOpened>.Raise(new PortalOpened());
+                return;
+            }
 
             // Try to find the target at the grid position
             BattleUnit target = FindUnitAtPosition(eventData.GridPosition);

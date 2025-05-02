@@ -14,6 +14,7 @@ namespace Vampwolf.Grid
         private Dictionary<Vector2Int, GridCell> gridDictionary;
 
         private EventBinding<PlaceUnit> onPlaceUnit;
+        private EventBinding<PlaceHellPortal> onPlaceHellPortal;
         private EventBinding<RemoveGridCellUnit> onRemoveGridCellUnit;
         private EventBinding<MoveUnit> onMoveUnit;
 
@@ -55,6 +56,9 @@ namespace Vampwolf.Grid
             onPlaceUnit = new EventBinding<PlaceUnit>(PlaceUnit);
             EventBus<PlaceUnit>.Register(onPlaceUnit);
 
+            onPlaceHellPortal = new EventBinding<PlaceHellPortal>(PlacePortal);
+            EventBus<PlaceHellPortal>.Register(onPlaceHellPortal);
+
             onRemoveGridCellUnit = new EventBinding<RemoveGridCellUnit>(RemoveUnit);
             EventBus<RemoveGridCellUnit>.Register(onRemoveGridCellUnit);
 
@@ -65,6 +69,7 @@ namespace Vampwolf.Grid
         private void OnDisable()
         {
             EventBus<PlaceUnit>.Deregister(onPlaceUnit);
+            EventBus<PlaceHellPortal>.Deregister(onPlaceHellPortal);
             EventBus<RemoveGridCellUnit>.Deregister(onRemoveGridCellUnit);
             EventBus<MoveUnit>.Deregister(onMoveUnit);
         }
@@ -110,6 +115,22 @@ namespace Vampwolf.Grid
 
             // Set the grid cell data
             gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].SetUnit(unit);
+        }
+
+        /// <summary>
+        /// Place a hell portal on the grid
+        /// </summary>
+        private void PlacePortal(PlaceHellPortal eventData)
+        {
+            // Extract the data
+            HellPortal portal = eventData.HellPortal;
+            Vector3Int gridPosition = eventData.GridPosition;
+
+            // Set the position of the portal
+            portal.transform.position = GetWorldPositionFromGrid(gridPosition);
+
+            // Set the grid cell data
+            gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].SetHellPortal(portal);
         }
 
         /// <summary>

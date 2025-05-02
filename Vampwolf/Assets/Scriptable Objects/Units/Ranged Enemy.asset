@@ -16,7 +16,7 @@ MonoBehaviour:
   maxStatValue: 20
   Might: 12
   Fortitude: 6
-  Agility: 24
+  Agility: 20
   minMovementRange: 2
   maxMovementRange: 8
   frontFacingSprite: {fileID: 21300000, guid: 84db8fb85a6e9204d8cbf3da742b0bb3, type: 3}
