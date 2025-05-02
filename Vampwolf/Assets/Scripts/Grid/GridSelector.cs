@@ -191,7 +191,7 @@ namespace Vampwolf.Grid
         /// </summary>
         /// <param name="gridPos">The enemy's current GridPosition from raising the SetMovementSelectionMode event.</param>
         /// <param name="targetPos">Where the enemy wants to move toward (e.g., the closest player's location).</param>
-        public void EnemyMovementCellSelect(Vector3Int gridPos, Vector3 targetPos)
+        public void EnemyMovementCellSelect(Vector3Int gridPos, Vector3 targetPos, int attackRange)
         {
             Vector3Int target = gridManager.GetGridPositionFromWorld(targetPos);
 
@@ -204,7 +204,7 @@ namespace Vampwolf.Grid
 
             // Find the best highlighted tile to go to 
             Vector3Int bestTile = gridPos;
-            for (int i = 1; i < path.Count - 1; i++)
+            for (int i = 1; i < path.Count - attackRange; i++) // Want to go to within attack range of the target
             {
                 bool isHighlighted = highlightedTiles.Exists(h => h.GridPosition == path[i]);
                 if (isHighlighted) bestTile = path[i]; // Update the best tile
