@@ -27,6 +27,7 @@ namespace Vampwolf.Units
         protected SpriteRenderer spriteRenderer;
         protected SpriteRenderer ringSprite;
         protected GameObject bloodSplatter;
+        private StoneTiles stoneTiles;
 
         public CharacterType CharacterType => characterType;
         public string Name => unitName;
@@ -109,6 +110,8 @@ namespace Vampwolf.Units
             spriteRenderer = GetComponent<SpriteRenderer>();
             ringSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
             bloodSplatter = transform.GetChild(1).gameObject;
+
+            stoneTiles = FindObjectOfType<StoneTiles>();
         }
 
         /// <summary>
@@ -117,7 +120,12 @@ namespace Vampwolf.Units
         public virtual UniTask StartTurn()
         {
             // Set that the werewolf has not moved or attacked
-            movementLeft = MovementRange;
+            // Adjust movement based on whether or not the unit is standing on a stone tile
+            if (stoneTiles != null && stoneTiles.IsStandingOnStoneTile(gridPosition))
+            {
+                movementLeft = MovementRange * 3;
+            }
+            else movementLeft = MovementRange;
             hasCasted = false;
             hasCurrentTurn = true;
             ringSprite.color = Color.white; // Default color

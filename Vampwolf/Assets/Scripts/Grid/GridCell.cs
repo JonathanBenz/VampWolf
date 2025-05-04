@@ -45,11 +45,8 @@ namespace Vampwolf
         { 
             if(HasFog)
             {
-                GameObject.Destroy(fog);
-
-                // I don't know why disabling and nulling doesn't work. 
-                /*fog.SetActive(false);
-                fog = null;*/
+                fog.SetActive(false);
+                fog = null;
             }
         }
 

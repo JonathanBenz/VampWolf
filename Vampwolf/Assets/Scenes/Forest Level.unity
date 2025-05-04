@@ -10297,6 +10297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridTilemap: {fileID: 1761327692}
+  fogPrefab: {fileID: 0}
+  isFogLevel: 0
 --- !u!114 &1637843417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15010,6 +15012,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vampire
       objectReference: {fileID: 0}
+    - target: {fileID: 8213865982642519936, guid: e9d61927e9d4a914cb7de04ce9443003, type: 3}
+      propertyPath: gridPosition.y
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15086,7 +15092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7035828125313489080, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
       propertyPath: gridPosition.x
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
       propertyPath: m_LocalPosition.x
