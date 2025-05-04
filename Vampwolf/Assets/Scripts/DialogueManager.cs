@@ -30,13 +30,17 @@ namespace Vampwolf
         public List<DialogueLine> castleIntroLines;
         public List<DialogueLine> villageIntroLines;
 
-private System.Action onDialogueComplete;
+        private System.Action onDialogueComplete;
         private List<DialogueLine> currentLines;
         public float typeSpeed = 0.04f;
 
         private int currentLineIndex = 0;
         private bool isTyping = false;
         private bool waitingForInput = false;
+
+        const int Forest = 2;
+        const int Castle = 3;
+        const int Village = 4;
 
         void Start()
         {
@@ -101,30 +105,21 @@ private System.Action onDialogueComplete;
         {
             currentLineIndex = 0;  // Reset to start of dialogue list
             UpdateCurrentLines(forestIntroLines);
-            if (forestIntroLines.Count > 0)
-            {
-                StartCoroutine(PlayDialogue());
-            }
+            if (forestIntroLines.Count > 0) StartCoroutine(PlayDialogueAndLoadScene(Forest));
         }
 
         public void PlayCastleIntroDialogue()
         {
             currentLineIndex = 0;  // Reset to start of dialogue list
             UpdateCurrentLines(castleIntroLines);
-            if (castleIntroLines.Count > 0)
-            {
-                StartCoroutine(PlayDialogue());
-            }
+            if (castleIntroLines.Count > 0) StartCoroutine(PlayDialogueAndLoadScene(Castle));
         }
 
         public void PlayVillageIntroDialogue()
         {
             currentLineIndex = 0;  // Reset to start of dialogue list
             UpdateCurrentLines(villageIntroLines);
-            if (villageIntroLines.Count > 0)
-            {
-                StartCoroutine(PlayDialogue());
-            }
+            if (villageIntroLines.Count > 0) StartCoroutine(PlayDialogueAndLoadScene(Village));
         }
 
         void Update()
@@ -143,6 +138,15 @@ private System.Action onDialogueComplete;
                     dialoguePanel.SetActive(false);
                 }
             }
+        }
+
+        private IEnumerator PlayDialogueAndLoadScene(int sceneIdx)
+        {
+            yield return StartCoroutine(PlayDialogue()); 
+
+            if (sceneIdx == Forest) FindObjectOfType<SceneChanger>().LoadForest();
+            if (sceneIdx == Castle) FindObjectOfType<SceneChanger>().LoadCastle();
+            if (sceneIdx == Village) FindObjectOfType<SceneChanger>().LoadVillage();
         }
     }
 }

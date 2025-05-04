@@ -1040,9 +1040,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 652629507}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: LoadVillage
+      - m_Target: {fileID: 1188991817}
+        m_TargetAssemblyTypeName: Vampwolf.DialogueManager, Assembly-CSharp
+        m_MethodName: PlayVillageIntroDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3655,8 +3655,8 @@ MonoBehaviour:
     line: Here you can look at your inventory, access the shop, or choose which level
       you'd like to play.
   - speakerName: Tutorial
-    line: 'I heard Martha the Shopkeep is paying extra for anyone who opens up Hell
-      Portals for her. '
+    line: '** I heard Martha the Shopkeep is paying extra for anyone who opens up
+      Hell Portals for her by the way. **'
   - speakerName: Tutorial
     line: When you're ready, enter "The Forest" to begin your adventure!
   level1CompleteLines:
@@ -6157,18 +6157,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 652629507}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: LoadForest
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1916392955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7131,9 +7119,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 652629507}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
-        m_MethodName: LoadCastle
+      - m_Target: {fileID: 1188991817}
+        m_TargetAssemblyTypeName: Vampwolf.DialogueManager, Assembly-CSharp
+        m_MethodName: PlayCastleIntroDialogue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
