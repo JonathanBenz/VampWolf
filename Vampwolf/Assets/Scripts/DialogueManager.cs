@@ -25,6 +25,7 @@ namespace Vampwolf
         public List<DialogueLine> lines;
         public List<DialogueLine> level1CompleteLines;
         public List<DialogueLine> level2CompleteLines;
+        public List<DialogueLine> level3CompleteLines;
         public List<DialogueLine> forestIntroLines;
         public List<DialogueLine> castleIntroLines;
         public List<DialogueLine> villageIntroLines;
@@ -39,19 +40,24 @@ private System.Action onDialogueComplete;
 
         void Start()
         {
-            if (lines.Count > 0 && !ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete)
+            if (lines.Count > 0 && !ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete && !ProgressTracker.Instance.level3Complete)
             {
                 UpdateCurrentLines(lines);
                 StartCoroutine(PlayDialogue());
             }
-            else if (level1CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete)
+            else if (level1CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && !ProgressTracker.Instance.level2Complete && !ProgressTracker.Instance.level3Complete)
             {
                 UpdateCurrentLines(level1CompleteLines);
                 StartCoroutine(PlayDialogue());
             }
-            else if (level2CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && ProgressTracker.Instance.level2Complete)
+            else if (level2CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && ProgressTracker.Instance.level2Complete && !ProgressTracker.Instance.level3Complete)
             {
                 UpdateCurrentLines(level2CompleteLines);
+                StartCoroutine(PlayDialogue());
+            }
+            else if (level3CompleteLines.Count > 0 && ProgressTracker.Instance.level1Complete && ProgressTracker.Instance.level2Complete && ProgressTracker.Instance.level3Complete)
+            {
+                UpdateCurrentLines(level3CompleteLines);
                 StartCoroutine(PlayDialogue());
             }
         }

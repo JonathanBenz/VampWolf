@@ -47,6 +47,8 @@ namespace Vampwolf
                 ProgressTracker.Instance.level1Complete = true;
             else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 3) // Castle Level
                 ProgressTracker.Instance.level2Complete = true;
+            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 4) // Village Level
+                ProgressTracker.Instance.level3Complete = true;
         }
     }
 }

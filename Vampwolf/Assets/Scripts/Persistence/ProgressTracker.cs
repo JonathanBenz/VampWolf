@@ -12,5 +12,6 @@ namespace Vampwolf
     {
         public bool level1Complete;
         public bool level2Complete;
+        public bool level3Complete;
     }
 }

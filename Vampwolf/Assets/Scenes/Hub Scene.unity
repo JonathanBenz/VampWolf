@@ -2457,6 +2457,7 @@ MonoBehaviour:
   AutoUnparentOnAwake: 1
   level1Complete: 0
   level2Complete: 0
+  level3Complete: 0
 --- !u!4 &733714532
 Transform:
   m_ObjectHideFlags: 0
@@ -3654,13 +3655,20 @@ MonoBehaviour:
     line: Here you can look at your inventory, access the shop, or choose which level
       you'd like to play.
   - speakerName: Tutorial
+    line: 'I heard Martha the Shopkeep is paying extra for anyone who opens up Hell
+      Portals for her. '
+  - speakerName: Tutorial
     line: When you're ready, enter "The Forest" to begin your adventure!
   level1CompleteLines:
   - speakerName: Tutorial
-    line: Level 2 Unlocked
+    line: 'Good job! You unlocked "The Castle." '
   level2CompleteLines:
-  - speakerName: Secret Amogus
-    line: amogus
+  - speakerName: Tutorial
+    line: 'Great job weaving through all that fog! You may now enter "The Village." '
+  level3CompleteLines:
+  - speakerName: Tutorial
+    line: Splendid job, you have successfully eliminated all of the monster hunters!
+      ---END OF DEMO---
   forestIntroLines:
   - speakerName: Narrator
     line: Beyond the safety of stone walls, the Forest Thicket waits. Twisting paths

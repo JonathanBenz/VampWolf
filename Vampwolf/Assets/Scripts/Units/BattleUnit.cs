@@ -122,10 +122,12 @@ namespace Vampwolf.Units
             // Set that the werewolf has not moved or attacked
             // Adjust movement based on whether or not the unit is standing on a stone tile
             if (stoneTiles != null && stoneTiles.IsStandingOnStoneTile(gridPosition))
-            {
                 movementLeft = MovementRange * 3;
-            }
-            else movementLeft = MovementRange;
+            else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 3) // Duct tape solution to speed up the LARGE castle level
+                movementLeft = MovementRange * 2;
+            else
+                movementLeft = MovementRange;
+
             hasCasted = false;
             hasCurrentTurn = true;
             ringSprite.color = Color.white; // Default color

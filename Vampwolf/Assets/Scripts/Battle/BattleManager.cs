@@ -72,6 +72,18 @@ namespace Vampwolf.Battles
             EventBus<RemoveUnit>.Deregister(onRemoveUnit);
         }
 
+        private void Awake()
+        {
+            // Find the hell portal in the scene and place it on the grid
+            HellPortal hellPortal = FindObjectOfType<HellPortal>();
+            EventBus<PlaceHellPortal>.Raise(new PlaceHellPortal
+            {
+                HellPortal = hellPortal,
+                GridPosition = hellPortal.GridPosition
+            });
+            hellPortalPos = hellPortal.GridPosition;
+        }
+
         private void Start()
         {
             // Initialize the queues
@@ -81,15 +93,6 @@ namespace Vampwolf.Battles
             // Start counting enemies and players
             numberOfEnemies = 0;
             numberOfPlayers = 2;
-
-            // Find the hell portal in the scene and place it on the grid
-            HellPortal hellPortal = FindObjectOfType<HellPortal>();
-            EventBus<PlaceHellPortal>.Raise(new PlaceHellPortal
-            {
-                HellPortal = hellPortal,
-                GridPosition = hellPortal.GridPosition
-            });
-            hellPortalPos = hellPortal.GridPosition;
 
             // Find all units in the scene and order them by initiative
             BattleUnit[] units = FindObjectsOfType<BattleUnit>().OrderByDescending(unit => unit.Initiative).ToArray();

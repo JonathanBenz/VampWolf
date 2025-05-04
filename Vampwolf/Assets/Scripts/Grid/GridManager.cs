@@ -14,6 +14,7 @@ namespace Vampwolf.Grid
         [SerializeField] private GameObject fogPrefab;
         [SerializeField] private bool isFogLevel;
         private Dictionary<Vector2Int, GridCell> gridDictionary;
+        private Vector3 hellPortalPos;
 
         private EventBinding<PlaceUnit> onPlaceUnit;
         private EventBinding<PlaceHellPortal> onPlaceHellPortal;
@@ -49,10 +50,18 @@ namespace Vampwolf.Grid
 
                     // Link the cell and the position in the dictionary
                     gridDictionary.Add(gridPos, cell);
-
-                    // If the level has fog of war, set up the fog
-                    if (isFogLevel) SetFogAtGridCell(gridPos, fogPrefab);
                 }
+            }
+        }
+
+        private void Start()
+        {
+            if (!isFogLevel) return;
+
+            // If the level has fog of war, set up the fog
+            foreach (KeyValuePair<Vector2Int, GridCell> entry in gridDictionary)
+            {
+                SetFogAtGridCell(entry.Key, fogPrefab);
             }
         }
 
@@ -132,7 +141,8 @@ namespace Vampwolf.Grid
             Vector3Int gridPosition = eventData.GridPosition;
 
             // Set the position of the portal
-            portal.transform.position = GetWorldPositionFromGrid(gridPosition);
+            hellPortalPos = GetWorldPositionFromGrid(gridPosition);
+            portal.transform.position = hellPortalPos;
 
             // Set the grid cell data
             gridDictionary[new Vector2Int(gridPosition.x, gridPosition.y)].SetHellPortal(portal);
@@ -189,12 +199,13 @@ namespace Vampwolf.Grid
             // Exit case - the dictionary does not hold the position
             if (!gridDictionary.TryGetValue(position, out GridCell cell)) return;
 
-            // Exit case - the tile is occupied by or is nearby a player character
+            // Exit case - the tile is occupied by or is nearby a player character or the hell portal
             Vector3 vampPos = FindObjectOfType<Vampire>().transform.position;
             Vector3 wolfPos = FindObjectOfType<Werewolf>().transform.position;
             if (cell.HasPlayerUnit || 
                 Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(vampPos)) <= 3 || 
-                Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(wolfPos)) <= 3) return;
+                Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(wolfPos)) <= 3 ||
+                Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(hellPortalPos)) <= 3) return;
 
             // Set the unit to the grid cell
             cell.SetFog(GetWorldPositionFromGrid((Vector3Int)position), fog);
