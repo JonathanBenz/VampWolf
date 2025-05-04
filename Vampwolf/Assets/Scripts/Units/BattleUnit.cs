@@ -40,6 +40,62 @@ namespace Vampwolf.Units
         public Sprite Frame => statData.frame;
         public Sprite Portrait => statData.portrait;
 
+        // Caching this array for fog removal
+        Vector3Int[] fogRemovalDirs = {
+                        new Vector3Int( 0,  0, 0),    // DEFAULT                       
+                        new Vector3Int( 1,  0, 0),    // RIGHT
+                        new Vector3Int( 2,  0, 0),
+                        new Vector3Int( 3,  0, 0),
+                        new Vector3Int( 4,  0, 0),
+                        new Vector3Int(-1,  0, 0),    // LEFT
+                        new Vector3Int(-2,  0, 0),
+                        new Vector3Int(-3,  0, 0),
+                        new Vector3Int(-4,  0, 0),
+                        new Vector3Int( 0,  1, 0),    // TOP
+                        new Vector3Int( 0,  2, 0),
+                        new Vector3Int( 0,  3, 0),
+                        new Vector3Int( 0,  4, 0),
+                        new Vector3Int( 0, -1, 0),    // BOTTOM
+                        new Vector3Int( 0, -2, 0),
+                        new Vector3Int( 0, -3, 0),
+                        new Vector3Int( 0, -4, 0),
+                        new Vector3Int( 1,  1, 0),    // TOP-RIGHT
+                        new Vector3Int( 1,  2, 0),
+                        new Vector3Int( 1,  3, 0),
+                        new Vector3Int( 2,  1, 0),
+                        new Vector3Int( 2,  2, 0),
+                        new Vector3Int( 2,  3, 0),
+                        new Vector3Int( 3,  1, 0),
+                        new Vector3Int( 3,  2, 0),
+                        new Vector3Int( 3,  3, 0),
+                        new Vector3Int(-1,  1, 0),    // TOP-LEFT
+                        new Vector3Int(-1,  2, 0),
+                        new Vector3Int(-1,  3, 0),
+                        new Vector3Int(-2,  1, 0),
+                        new Vector3Int(-2,  2, 0),
+                        new Vector3Int(-2,  3, 0),
+                        new Vector3Int(-3,  1, 0),
+                        new Vector3Int(-3,  2, 0),
+                        new Vector3Int(-3,  3, 0),
+                        new Vector3Int( 1, -1, 0),    // BOTTOM-RIGHT
+                        new Vector3Int( 1, -2, 0),
+                        new Vector3Int( 1, -3, 0),
+                        new Vector3Int( 2, -1, 0),
+                        new Vector3Int( 2, -2, 0),
+                        new Vector3Int( 2, -3, 0),
+                        new Vector3Int( 3, -1, 0),
+                        new Vector3Int( 3, -2, 0),
+                        new Vector3Int( 3, -3, 0),
+                        new Vector3Int(-1, -1, 0),   // BOTTOM-LEFT
+                        new Vector3Int(-1, -2, 0),
+                        new Vector3Int(-1, -3, 0),
+                        new Vector3Int(-2, -1, 0),
+                        new Vector3Int(-2, -2, 0),
+                        new Vector3Int(-2, -3, 0),
+                        new Vector3Int(-3, -1, 0),
+                        new Vector3Int(-3, -2, 0),
+                        new Vector3Int(-3, -3, 0)};
+
         private void Awake()
         {
             // Initialize the Unit Stats
@@ -96,6 +152,9 @@ namespace Vampwolf.Units
             // Loop through the path
             for (int i = 0; i < path.Count; i++)
             {
+                // If the player is moving, check for fog and remove it as the player moves
+                RemoveFogNearPlayerUnit(gridManager);
+
                 // Get the world position
                 Vector3 worldPos = gridManager.GetWorldPositionFromGrid(path[i]);
 
@@ -113,6 +172,9 @@ namespace Vampwolf.Units
 
             // Set the unit at the grid cell
             gridManager.SetUnitAtGridCell(new Vector2Int(gridPosition.x, gridPosition.y), this);
+
+            // If the player is moving, check for fog and remove it as the player moves
+            RemoveFogNearPlayerUnit(gridManager);
         }
 
         /// <summary>
@@ -190,5 +252,21 @@ namespace Vampwolf.Units
         /// Add a stat modifier to the stats mediator
         /// </summary>
         public void AddStatModifier(StatModifier modifier) => stats.AddModifier(modifier);
+
+        /// <summary>
+        /// Check cells within a three-ring range for fog and remove it.
+        /// </summary>
+        private void RemoveFogNearPlayerUnit(GridManager gridManager)
+        {
+            // Remove fog of war as player is moving through the level
+            if (characterType == CharacterType.Vampire || characterType == CharacterType.Werewolf)
+            {
+                foreach (Vector2Int dir in fogRemovalDirs)
+                {
+                    Vector2Int d = (Vector2Int)gridPosition + dir;
+                    gridManager.RemoveFogAtGridCell(d);
+                }
+            }
+        }
     }
 }

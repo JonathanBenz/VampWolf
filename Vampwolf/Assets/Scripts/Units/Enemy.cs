@@ -39,7 +39,6 @@ namespace Vampwolf.Units
             else if (statData.isRangedEnemy) attackType = Ranged;
 
             attackRange = spellController.GetEnemySpellAttackRange(attackType);
-            print(attackRange);
 
             // Initialize the aggro dictionary
             aggressiveThreats = new Dictionary<BattleUnit, int>();

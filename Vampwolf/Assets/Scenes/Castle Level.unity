@@ -17516,9 +17516,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hell Portal
       objectReference: {fileID: 0}
-    - target: {fileID: 7035828125313489080, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
-      propertyPath: gridPosition.x
-      value: 8
+    - target: {fileID: 2992978250140734627, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066266900879807553, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19749,6 +19753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridTilemap: {fileID: 346531867}
+  fogPrefab: {fileID: 3484037498560570482, guid: d528ac95e4a0c21448a65223747eacf7, type: 3}
+  isFogLevel: 1
 --- !u!1 &1302309010
 GameObject:
   m_ObjectHideFlags: 0

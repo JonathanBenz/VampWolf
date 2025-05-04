@@ -11,6 +11,8 @@ namespace Vampwolf.Grid
     {
         [Header("References")]
         [SerializeField] private Tilemap gridTilemap;
+        [SerializeField] private GameObject fogPrefab;
+        [SerializeField] private bool isFogLevel;
         private Dictionary<Vector2Int, GridCell> gridDictionary;
 
         private EventBinding<PlaceUnit> onPlaceUnit;
@@ -47,6 +49,9 @@ namespace Vampwolf.Grid
 
                     // Link the cell and the position in the dictionary
                     gridDictionary.Add(gridPos, cell);
+
+                    // If the level has fog of war, set up the fog
+                    if (isFogLevel) SetFogAtGridCell(gridPos, fogPrefab);
                 }
             }
         }
@@ -177,6 +182,25 @@ namespace Vampwolf.Grid
         }
 
         /// <summary>
+        /// Set a fog of war at the grid cell
+        /// </summary>
+        public void SetFogAtGridCell(Vector2Int position, GameObject fog)
+        {
+            // Exit case - the dictionary does not hold the position
+            if (!gridDictionary.TryGetValue(position, out GridCell cell)) return;
+
+            // Exit case - the tile is occupied by or is nearby a player character
+            Vector3 vampPos = FindObjectOfType<Vampire>().transform.position;
+            Vector3 wolfPos = FindObjectOfType<Werewolf>().transform.position;
+            if (cell.HasPlayerUnit || 
+                Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(vampPos)) <= 3 || 
+                Vector2Int.Distance(position, (Vector2Int)GetGridPositionFromWorld(wolfPos)) <= 3) return;
+
+            // Set the unit to the grid cell
+            cell.SetFog(GetWorldPositionFromGrid((Vector3Int)position), fog);
+        }
+
+        /// <summary>
         /// Remove a unit at a grid cell
         /// </summary>
         public void RemoveUnitAtGridCell(Vector2Int position)
@@ -186,6 +210,18 @@ namespace Vampwolf.Grid
 
             // Remove the unit from the grid cell
             cell.RemoveUnit();
+        }
+
+        /// <summary>
+        /// Remove a fog of war at the grid cell
+        /// </summary>
+        public void RemoveFogAtGridCell(Vector2Int position)
+        {
+            // Exit case - the dictionary does not hold the position
+            if (!gridDictionary.TryGetValue(position, out GridCell cell)) return;
+
+            // Set the unit to the grid cell
+            cell.RemoveFog();
         }
 
         /// <summary>
