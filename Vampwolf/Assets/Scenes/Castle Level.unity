@@ -10316,6 +10316,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoonToSunDisplay
       objectReference: {fileID: 0}
+    - target: {fileID: 5156787340698908142, guid: 2f57db247b0fb2049896df210d66507c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17396,7 +17400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 824354172}
   m_Layer: 0
-  m_Name: Lights
+  m_Name: --- LIGHTS ---
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17433,6 +17437,139 @@ Transform:
   - {fileID: 1190233596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &859574920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859574922}
+  - component: {fileID: 859574921}
+  m_Layer: 0
+  m_Name: SaveLoad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &859574921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859574920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23bc2035153cfa6419304d2e63e70497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoUnparentOnAwake: 1
+  selectedData:
+    Name: 
+    Vampire:
+      <ID>k__BackingField:
+        Part1: 0
+        Part2: 0
+        Part3: 0
+        Part4: 0
+      serializedSpellCounts: []
+      DamageTaken: 0
+      DamageDealt: 0
+      DamageHealed: 0
+    Werewolf:
+      <ID>k__BackingField:
+        Part1: 0
+        Part2: 0
+        Part3: 0
+        Part4: 0
+      serializedSpellCounts: []
+      DamageTaken: 0
+      DamageDealt: 0
+      DamageHealed: 0
+--- !u!4 &859574922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859574920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &860076203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1678472139}
+    m_Modifications:
+    - target: {fileID: 2992978250140734627, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_Name
+      value: Hell Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035828125313489080, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: gridPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+--- !u!4 &860076204 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8016224333106588735, guid: 9ba4efcd6875e3840b9ab2c9a99b7165, type: 3}
+  m_PrefabInstance: {fileID: 860076203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &884859482
 GameObject:
   m_ObjectHideFlags: 0
@@ -23269,6 +23406,7 @@ Transform:
   - {fileID: 704981250}
   - {fileID: 949524846}
   - {fileID: 1012305570}
+  - {fileID: 860076204}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1682929707
@@ -24129,6 +24267,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61fcb56f55d22ee46a4bb1f4b196d099, type: 2}
   - {fileID: 11400000, guid: 13565078628669742a5d8b1ed2b723c7, type: 2}
   - {fileID: 11400000, guid: 94292a95996960643882a942d3a4b60b, type: 2}
+  - {fileID: 11400000, guid: 7bad9d687453017469e9bc10e5657ed9, type: 2}
+  - {fileID: 11400000, guid: 6673c172e4b0b73409abe6f5740ae9d9, type: 2}
 --- !u!1 &1999572586
 GameObject:
   m_ObjectHideFlags: 0
@@ -35460,3 +35600,4 @@ SceneRoots:
   - {fileID: 1678472139}
   - {fileID: 515189547}
   - {fileID: 681185576}
+  - {fileID: 859574922}

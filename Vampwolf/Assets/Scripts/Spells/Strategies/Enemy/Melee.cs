@@ -16,7 +16,7 @@ namespace Vampwolf.Spells
         public override void Cast(Spell spell, BattleUnit caster, BattleUnit target, List<BattleUnit> unitsInRange, List<BattleUnit> allUnits, Vector3Int gridPosition)
         {
             Debug.Log("Enemy is Casting Melee Attack!");
-            target.DealDamage(25);
+            target.DealDamage(15);
         }
     }
 }
