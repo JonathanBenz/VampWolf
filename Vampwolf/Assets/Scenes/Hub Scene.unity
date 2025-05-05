@@ -3685,7 +3685,7 @@ MonoBehaviour:
     line: Among the shouting crowds and the burning torches, the village stirs with
       fear and fury. Here, survival alone is not enough. The greatest monsters wear
       human faces, and the true enemy must be unmasked.
-  typeSpeed: 0.004
+  typeSpeed: 0.001
 --- !u!4 &1188991818
 Transform:
   m_ObjectHideFlags: 0

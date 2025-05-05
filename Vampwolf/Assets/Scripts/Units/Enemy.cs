@@ -124,7 +124,7 @@ namespace Vampwolf.Units
             if (targetPos == Vector3.negativeInfinity) return; // Exit case - no valid positions were found when calculating. 
 
             // If already 1 tile away from target, there is no need to move
-            if (Mathf.Abs((transform.position - targetPos).magnitude) < 1.5f) return;
+            //if (Mathf.Abs((transform.position - targetPos).magnitude) < 1.5f) return;
 
             // Enable the grid selector
             EventBus<SetGridSelector>.Raise(new SetGridSelector()
